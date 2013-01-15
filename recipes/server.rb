@@ -24,9 +24,11 @@ cacti_database_info = cacti_data_bag[node.chef_environment]['database']
 
 # Install Cacti and dependencies
 include_recipe "apache2"
+include_recipe "apache2::mod_php5"
 include_recipe "apache2::mod_ssl"
+include_recipe "mysql::client"
 
-%w{ cacti net-snmp-utils perl-LDAP perl-Net-SNMP }.each do |p|
+%w{ cacti net-snmp net-snmp-utils perl-LDAP perl-Net-SNMP php-mysql php-snmp }.each do |p|
   package p
 end
 
