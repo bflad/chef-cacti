@@ -8,7 +8,7 @@ recipe            "cacti", "Empty recipe."
 recipe            "cacti::server", "Installs Cacti server."
 recipe            "cacti::spine", "Installs Spine for Cacti server."
 
-%w{ apache2 build-essentials cron database mysql }.each do |d|
+%w{ apache2 build-essential cron database mysql }.each do |d|
   depends d
 end
 

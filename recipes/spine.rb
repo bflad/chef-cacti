@@ -23,7 +23,7 @@ cacti_data_bag = Chef::EncryptedDataBagItem.load("cacti","server")
 cacti_database_info = cacti_data_bag[node.chef_environment]['database']
 
 # Install Spine dependencies
-include_recipe "build-essentials"
+include_recipe "build-essential"
 include_recipe "mysql::client"
 
 %w{ mysql-devel net-snmp-devel openssl-devel }.each do |p|
