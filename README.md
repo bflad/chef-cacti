@@ -26,6 +26,8 @@ Opscode Cookbooks (http://github.com/opscode-cookbooks/)
 
 ## Attributes
 
+* `node['cacti']['version']` - Version of Cacti to install, defaults to "0.8.8a" but currently is dependent on package available
+
 ### Apache2 Attributes ###
 
 * `node['cacti']['apache2']['server_name']` - VirtualHost ServerName, defaults to `node['hostname']`
@@ -38,8 +40,7 @@ Opscode Cookbooks (http://github.com/opscode-cookbooks/)
 
 * `node['cacti']['spine']['checksum']` - Checksum for version of Spine to install.
 * `node['cacti']['spine']['url']` - URL for Spine installation
-* `node['cacti']['spine']['version']` - Version of Spine to
-  install.
+* `node['cacti']['spine']['version']` - Version of Spine to install, defaults to `node['cacti']['version']`
 
 ## Recipes
 
