@@ -61,3 +61,26 @@ template "/etc/spine.conf" do
     :database => cacti_database_info
   })
 end
+
+if cacti_database_info['host'] == "localhost"
+  include_recipe "database::mysql"
+  
+  cacti_database_info['port'] ||= 3306
+  database_connection = {
+    :host => cacti_database_info['host'],
+    :port => cacti_database_info['port'],
+    :username => cacti_database_info['user'],
+    :password => cacti_database_info['password']
+  }
+
+  # Configure Spine path and set poller type in database
+  mysql_database "configure_cacti_database_spine_settings" do
+    connection database_connection
+    database_name cacti_database_info['name']
+    sql <<-SQL
+      INSERT INTO `settings` (`name`,`value`) VALUES ("path_spine","/usr/bin/spine") ON DUPLICATE KEY UPDATE `value`="/usr/bin/spine";
+      INSERT INTO `settings` (`name`,`value`) VALUES ("poller_type", 2) ON DUPLICATE KEY UPDATE `value`=2
+    SQL
+    action :query
+  end
+end
