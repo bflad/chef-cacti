@@ -26,6 +26,7 @@ cacti_database_info = cacti_data_bag[node.chef_environment]['database']
 # Install Cacti and dependencies
 include_recipe "apache2"
 include_recipe "apache2::mod_php5"
+include_recipe "apache2::mod_rewrite"
 include_recipe "apache2::mod_ssl"
 include_recipe "mysql::client"
 

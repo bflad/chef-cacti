@@ -10,6 +10,13 @@
   CustomLog <%= node['apache']['log_dir'] %>/<%= @params[:name] %>-access.log combined
   ErrorLog <%= node['apache']['log_dir'] %>/<%= @params[:name] %>-error.log
   LogLevel info
+
+  <% if node['cacti']['apache2']['ssl']['force'] -%>
+  RewriteEngine On
+  RewriteCond %{HTTPS} off
+  RewriteCond $1 !^(/)?server-status
+  RewriteRule (.*) https://<%= @params[:server_name] %>/cacti/
+  <% end -%>
 </VirtualHost>
 
 <VirtualHost *:443>
@@ -27,4 +34,8 @@
   <% unless @params[:ssl_chain_file].empty? -%>
   SSLCertificateChainFile <%= @params[:ssl_chain_file] %>
   <% end -%>
+
+  RewriteEngine On
+  RewriteCond %{http_host} ^<%= @params[:server_name] %>
+  RewriteRule ^/$ https://<%= @params[:server_name] %>/cacti/ [R=301,NC,L]
 </VirtualHost>

@@ -34,6 +34,7 @@ Opscode Cookbooks (http://github.com/opscode-cookbooks/)
 * `node['cacti']['apache2']['server_aliases']` - VirtualHost ServerAlias array, defaults to `[ node['fqdn'] ]`
 * `node['cacti']['apache2']['ssl']['certificate_file']` - mod_ssl CertificateFile, defaults to "/etc/pki/tls/certs/localhost.crt"
 * `node['cacti']['apache2']['ssl']['chain_file']` - mod_ssl CertificateChainFile, defaults to ""
+* `node['cacti']['apache2']['ssl']['force']` - force HTTPS, defaults to false
 * `node['cacti']['apache2']['ssl']['key_file']` - mod_ssl CertificateKeyFile, defaults to "/etc/pki/tls/private/localhost.key"
 
 ### Spine Attributes ###
