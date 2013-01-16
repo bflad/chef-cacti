@@ -55,6 +55,7 @@ Opscode Cookbooks (http://github.com/opscode-cookbooks/)
 Create a cacti/server encrypted data bag with the following information per Chef environment:
 
 _required:_
+* `['admin']['password']` - local administrator password
 * `['database']['host']` - FQDN or "localhost" (localhost automatically installs/configures database)
 * `['database']['name']` - Name of Cacti database
 * `['database']['user']` - Cacti database username
@@ -68,6 +69,9 @@ Repeat for other Chef environments as necessary. Example:
     {
       "id": "server"
       "development": {
+        "admin": {
+          "password": "cacti_admin_password"
+        },
         "database": {
           "host": "localhost",
           "name": "cacti",
