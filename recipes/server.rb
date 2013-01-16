@@ -52,7 +52,7 @@ if cacti_database_info['host'] == "localhost"
 
   execute "setup_cacti_database" do
     cwd "/usr/share/doc/cacti-#{node['cacti']['version']}"
-    command "mysql -u #{database_connection['username']} -p#{database_connection['password']} #{cacti_database_info['name']} < cacti.sql"
+    command "mysql -u root -p#{node['mysql']['server_root_password']} #{cacti_database_info['name']} < cacti.sql"
     action :nothing
   end
 
