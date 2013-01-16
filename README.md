@@ -81,7 +81,15 @@ Repeat for other Chef environments as necessary. Example:
 
 * Create required encrypted data bag: `knife data bag create cacti server --secret-file=path/to/secret`
 * Add `recipe[cacti::server]` to your node's run list.
-* Optionally add `recipe[cacti::spine]` to your node's run list.
+* Browse to http://`node['cacti']['apache2']['server_name']`/cacti
+
+### Cacti Spine Installation ###
+
+* Add `recipe[cacti::spine]` to your node's run list.
+  * If non-localhost database:
+    * Login as administrator
+    * Settings > Paths > Spine Poller File Path: /usr/bin/spine
+    * Settings > Poller > Poller Type: spine
 
 ## Contributing
 
