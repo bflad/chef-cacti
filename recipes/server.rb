@@ -53,7 +53,7 @@ if cacti_database_info['host'] == "localhost"
   execute "setup_cacti_database" do
     cwd "/usr/share/doc/cacti-#{node['cacti']['version']}"
     command "mysql -u #{database_connection['username']} -p#{database_connection['password']} #{cacti_database_info['name']} < cacti.sql"
-    action :none
+    action :nothing
   end
 
   # See this MySQL bug: http://bugs.mysql.com/bug.php?id=31061
