@@ -68,10 +68,12 @@ template "/etc/cacti/db.php" do
   })
 end
 
-cron_d "cacti" do
-  minute "*/5"
-  command "/usr/bin/php /usr/share/cacti/poller.php > /dev/null 2>&1"
-  user "cacti"
+template "/etc/httpd/conf.d/cacti.conf" do
+  source "cacti.conf.erb"
+  owner "root"
+  group "root"
+  mode 00644
+  notifies :reload, "service[apache2]", :delayed
 end
 
 web_app "cacti" do
@@ -80,4 +82,10 @@ web_app "cacti" do
   ssl_certificate_file node['cacti']['apache2']['ssl']['certificate_file']
   ssl_chain_file node['cacti']['apache2']['ssl']['chain_file']
   ssl_key_file node['cacti']['apache2']['ssl']['key_file']
+end
+
+cron_d "cacti" do
+  minute "*/5"
+  command "/usr/bin/php /usr/share/cacti/poller.php > /dev/null 2>&1"
+  user "cacti"
 end
