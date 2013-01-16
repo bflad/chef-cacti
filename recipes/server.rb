@@ -88,6 +88,7 @@ if cacti_database_info['host'] == "localhost"
       INSERT INTO `settings` (`name`,`value`) VALUES ("rrdtool_version","rrd-1.3.x") ON DUPLICATE KEY UPDATE `value`="rrd-1.3.x";
       INSERT INTO `settings` (`name`,`value`) VALUES ("path_webroot","/usr/share/cacti") ON DUPLICATE KEY UPDATE `value`="/usr/share/cacti";
       UPDATE `user_auth` SET `password`=md5('#{cacti_admin_info['password']}') WHERE `username`='admin';
+      UPDATE `version` SET `cacti`="#{node['cacti']['version']}";
     SQL
     action :query
   end
