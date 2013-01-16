@@ -21,8 +21,8 @@ default['cacti']['version']  = "0.8.8a"
 
 # Apache2 attributes
 
-default['cacti']['apache2']['server_name']             = node['hostname']
-default['cacti']['apache2']['server_aliases']          = [ node['fqdn'] ]
+default['cacti']['apache2']['server_name']             = node['fqdn']
+default['cacti']['apache2']['server_aliases']          = [ node['hostname'] ]
 default['cacti']['apache2']['ssl']['certificate_file'] = "/etc/pki/tls/certs/localhost.crt"
 default['cacti']['apache2']['ssl']['chain_file']       = ""
 default['cacti']['apache2']['ssl']['force']            = false
