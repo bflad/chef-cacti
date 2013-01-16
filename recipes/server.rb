@@ -28,7 +28,7 @@ include_recipe "apache2::mod_php5"
 include_recipe "apache2::mod_ssl"
 include_recipe "mysql::client"
 
-%w{ cacti net-snmp net-snmp-utils perl-LDAP perl-Net-SNMP php-mysql php-snmp }.each do |p|
+%w{ cacti net-snmp net-snmp-utils perl-LDAP perl-Net-SNMP php-mysql php-pecl-apc php-snmp }.each do |p|
   package p
 end
 
