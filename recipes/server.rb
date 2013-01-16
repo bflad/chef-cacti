@@ -49,6 +49,13 @@ if cacti_database_info['host'] == "localhost"
     action :create
   end
 
+  # See this MySQL bug: http://bugs.mysql.com/bug.php?id=31061
+  mysql_database_user "" do
+    connection database_connection
+    host "localhost"
+    action :drop
+  end
+  
   mysql_database_user cacti_database_info['user'] do
     connection database_connection
     host "%"
