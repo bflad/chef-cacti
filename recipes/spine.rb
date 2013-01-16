@@ -26,7 +26,7 @@ cacti_database_info = cacti_data_bag[node.chef_environment]['database']
 include_recipe "build-essential"
 include_recipe "mysql::client"
 
-%w{ mysql-devel net-snmp-devel openssl-devel }.each do |p|
+%w{ net-snmp-devel openssl-devel }.each do |p|
   package p
 end
 
