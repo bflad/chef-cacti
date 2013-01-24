@@ -30,7 +30,7 @@ include_recipe "apache2::mod_rewrite"
 include_recipe "apache2::mod_ssl"
 include_recipe "mysql::client"
 
-%w{ cacti net-snmp net-snmp-utils perl-LDAP perl-Net-SNMP php-mysql php-pecl-apc php-snmp }.each do |p|
+%w{ cacti net-snmp net-snmp-utils perl-LDAP perl-Net-SNMP php-ldap php-mysql php-pecl-apc php-snmp }.each do |p|
   package p
 end
 

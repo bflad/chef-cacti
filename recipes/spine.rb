@@ -46,7 +46,7 @@ execute "install_cacti_spine_#{node["cacti"]["spine"]["version"]}" do
     make
     chown root:root spine
     chmod u+s spine
-    cp spine /usr/bin/spine
+    cp -p spine /usr/bin/spine
   COMMAND
   creates "/usr/bin/spine"
   action :run
