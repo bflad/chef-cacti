@@ -16,32 +16,49 @@ Install/configures Cacti server.
 
 ### Cookbooks
 
-Opscode Cookbooks (http://github.com/opscode-cookbooks/)
+[Opscode Cookbooks](https://github.com/opscode-cookbooks/)
 
-* apache2
-* build-essentials
-* cron
-* database
-* mysql
+* [apache2](https://github.com/opscode-cookbooks/apache2/)
+* [build-essentials](https://github.com/opscode-cookbooks/build-essentials/)
+* [cron](https://github.com/opscode-cookbooks/cron/)
+* [database](https://github.com/opscode-cookbooks/database/)
+* [mysql](https://github.com/opscode-cookbooks/mysql/)
 
 ## Attributes
 
-* `node['cacti']['version']` - Version of Cacti to install, defaults to "0.8.8a" but currently is dependent on package available
+These attributes are under the `node['cacti']` namespace.
+
+Attribute | Description | Type | Default
+----------|-------------|------|--------
+version | Version of Cacti to install | String | "0.8.8a", but currently is dependent on package available
 
 ### Apache2 Attributes ###
 
-* `node['cacti']['apache2']['server_name']` - VirtualHost ServerName, defaults to `node['fqdn']`
-* `node['cacti']['apache2']['server_aliases']` - VirtualHost ServerAlias array, defaults to `[ node['hostname'] ]`
-* `node['cacti']['apache2']['ssl']['certificate_file']` - mod_ssl CertificateFile, defaults to "/etc/pki/tls/certs/localhost.crt"
-* `node['cacti']['apache2']['ssl']['chain_file']` - mod_ssl CertificateChainFile, defaults to ""
-* `node['cacti']['apache2']['ssl']['force']` - force HTTPS, defaults to false
-* `node['cacti']['apache2']['ssl']['key_file']` - mod_ssl CertificateKeyFile, defaults to "/etc/pki/tls/private/localhost.key"
+These attributes are under the `node['cacti']['apache2']` namespace.
+
+Attribute | Description | Type | Default
+----------|-------------|------|--------
+server_aliases | VirtualHost ServerAliases | Array of Strings | `[ node['hostname'] ]`
+server_name | VirtualHost ServerName | String | `node['fqdn']`
+
+These attributes are under the `node['cacti']['apache2']['ssl']` namespace.
+
+Attribute | Description | Type | Default
+----------|-------------|------|--------
+certificate_file | mod_ssl CertificateFile | String | /etc/pki/tls/certs/localhost.crt
+chain_file | mod_ssl CertificateChainFile | String | ""
+force | Force HTTPS | Boolean | false
+key_file | mod_ssl CertificateKeyFile | String | /etc/pki/tls/private/localhost.key
 
 ### Spine Attributes ###
 
-* `node['cacti']['spine']['checksum']` - Checksum for version of Spine to install.
-* `node['cacti']['spine']['url']` - URL for Spine installation
-* `node['cacti']['spine']['version']` - Version of Spine to install, defaults to `node['cacti']['version']`
+These attributes are under the `node['cacti']['spine']` namespace.
+
+Attribute | Description | Type | Default
+----------|-------------|------|--------
+checksum | Checksum for Spine | String | -
+url | URL for Spine installation | String | 
+version | Version of Spine to install | String | `node['cacti']['version']`
 
 ## Recipes
 
