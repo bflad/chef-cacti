@@ -68,7 +68,7 @@ _optional:_
 Repeat for other Chef environments as necessary. Example:
 
     {
-      "id": "server"
+      "id": "server",
       "development": {
         "admin": {
           "password": "cacti_admin_password"
@@ -77,7 +77,7 @@ Repeat for other Chef environments as necessary. Example:
           "host": "localhost",
           "name": "cacti",
           "user": "cacti",
-          "password": "cacti_db_password",
+          "password": "cacti_db_password"
         }
       }
     }
