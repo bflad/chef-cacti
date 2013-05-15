@@ -8,7 +8,7 @@ Install/configures Cacti server.
 
 ### Platforms
 
-* RedHat 6.3 (Santiago)
+* RedHat 6
 
 ### Databases
 
@@ -101,10 +101,10 @@ Repeat for other Chef environments as necessary. Example:
 Please use standard Github issues/pull requests.
 
 ## License and Author
-      
-Author:: Brian Flad (<bflad@wharton.upenn.edu>)
 
-Copyright:: 2013
+* Author:: Brian Flad (<bflad417@gmail.com>)
+* Copyright:: 2013, Brian Flad
+* Copyright:: 2013, University of Pennsylvania
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
