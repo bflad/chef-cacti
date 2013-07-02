@@ -17,15 +17,22 @@
 # limitations under the License.
 #
 
-default['cacti']['version']  = "0.8.8a"
+default['cacti']['version']     = "0.8.8a"
+default['cacti']['user']        = 'cacti'
+default['cacti']['group']       = 'apache'
+default['cacti']['cron_minute'] = "*/5"
 
 # Apache2 attributes
 
 default['cacti']['apache2']['server_name']             = node['fqdn']
 default['cacti']['apache2']['server_aliases']          = [ node['hostname'] ]
+default['cacti']['apache2']['conf_dir']                = "/etc/httpd/conf.d"
+default['cacti']['apache2']['doc_root']                = "/var/www/html"
+
 default['cacti']['apache2']['ssl']['certificate_file'] = "/etc/pki/tls/certs/localhost.crt"
 default['cacti']['apache2']['ssl']['chain_file']       = ""
 default['cacti']['apache2']['ssl']['force']            = false
+default['cacti']['apache2']['ssl']['enabled']          = true
 default['cacti']['apache2']['ssl']['key_file']         = "/etc/pki/tls/private/localhost.key"
 
 # Spine attributes

@@ -31,6 +31,9 @@ These attributes are under the `node['cacti']` namespace.
 Attribute | Description | Type | Default
 ----------|-------------|------|--------
 version | Version of Cacti to install | String | "0.8.8a", but currently is dependent on package available
+user | Username to own Cacti files | String | `cacti`
+group | Group to own Cacti files | String | `apache2`
+cron_minute | Schedule to pass to cron | String | "*/5"
 
 ### Apache2 Attributes ###
 
@@ -40,6 +43,8 @@ Attribute | Description | Type | Default
 ----------|-------------|------|--------
 server_aliases | VirtualHost ServerAliases | Array of Strings | `[ node['hostname'] ]`
 server_name | VirtualHost ServerName | String | `node['fqdn']`
+conf_dir | Apache configuration dir | String | '/etc/httpd/conf.d'
+doc_root | VirtualHost DocumentRoot | String | `/var/www/html`
 
 These attributes are under the `node['cacti']['apache2']['ssl']` namespace.
 
@@ -49,6 +54,7 @@ certificate_file | mod_ssl CertificateFile | String | /etc/pki/tls/certs/localho
 chain_file | mod_ssl CertificateChainFile | String | ""
 force | Force HTTPS | Boolean | false
 key_file | mod_ssl CertificateKeyFile | String | /etc/pki/tls/private/localhost.key
+enabled | Support HTTPS | Boolean | true
 
 ### Spine Attributes ###
 
