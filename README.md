@@ -8,7 +8,9 @@ Install/configures Cacti server.
 
 ### Platforms
 
-* RedHat 6
+* CentOS 6
+* Red Hat Enterprise Linux 6
+* Ubuntu 12.04
 
 ### Databases
 
