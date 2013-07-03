@@ -5,24 +5,25 @@
 <VirtualHost *:80>
   ServerName <%= @params[:server_name] %>
   ServerAlias <% @params[:server_aliases].each do |a| %><%= a %> <% end %>
-  DocumentRoot /var/www/html
+  DocumentRoot <%= @params[:doc_root] %>
   
   CustomLog <%= node['apache']['log_dir'] %>/<%= @params[:name] %>-access.log combined
   ErrorLog <%= node['apache']['log_dir'] %>/<%= @params[:name] %>-error.log
   LogLevel info
 
-  <% if node['cacti']['apache2']['ssl']['force'] -%>
+  <% if @params[:ssl_forced] -%>
   RewriteEngine On
   RewriteCond %{HTTPS} off
   RewriteCond $1 !^(/)?server-status
   RewriteRule (.*) https://<%= @params[:server_name] %>/cacti/
   <% end -%>
 </VirtualHost>
+<% if @params[:ssl_enabled] -%>
 
 <VirtualHost *:443>
   ServerName <%= @params[:server_name] %>
   ServerAlias <% @params[:server_aliases].each do |a| %><%= a %> <% end %>
-  DocumentRoot /var/www/html
+  DocumentRoot <%= @params[:doc_root] %>
 
   CustomLog <%= node['apache']['log_dir'] %>/<%= @params[:name] %>-ssl-access.log combined
   ErrorLog <%= node['apache']['log_dir'] %>/<%= @params[:name] %>-ssl-error.log
@@ -39,3 +40,4 @@
   RewriteCond %{http_host} ^<%= @params[:server_name] %>
   RewriteRule ^/$ https://<%= @params[:server_name] %>/cacti/ [R=301,NC,L]
 </VirtualHost>
+<% end -%>
