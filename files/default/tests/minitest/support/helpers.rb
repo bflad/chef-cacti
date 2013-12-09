@@ -1,4 +1,6 @@
+# Helpers module
 module Helpers
+  # Helpers::CactiCookbook module
   module CactiCookbook
     require 'chef/mixin/shell_out'
     include Chef::Mixin::ShellOut

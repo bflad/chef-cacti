@@ -19,16 +19,16 @@
 #
 
 # Load Cacti data bag
-cacti_data_bag = Chef::EncryptedDataBagItem.load("cacti","server")
+cacti_data_bag = Chef::EncryptedDataBagItem.load('cacti', 'server')
 cacti_admin_info = cacti_data_bag[node.chef_environment]['admin']
 cacti_database_info = cacti_data_bag[node.chef_environment]['database']
 
 # Install Cacti and dependencies
-include_recipe "apache2"
-include_recipe "apache2::mod_php5"
-include_recipe "apache2::mod_rewrite"
-include_recipe "apache2::mod_ssl"
-include_recipe "mysql::client"
+include_recipe 'apache2'
+include_recipe 'apache2::mod_php5'
+include_recipe 'apache2::mod_rewrite'
+include_recipe 'apache2::mod_ssl'
+include_recipe 'mysql::client'
 
 if node['platform'] == 'ubuntu'
   %w{ cacti libsnmp-base libsnmp15 snmp snmpd libnet-ldap-perl libnet-snmp-perl php-net-ldap php5-mysql php-apc php5-snmp }.each do |p|
@@ -40,10 +40,10 @@ else
   end
 end
 
-if cacti_database_info['host'] == "localhost"
-  include_recipe "mysql::server"
-  include_recipe "database::mysql"
-  
+if cacti_database_info['host'] == 'localhost'
+  include_recipe 'mysql::server'
+  include_recipe 'database::mysql'
+
   cacti_database_info['port'] ||= 3306
   database_connection = {
     :host => cacti_database_info['host'],
@@ -51,42 +51,42 @@ if cacti_database_info['host'] == "localhost"
     :username => 'root',
     :password => node['mysql']['server_root_password']
   }
-  
+
   mysql_database cacti_database_info['name'] do
     connection database_connection
     action :create
-    notifies :run, "execute[setup_cacti_database]", :immediately
+    notifies :run, 'execute[setup_cacti_database]', :immediately
   end
 
   if node['platform'] == 'ubuntu'
-    cacti_sql_dir = "/usr/share/doc/cacti"
+    cacti_sql_dir = '/usr/share/doc/cacti'
   else
     cacti_sql_dir = "/usr/share/doc/cacti-#{node['cacti']['version']}"
   end
 
-  execute "setup_cacti_database" do
+  execute 'setup_cacti_database' do
     cwd cacti_sql_dir
     command "mysql -u root -p#{node['mysql']['server_root_password']} #{cacti_database_info['name']} < cacti.sql"
     action :nothing
   end
 
   # See this MySQL bug: http://bugs.mysql.com/bug.php?id=31061
-  mysql_database_user "" do
+  mysql_database_user '' do
     connection database_connection
-    host "localhost"
+    host 'localhost'
     action :drop
   end
-  
+
   mysql_database_user cacti_database_info['user'] do
     connection database_connection
-    host "%"
+    host '%'
     password cacti_database_info['password']
     database_name cacti_database_info['name']
     action [:create, :grant]
   end
 
   # Configure base Cacti settings in database
-  mysql_database "configure_cacti_database_settings" do
+  mysql_database 'configure_cacti_database_settings' do
     connection database_connection
     database_name cacti_database_info['name']
     sql <<-SQL
@@ -108,30 +108,30 @@ if cacti_database_info['host'] == "localhost"
 end
 
 if node['platform'] == 'ubuntu'
-  dbconfig = "/etc/cacti/debian.php"
+  dbconfig = '/etc/cacti/debian.php'
 else
-  dbconfig = "/etc/cacti/db.php"
+  dbconfig = '/etc/cacti/db.php'
 end
 
 template dbconfig do
-  source "db.php.erb"
+  source 'db.php.erb'
   owner node['cacti']['user']
   group node['cacti']['group']
   mode 00640
-  variables({
+  variables(
     :database => cacti_database_info
-  })
+  )
 end
 
 template "#{node['cacti']['apache2']['conf_dir']}/cacti.conf" do
-  source "cacti.conf.erb"
-  owner "root"
-  group "root"
+  source 'cacti.conf.erb'
+  owner 'root'
+  group 'root'
   mode 00644
-  notifies :reload, "service[apache2]", :delayed
+  notifies :reload, 'service[apache2]', :delayed
 end
 
-web_app "cacti" do
+web_app 'cacti' do
   server_name node['cacti']['apache2']['server_name']
   server_aliases node['cacti']['apache2']['server_aliases']
   doc_root node['cacti']['apache2']['doc_root']
@@ -143,15 +143,15 @@ web_app "cacti" do
 end
 
 if node['platform'] == 'ubuntu'
-  cron_d "cacti" do
+  cron_d 'cacti' do
     minute node['cacti']['cron_minute']
-    command "/usr/bin/php /usr/share/cacti/site/poller.php > /dev/null 2>&1"
+    command '/usr/bin/php /usr/share/cacti/site/poller.php > /dev/null 2>&1'
     user node['cacti']['user']
   end
 else
-  cron_d "cacti" do
+  cron_d 'cacti' do
     minute node['cacti']['cron_minute']
-    command "/usr/bin/php /usr/share/cacti/poller.php > /dev/null 2>&1"
+    command '/usr/bin/php /usr/share/cacti/poller.php > /dev/null 2>&1'
     user node['cacti']['user']
   end
 end
