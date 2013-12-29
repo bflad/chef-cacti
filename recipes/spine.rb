@@ -6,14 +6,8 @@ cacti_database_info = cacti_data_bag[node.chef_environment]['database']
 include_recipe 'build-essential'
 include_recipe 'mysql::client'
 
-if node['platform'] == 'ubuntu'
-  %w{ libsnmp-dev libssl-dev }.each do |p|
-    package p
-  end
-else
-  %w{ net-snmp-devel openssl-devel }.each do |p|
-    package p
-  end
+node['cacti']['spine']['packages'].each do |p|
+  package p
 end
 
 remote_file "#{Chef::Config[:file_cache_path]}/cacti-spine-#{node["cacti"]["spine"]["version"]}.tar.gz" do

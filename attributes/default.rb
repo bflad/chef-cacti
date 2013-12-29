@@ -7,6 +7,16 @@ default['cacti']['db_file'] =
   when 'debian'; '/etc/cacti/debian.php'
   when 'fedora', 'rhel'; '/etc/cacti/db.php'
   end
+default['cacti']['packages'] = value_for_platform(
+  %w{ centos redhat } => {
+    'default' => %w{ cacti net-snmp net-snmp-utils perl-LDAP perl-Net-SNMP php-ldap php-mysql php-pecl-apc php-snmp }
+  },
+  %w{ ubuntu } => {
+    %w{ 12.04 12.10 13.04 } => %w{ cacti libsnmp-base libsnmp15 snmp snmpd libnet-ldap-perl libnet-snmp-perl php-net-ldap php5-mysql php-apc php5-snmp },
+    '13.10' => %w{ cacti libsnmp-base libsnmp30 snmp snmpd libnet-ldap-perl libnet-snmp-perl php-net-ldap php5-mysql php-apc php5-snmp },
+    'default' => %w{ cacti libsnmp-base libsnmp15 snmp snmpd libnet-ldap-perl libnet-snmp-perl php-net-ldap php5-mysql php-apc php5-snmp }
+  }
+)
 default['cacti']['poller_file'] =
   case node['platform_family']
   when 'debian'; '/usr/share/cacti/site/poller.php'
@@ -31,3 +41,11 @@ default['cacti']['apache2']['ssl']['key_file']         = '/etc/pki/tls/private/l
 default['cacti']['spine']['version']  = node['cacti']['version']
 default['cacti']['spine']['url']      = "http://www.cacti.net/downloads/spine/cacti-spine-#{node['cacti']['spine']['version']}.tar.gz"
 default['cacti']['spine']['checksum'] = '2226070cd386a4955063a87e99df2fa861988a604a95f39bb8db2a301774b3ee'
+default['cacti']['spine']['packages'] = value_for_platform(
+  %w{ centos redhat } => {
+    'default' => %w{ net-snmp-devel openssl-devel }
+  },
+  %w{ ubuntu } => {
+    'default' => %w{ libsnmp-dev libssl-dev }
+  }
+)
