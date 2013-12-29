@@ -16,14 +16,12 @@ else
 end
 
 if node['platform'] == 'ubuntu'
-  dbconfig = '/etc/cacti/debian.php'
   poller = '/usr/share/cacti/site/poller.php'
 else
-  dbconfig = '/etc/cacti/db.php'
   poller = '/usr/share/cacti/poller.php'
 end
 
-template dbconfig do
+template node['cacti']['db_file'] do
   source 'db.php.erb'
   owner node['cacti']['user']
   group node['cacti']['group']

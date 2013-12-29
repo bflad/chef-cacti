@@ -2,6 +2,11 @@ default['cacti']['version']     = '0.8.8a'
 default['cacti']['user']        = 'cacti'
 default['cacti']['group']       = 'apache'
 default['cacti']['cron_minute'] = '*/5'
+default['cacti']['db_file'] =
+  case node['platform_family']
+  when 'debian'; '/etc/cacti/debian.php'
+  when 'fedora', 'rhel'; '/etc/cacti/db.php'
+  end
 
 # Apache2 attributes
 
