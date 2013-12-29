@@ -40,3 +40,14 @@ default['cacti']['apache2']['ssl']['key_file']         = '/etc/pki/tls/private/l
 default['cacti']['spine']['version']  = node['cacti']['version']
 default['cacti']['spine']['url']      = "http://www.cacti.net/downloads/spine/cacti-spine-#{node['cacti']['spine']['version']}.tar.gz"
 default['cacti']['spine']['checksum'] = '2226070cd386a4955063a87e99df2fa861988a604a95f39bb8db2a301774b3ee'
+
+default['cacti']['spine']['default']['pkgs'] = [ "net-snmp-devel", "openssl-devel" ]
+default['cacti']['spine']['ubuntu']['pkgs'] = [ "libsnmp-dev", "libssl-dev" ]
+default['cacti']['spine']['centos']['pkgs'] = [ "net-snmp-devel", "openssl-devel" ]
+default['cacti']['spine']['redhat']['pkgs'] = [ "net-snmp-devel", "openssl-devel" ]
+
+default['cacti']['default']['pkgs'] = [ "cacti", "net-snmp", "net-snmp-utils", "perl-LDAP", "perl-Net-SNMP", "php-ldap", "php-mysql", "php-pecl-apc", "php-snmp" ]
+default['cacti']['ubuntu']['pkgs'] = [ "cacti", "libsnmp-base", "libsnmp30", "snmp", "snmpd", "libnet-ldap-perl", "libnet-snmp-perl", "php-net-ldap", "php5-mysql", "php-apc", "php5-snmp" ]
+default['cacti']['centos']['pkgs'] = [ "cacti", "net-snmp", "net-snmp-utils", "perl-LDAP", "perl-Net-SNMP", "php-ldap", "php-mysql", "php-pecl-apc", "php-snmp" ]
+default['cacti']['redhat']['pkgs'] = [ "cacti", "net-snmp", "net-snmp-utils", "perl-LDAP", "perl-Net-SNMP", "php-ldap", "php-mysql", "php-pecl-apc", "php-snmp" ]
+
