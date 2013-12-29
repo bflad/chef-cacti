@@ -2,11 +2,14 @@ default['cacti']['version']     = '0.8.8a'
 default['cacti']['user']        = 'cacti'
 default['cacti']['group']       = 'apache'
 default['cacti']['cron_minute'] = '*/5'
-default['cacti']['db_file'] =
-  case node['platform_family']
-  when 'debian'; '/etc/cacti/debian.php'
-  when 'fedora', 'rhel'; '/etc/cacti/db.php'
-  end
+default['cacti']['db_file'] = value_for_platform(
+  %w{ centos redhat } => {
+    'default' => '/etc/cacti/db.php'
+  },
+  %w{ ubuntu } => {
+    'default' => '/etc/cacti/debian.php'
+  }
+)
 default['cacti']['packages'] = value_for_platform(
   %w{ centos redhat } => {
     'default' => %w{ cacti net-snmp net-snmp-utils perl-LDAP perl-Net-SNMP php-ldap php-mysql php-pecl-apc php-snmp }
@@ -17,11 +20,14 @@ default['cacti']['packages'] = value_for_platform(
     'default' => %w{ cacti libsnmp-base libsnmp15 snmp snmpd libnet-ldap-perl libnet-snmp-perl php-net-ldap php5-mysql php-apc php5-snmp }
   }
 )
-default['cacti']['poller_file'] =
-  case node['platform_family']
-  when 'debian'; '/usr/share/cacti/site/poller.php'
-  when 'fedora', 'rhel'; '/usr/share/cacti/poller.php'
-  end
+default['cacti']['poller_file'] = value_for_platform(
+  %w{ centos redhat } => {
+    'default' => '/usr/share/cacti/poller.php'
+  },
+  %w{ ubuntu } => {
+    'default' => '/usr/share/cacti/site/poller.php'
+  }
+)
 
 # Apache2 attributes
 
