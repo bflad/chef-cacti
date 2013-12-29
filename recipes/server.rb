@@ -15,12 +15,6 @@ else
   end
 end
 
-if node['platform'] == 'ubuntu'
-  poller = '/usr/share/cacti/site/poller.php'
-else
-  poller = '/usr/share/cacti/poller.php'
-end
-
 template node['cacti']['db_file'] do
   source 'db.php.erb'
   owner node['cacti']['user']
@@ -33,6 +27,6 @@ end
 
 cron_d 'cacti' do
   minute node['cacti']['cron_minute']
-  command "/usr/bin/php #{poller} > /dev/null 2>&1"
+  command "/usr/bin/php #{node['cacti']['poller_file']} > /dev/null 2>&1"
   user node['cacti']['user']
 end

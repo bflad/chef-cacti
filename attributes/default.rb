@@ -7,6 +7,11 @@ default['cacti']['db_file'] =
   when 'debian'; '/etc/cacti/debian.php'
   when 'fedora', 'rhel'; '/etc/cacti/db.php'
   end
+default['cacti']['poller_file'] =
+  case node['platform_family']
+  when 'debian'; '/usr/share/cacti/site/poller.php'
+  when 'fedora', 'rhel'; '/usr/share/cacti/poller.php'
+  end
 
 # Apache2 attributes
 
