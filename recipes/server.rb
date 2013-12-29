@@ -18,8 +18,10 @@ end
 
 if node['platform'] == 'ubuntu'
   dbconfig = '/etc/cacti/debian.php'
+  poller = '/usr/share/cacti/site/poller.php'
 else
   dbconfig = '/etc/cacti/db.php'
+  poller = '/usr/share/cacti/poller.php'
 end
 
 template dbconfig do
@@ -32,16 +34,8 @@ template dbconfig do
   )
 end
 
-if node['platform'] == 'ubuntu'
-  cron_d 'cacti' do
-    minute node['cacti']['cron_minute']
-    command '/usr/bin/php /usr/share/cacti/site/poller.php > /dev/null 2>&1'
-    user node['cacti']['user']
-  end
-else
-  cron_d 'cacti' do
-    minute node['cacti']['cron_minute']
-    command '/usr/bin/php /usr/share/cacti/poller.php > /dev/null 2>&1'
-    user node['cacti']['user']
-  end
+cron_d 'cacti' do
+  minute node['cacti']['cron_minute']
+  command "/usr/bin/php #{poller} > /dev/null 2>&1"
+  user node['cacti']['user']
 end
