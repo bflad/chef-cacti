@@ -1,6 +1,5 @@
 # Load Cacti data bag
 cacti_data_bag = Chef::EncryptedDataBagItem.load('cacti', 'server')
-cacti_admin_info = cacti_data_bag[node.chef_environment]['admin']
 cacti_database_info = cacti_data_bag[node.chef_environment]['database']
 
 # Install Cacti and dependencies
