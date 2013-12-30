@@ -1,6 +1,6 @@
 default['cacti']['cron_minute'] = '*/5'
 default['cacti']['db_file'] = value_for_platform(
-  %w{ centos redhat } => {
+  %w{ centos fedora redhat } => {
     'default' => '/etc/cacti/db.php'
   },
   %w{ ubuntu } => {
@@ -9,7 +9,7 @@ default['cacti']['db_file'] = value_for_platform(
 )
 default['cacti']['group'] = 'apache'
 default['cacti']['packages'] = value_for_platform(
-  %w{ centos redhat } => {
+  %w{ centos fedora redhat } => {
     'default' => %w{ cacti net-snmp net-snmp-utils perl-LDAP perl-Net-SNMP php-ldap php-mysql php-pecl-apc php-snmp }
   },
   %w{ ubuntu } => {
@@ -19,7 +19,7 @@ default['cacti']['packages'] = value_for_platform(
   }
 )
 default['cacti']['poller_file'] = value_for_platform(
-  %w{ centos redhat } => {
+  %w{ centos fedora redhat } => {
     'default' => '/usr/share/cacti/poller.php'
   },
   %w{ ubuntu } => {
@@ -28,7 +28,7 @@ default['cacti']['poller_file'] = value_for_platform(
 )
 default['cacti']['user'] = 'cacti'
 default['cacti']['version'] = value_for_platform(
-  %w{ centos redhat } => {
+  %w{ centos fedora redhat } => {
     'default' => '0.8.8b'
   },
   %w{ ubuntu } => {
@@ -71,6 +71,9 @@ default['cacti']['rrdtool']['version'] = value_for_platform(
   %w{ centos redhat } => {
     'default' => '1.3'
   },
+  %w{ fedora } => {
+    'default' => '1.4'
+  },
   %w{ ubuntu } => {
     'default' => '1.4'
   }
@@ -81,7 +84,7 @@ default['cacti']['rrdtool']['version'] = value_for_platform(
 default['cacti']['spine']['version'] = node['cacti']['version']
 default['cacti']['spine']['checksum'] = '2226070cd386a4955063a87e99df2fa861988a604a95f39bb8db2a301774b3ee'
 default['cacti']['spine']['packages'] = value_for_platform(
-  %w{ centos redhat } => {
+  %w{ centos fedora redhat } => {
     'default' => %w{ net-snmp-devel openssl-devel }
   },
   %w{ ubuntu } => {
