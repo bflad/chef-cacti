@@ -2,15 +2,20 @@
 
 ## Description
 
-Install/configures Cacti server.
+Install/configures Cacti and optionally Spine.
 
 ## Requirements
+
+### Chef
+
+* Chef 11 (for 0.3.0+ of cookbook)
 
 ### Platforms
 
 * CentOS 6
+* Fedora 19, 20
 * Red Hat Enterprise Linux 6
-* Ubuntu 12.04
+* Ubuntu 12.04, 12.10, 13.04, 13.10
 
 ### Databases
 
@@ -21,10 +26,12 @@ Install/configures Cacti server.
 [Opscode Cookbooks](https://github.com/opscode-cookbooks/)
 
 * [apache2](https://github.com/opscode-cookbooks/apache2/)
+* [apt](https://github.com/opscode-cookbooks/apt/)
 * [build-essentials](https://github.com/opscode-cookbooks/build-essentials/)
 * [cron](https://github.com/opscode-cookbooks/cron/)
 * [database](https://github.com/opscode-cookbooks/database/)
 * [mysql](https://github.com/opscode-cookbooks/mysql/)
+* [yum-epel](https://github.com/opscode-cookbooks/yum-epel/)
 
 ## Attributes
 
@@ -32,10 +39,21 @@ These attributes are under the `node['cacti']` namespace.
 
 Attribute | Description | Type | Default
 ----------|-------------|------|--------
-version | Version of Cacti to install | String | "0.8.8a", but currently is dependent on package available
-user | Username to own Cacti files | String | `cacti`
-group | Group to own Cacti files | String | `apache2`
-cron_minute | Schedule to pass to cron | String | "*/5"
+cron_minute | Schedule to pass to cron | String | */5
+db_file | Database configuration file for Cacti | String | auto-detected (see attributes/default.rb)
+group | Group to own Cacti files | String | apache2
+packages | Packages for Cacti installation | Array | auto-detected (see attributes/default.rb)
+poller_file | Poller file for Cacti | String | auto-detected (see attributes/default.rb)
+user | Username to own Cacti files | String | cacti
+version | Version of Cacti to install or installed | String | auto-detected (see attributes/default.rb)
+
+### Admin Attributes ###
+
+These attributes are under the `node['cacti']['admin']` namespace.
+
+Attribute | Description | Type | Default
+----------|-------------|------|--------
+password | Local administrator password | String | changeit
 
 ### Apache2 Attributes ###
 
@@ -43,10 +61,10 @@ These attributes are under the `node['cacti']['apache2']` namespace.
 
 Attribute | Description | Type | Default
 ----------|-------------|------|--------
+conf_dir | Apache configuration dir | String | /etc/httpd/conf.d
+doc_root | VirtualHost DocumentRoot | String | /var/www/html
 server_aliases | VirtualHost ServerAliases | Array of Strings | `[ node['hostname'] ]`
 server_name | VirtualHost ServerName | String | `node['fqdn']`
-conf_dir | Apache configuration dir | String | '/etc/httpd/conf.d'
-doc_root | VirtualHost DocumentRoot | String | `/var/www/html`
 
 These attributes are under the `node['cacti']['apache2']['ssl']` namespace.
 
@@ -54,9 +72,30 @@ Attribute | Description | Type | Default
 ----------|-------------|------|--------
 certificate_file | mod_ssl CertificateFile | String | /etc/pki/tls/certs/localhost.crt
 chain_file | mod_ssl CertificateChainFile | String | ""
+enabled | Support HTTPS | Boolean | true
 force | Force HTTPS | Boolean | false
 key_file | mod_ssl CertificateKeyFile | String | /etc/pki/tls/private/localhost.key
-enabled | Support HTTPS | Boolean | true
+
+### Database Attributes
+
+All of these `node['cacti']['database']` attributes are overridden by `cacti/server` encrypted data bag (Hosted Chef) or data bag (Chef Solo), if it exists
+
+Attribute | Description | Type | Default
+----------|-------------|------|--------
+host | FQDN or "localhost" (localhost automatically installs `['database']['type']` server) | String | localhost
+name | Cacti database name | String | cacti
+password | Cacti database user password | String | changeit
+port | Cacti database port | Fixnum | 3306
+type | Cacti database type - "mysql" only | String | mysql
+user | Cacti database user | String | cacti
+
+### rrdtool Attributes
+
+These attributes are under the `node['cacti']['rrdtool']` namespace.
+
+Attribute | Description | Type | Default
+----------|-------------|------|--------
+version | major.minor version of rrdtool installed - "1.3" or "1.4" | String | auto-detected (see attributes/default.rb)
 
 ### Spine Attributes ###
 
@@ -64,21 +103,26 @@ These attributes are under the `node['cacti']['spine']` namespace.
 
 Attribute | Description | Type | Default
 ----------|-------------|------|--------
-checksum | Checksum for Spine | String | -
-url | URL for Spine installation | String | 
+checksum | Checksum for Spine | String | auto-detected (see attributes/default.rb)
+packages | Packages for Spine installation | Array | auto-detected (see attributes/default.rb)
+url | URL for Spine installation | String | `http://www.cacti.net/downloads/spine/cacti-spine-#{node['cacti']['spine']['version']}.tar.gz`
 version | Version of Spine to install | String | `node['cacti']['version']`
 
 ## Recipes
 
-* `recipe[cacti]` empty recipe.
-* `recipe[cacti::server]` will install Cacti server.
-* `recipe[cacti::spine]` will install Spine for Cacti server.
+* `recipe[cacti]` Installs/configures Cacti
+* `recipe[cacti::apache2]` Installs/configures Apache 2 and PHP for Cacti
+* `recipe[cacti::configuration]` Configures Cacti configuration files
+* `recipe[cacti::cron]` Installs Cacti polling cron entry
+* `recipe[cacti::database]` Installs/configures Cacti MySQL server
+* `recipe[cacti::package]` Installs Cacti via packages
+* `recipe[cacti::spine]` Install Spine for Cacti
 
 ## Usage
 
-### Cacti Server Required Data Bag
+### Cacti Server Data Bag
 
-Create a cacti/server encrypted data bag with the following information per Chef environment:
+For securely overriding attributes on Hosted Chef, create a `cacti/server` encrypted data bag with the model below. Chef Solo can override the same attributes with a `cacti/server` unencrypted data bag of the same information.
 
 _required:_
 * `['admin']['password']` - local administrator password
@@ -107,10 +151,10 @@ Repeat for other Chef environments as necessary. Example:
       }
     }
 
-### Cacti Server Installation
+### Cacti Default Installation
 
-* Create required encrypted data bag: `knife data bag create cacti server --secret-file=path/to/secret`
-* Add `recipe[cacti::server]` to your node's run list.
+* Create recommended (encrypted) data bag: `knife data bag create cacti server --secret-file=path/to/secret`
+* Add `recipe[cacti]` to your node's run list.
 * Browse to http://`node['cacti']['apache2']['server_name']`/cacti
 
 ### Cacti Spine Installation ###
