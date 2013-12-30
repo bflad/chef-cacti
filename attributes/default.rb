@@ -52,6 +52,17 @@ default['cacti']['apache2']['ssl']['enabled'] = true
 default['cacti']['apache2']['ssl']['force'] = false
 default['cacti']['apache2']['ssl']['key_file'] = '/etc/pki/tls/private/localhost.key'
 
+# rrdtool attributes
+
+default['cacti']['rrdtool']['version'] = value_for_platform(
+  %w{ centos redhat } => {
+    'default' => '1.3'
+  },
+  %w{ ubuntu } => {
+    'default' => '1.4'
+  }
+)
+
 # Spine attributes
 
 default['cacti']['spine']['version'] = node['cacti']['version']
