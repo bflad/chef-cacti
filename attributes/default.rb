@@ -27,7 +27,17 @@ default['cacti']['poller_file'] = value_for_platform(
   }
 )
 default['cacti']['user'] = 'cacti'
-default['cacti']['version'] = '0.8.8a'
+default['cacti']['version'] = value_for_platform(
+  %w{ centos redhat } => {
+    'default' => '0.8.8b'
+  },
+  %w{ ubuntu } => {
+    '12.04' => '0.8.7i',
+    %w{ 12.10 13.04 } => '0.8.8a',
+    '13.10' => '0.8.8b',
+    'default' => '0.8.8a'
+  }
+)
 
 # Apache2 attributes
 
