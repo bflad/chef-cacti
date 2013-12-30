@@ -1,6 +1,4 @@
-# Load Cacti data bag
-cacti_data_bag = Chef::EncryptedDataBagItem.load('cacti', 'server')
-cacti_database_info = cacti_data_bag[node.chef_environment]['database']
+settings = Cacti.settings(node)
 
 # Install Spine dependencies
 include_recipe 'build-essential'
@@ -38,25 +36,24 @@ template '/etc/spine.conf' do
   group 'root'
   mode 00644
   variables(
-    :database => cacti_database_info
+    :database => settings['database']
   )
 end
 
-if cacti_database_info['host'] == 'localhost'
+if settings['database']['host'] == 'localhost'
   include_recipe 'database::mysql'
 
-  cacti_database_info['port'] ||= 3306
   database_connection = {
-    :host => cacti_database_info['host'],
-    :port => cacti_database_info['port'],
-    :username => cacti_database_info['user'],
-    :password => cacti_database_info['password']
+    :host => settings['database']['host'],
+    :port => settings['database']['port'],
+    :username => settings['database']['user'],
+    :password => settings['database']['password']
   }
 
   # Configure Spine path and set poller type in database
   mysql_database 'configure_cacti_database_spine_settings' do
     connection database_connection
-    database_name cacti_database_info['name']
+    database_name settings['database']['name']
     sql <<-SQL
       INSERT INTO `settings` (`name`,`value`) VALUES ("path_spine","/usr/bin/spine") ON DUPLICATE KEY UPDATE `value`="/usr/bin/spine";
       INSERT INTO `settings` (`name`,`value`) VALUES ("poller_type", 2) ON DUPLICATE KEY UPDATE `value`=2

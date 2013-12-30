@@ -1,6 +1,4 @@
-# Load Cacti data bag
-cacti_data_bag = Chef::EncryptedDataBagItem.load('cacti', 'server')
-cacti_database_info = cacti_data_bag[node.chef_environment]['database']
+settings = Cacti.settings(node)
 
 template node['cacti']['db_file'] do
   source 'db.php.erb'
@@ -8,6 +6,6 @@ template node['cacti']['db_file'] do
   group node['cacti']['group']
   mode 00640
   variables(
-    :database => cacti_database_info
+    :database => settings['database']
   )
 end

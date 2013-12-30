@@ -39,6 +39,10 @@ default['cacti']['version'] = value_for_platform(
   }
 )
 
+# admin attributes (override via cacti/server data bag)
+
+default['cacti']['admin']['password'] = 'changeit'
+
 # Apache2 attributes
 
 default['cacti']['apache2']['conf_dir'] = '/etc/httpd/conf.d'
@@ -51,6 +55,15 @@ default['cacti']['apache2']['ssl']['chain_file'] = ''
 default['cacti']['apache2']['ssl']['enabled'] = true
 default['cacti']['apache2']['ssl']['force'] = false
 default['cacti']['apache2']['ssl']['key_file'] = '/etc/pki/tls/private/localhost.key'
+
+# database attributes (override via cacti/server data bag)
+
+default['cacti']['database']['host'] = 'localhost'
+default['cacti']['database']['name'] = 'cacti'
+default['cacti']['database']['password'] = 'changeit'
+default['cacti']['database']['port'] = 3306
+default['cacti']['database']['type'] = 'mysql'
+default['cacti']['database']['user'] = 'cacti'
 
 # rrdtool attributes
 

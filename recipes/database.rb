@@ -1,21 +1,17 @@
-# Load Cacti data bag
-cacti_data_bag = Chef::EncryptedDataBagItem.load('cacti', 'server')
-cacti_admin_info = cacti_data_bag[node.chef_environment]['admin']
-cacti_database_info = cacti_data_bag[node.chef_environment]['database']
+settings = Cacti.settings(node)
 
-if cacti_database_info['host'] == 'localhost'
+if settings['database']['host'] == 'localhost'
   include_recipe 'mysql::server'
   include_recipe 'database::mysql'
 
-  cacti_database_info['port'] ||= 3306
   database_connection = {
-    :host => cacti_database_info['host'],
-    :port => cacti_database_info['port'],
+    :host => settings['database']['host'],
+    :port => settings['database']['port'],
     :username => 'root',
     :password => node['mysql']['server_root_password']
   }
 
-  mysql_database cacti_database_info['name'] do
+  mysql_database settings['database']['name'] do
     connection database_connection
     action :create
     notifies :run, 'execute[setup_cacti_database]', :immediately
@@ -29,7 +25,7 @@ if cacti_database_info['host'] == 'localhost'
 
   execute 'setup_cacti_database' do
     cwd cacti_sql_dir
-    command "mysql -u root -p#{node['mysql']['server_root_password']} #{cacti_database_info['name']} < cacti.sql"
+    command "mysql -u root -p#{node['mysql']['server_root_password']} #{settings['database']['name']} < cacti.sql"
     action :nothing
   end
 
@@ -40,18 +36,18 @@ if cacti_database_info['host'] == 'localhost'
     action :drop
   end
 
-  mysql_database_user cacti_database_info['user'] do
+  mysql_database_user settings['database']['user'] do
     connection database_connection
     host '%'
-    password cacti_database_info['password']
-    database_name cacti_database_info['name']
+    password settings['database']['password']
+    database_name settings['database']['name']
     action [:create, :grant]
   end
 
   # Configure base Cacti settings in database
   mysql_database 'configure_cacti_database_settings' do
     connection database_connection
-    database_name cacti_database_info['name']
+    database_name settings['database']['name']
     sql <<-SQL
       INSERT INTO `settings` (`name`,`value`) VALUES ("path_rrdtool","/usr/bin/rrdtool") ON DUPLICATE KEY UPDATE `value`="/usr/bin/rrdtool";
       INSERT INTO `settings` (`name`,`value`) VALUES ("path_php_binary","/usr/bin/php") ON DUPLICATE KEY UPDATE `value`="/usr/bin/php";
@@ -63,7 +59,7 @@ if cacti_database_info['host'] == 'localhost'
       INSERT INTO `settings` (`name`,`value`) VALUES ("snmp_version","net-snmp") ON DUPLICATE KEY UPDATE `value`="net-snmp";
       INSERT INTO `settings` (`name`,`value`) VALUES ("rrdtool_version","rrd-#{node['cacti']['rrdtool']['version']}.x") ON DUPLICATE KEY UPDATE `value`="rrd-#{node['cacti']['rrdtool']['version']}.x";
       INSERT INTO `settings` (`name`,`value`) VALUES ("path_webroot","/usr/share/cacti") ON DUPLICATE KEY UPDATE `value`="/usr/share/cacti";
-      UPDATE `user_auth` SET `password`=md5('#{cacti_admin_info['password']}'), `must_change_password`="" WHERE `username`='admin';
+      UPDATE `user_auth` SET `password`=md5('#{settings['admin']['password']}'), `must_change_password`="" WHERE `username`='admin';
       UPDATE `version` SET `cacti`="#{node['cacti']['version']}";
     SQL
     action :query
