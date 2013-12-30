@@ -8,18 +8,18 @@ node['cacti']['spine']['packages'].each do |p|
   package p
 end
 
-remote_file "#{Chef::Config[:file_cache_path]}/cacti-spine-#{node["cacti"]["spine"]["version"]}.tar.gz" do
+remote_file "#{Chef::Config[:file_cache_path]}/cacti-spine-#{node['cacti']['spine']['version']}.tar.gz" do
   source    node['cacti']['spine']['url']
   checksum  node['cacti']['spine']['checksum']
   mode      '0644'
   action    :create_if_missing
 end
 
-execute "install_cacti_spine_#{node["cacti"]["spine"]["version"]}" do
+execute "install_cacti_spine_#{node['cacti']['spine']['version']}" do
   cwd Chef::Config[:file_cache_path]
   command <<-COMMAND
-    tar -zxf cacti-spine-#{node["cacti"]["spine"]["version"]}.tar.gz
-    cd cacti-spine-#{node["cacti"]["spine"]["version"]}
+    tar -zxf cacti-spine-#{node['cacti']['spine']['version']}.tar.gz
+    cd cacti-spine-#{node['cacti']['spine']['version']}
     ./configure --build=x86_64-unknown-linux
     make
     chown root:root spine
