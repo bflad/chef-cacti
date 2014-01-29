@@ -22,6 +22,16 @@ module Cacti
       run_cmd_with_match(command, match)
     end
 
+    # wrapper to add_tree.php
+    # @returns true if tree is added, false if tree already exists, exception otherwise
+    def add_tree(params)
+      command = %Q[#{cli_path}/add_tree.php]
+      command << params
+
+      match = %r[ERROR: Not adding tree - it already exists - tree-id: \(.*?\)]
+      run_cmd_with_match(command, match)
+    end
+
     # resolve template id from template name
     def get_device_template_id(template)
       if template.kind_of?(Integer)
@@ -75,6 +85,42 @@ module Cacti
       get_id_from_output(command, param)
     end
 
+    # get tree id
+    def get_tree_id(tree_id)
+      if tree_id.kind_of?(Integer)
+        return tree_id
+      end
+      command = "#{cli_path}/add_tree.php --list-trees"
+      get_id_from_output(command, tree_id, 2)
+    end
+
+    # get node id in a tree
+    def get_tree_node_id(tree_id, node_id)
+      if node_id.kind_of?(Integer)
+        return node_id
+      end
+      command = "#{cli_path}/add_tree.php --tree-id=#{tree_id} --list-nodes"
+      get_id_from_output(command, node_id, 3, 1) or raise "Failed to get tree node_id for #{node_id} in #{tree_id}"
+    end
+
+    # get RRA id
+    def get_rra_id(rra_id)
+      if rra_id.kind_of?(Integer)
+        return rra_id
+      end
+      command = "#{cli_path}/add_tree.php --list-rras"
+      get_id_from_output(command, rra_id, 5) or raise "Failed to get rra_id for '#{rra_id}'"
+    end
+
+    # get Graph id for host_id
+    def get_graph_id(host_id, graph_id)
+      if graph_id.kind_of?(Integer)
+        return graph_id
+      end
+      command = "#{cli_path}/add_tree.php --host-id=#{host_id} --list-graphs"
+      get_id_from_output(command, graph_id) or raise "Failed to get graph_id of '#{graph_id}' for host #{host_id}"
+    end
+
     # flatten Hash of key=value pairs for --input-fields parameter
     # [--input-fields="[data-template-id:]field-name=value ..."]
     def flatten_fields(fields)
@@ -91,10 +137,10 @@ module Cacti
     # get match for id from typical --list-something
     # first line is ignored, as it's header
     # offset is column where to match a string
-    def get_id_from_output(command, match, offset = 1)
+    def get_id_from_output(command, match, offset = 1, column = 0)
       shell_out(command).stdout.split(/\n/).drop(1).collect do |t|
         l = t.split(/\t/)
-        return l[0] if l[offset] == match
+        return l[column] if l[offset] == match
       end
       nil
     end

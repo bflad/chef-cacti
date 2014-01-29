@@ -1,6 +1,6 @@
 ## Future
 
-* LRWP `cacti_device` and `cacti_graph` by Elan Ruusamäe ([@glensc][])
+* Add `cacti_device`, `cacti_graph`, `cacti_tree` LRWPs by Elan Ruusamäe ([@glensc][])
 
 ## 0.3.0
 
