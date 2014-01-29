@@ -1,3 +1,4 @@
+default['cacti']['cacti_dir'] = '/usr/share/cacti'
 default['cacti']['cron_minute'] = '*/5'
 default['cacti']['db_file'] = value_for_platform(
   %w{ centos fedora redhat } => {
@@ -26,6 +27,7 @@ default['cacti']['poller_file'] = value_for_platform(
     'default' => '/usr/share/cacti/site/poller.php'
   }
 )
+
 default['cacti']['user'] = 'cacti'
 default['cacti']['version'] = value_for_platform(
   %w{ centos fedora redhat } => {

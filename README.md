@@ -188,3 +188,4 @@ Please use standard Github issues/pull requests.
 
 * Brian Flad (<bflad417@gmail.com>)
 * Morgan Blackthorne (@stormerider)
+* Elan Ruusamäe (@glensc)
