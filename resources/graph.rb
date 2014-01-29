@@ -29,7 +29,8 @@ attribute :host,   :kind_of => [ String, Integer ], :default => 0
 # graph-type:
 # 'cg' graphs are for things like CPU temp/fan speed, while
 # 'ds' graphs are for data-source based graphs (interface stats etc.)
-attribute :graph_type,      :kind_of => String,   :required => true,  :default => 'cg'
+attribute :graph_type,      :kind_of => String,   :required => true, :equal_to => %w[cg ds], :default => 'cg'
+
 attribute :graph_title,     :kind_of => String
 
 attribute :force,           :kind_of => [TrueClass, FalseClass, Integer]
