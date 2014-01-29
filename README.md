@@ -187,5 +187,8 @@ Please use standard Github issues/pull requests.
 ## Contributors
 
 * Brian Flad (<bflad417@gmail.com>)
-* Morgan Blackthorne (@stormerider)
-* Elan Ruusamäe (@glensc)
+* Morgan Blackthorne ([@stormerider][])
+* Elan Ruusamäe ([@glensc][])
+
+[@glensc]: https://github.com/glensc
+[@stormerider]: https://github.com/stormerider
