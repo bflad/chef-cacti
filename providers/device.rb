@@ -64,4 +64,5 @@ end
 
 action :delete do
   raise "Not Implemented"
+  new_resource.updated_by_last_action true if r
 end
