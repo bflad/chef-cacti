@@ -45,7 +45,7 @@ def load_current_resource
 end
 
 action :create do
-  params = ""
+  params = ''
   params << %Q[ --type="#{new_resource.type}"]
 
   case new_resource.type

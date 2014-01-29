@@ -28,7 +28,7 @@ attribute :description, :kind_of => String,   :name_attribute => true
 attribute :ip,          :kind_of => String,   :required => true
 
 # Optional:
-attribute :template,    :kind_of => [ String, Integer ], :default => 0
+attribute :template,    :kind_of => [String, Integer], :default => 0
 
 # General information about this host.
 attribute :notes,       :kind_of => String,   :default => ''
@@ -43,10 +43,10 @@ attribute :avail,       :kind_of => String,   :default => 'pingsnmp'
 attribute :ping_method, :kind_of => String,   :default => 'tcp'
 
 # ping_port    '', 1-65534
-attribute :ping_port,   :kind_of => [ String, Integer ], :default => ''
+attribute :ping_port,   :kind_of => [String, Integer], :default => ''
 
 # the number of time to attempt to communicate with a host
-attribute :ping_retries,:kind_of => Integer,  :default => 2
+attribute :ping_retries,	:kind_of => Integer,  :default => 2
 
 # snmp version (1|2|3)
 attribute :version,     :kind_of => Integer,  :default => 1

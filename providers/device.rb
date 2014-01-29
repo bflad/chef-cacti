@@ -31,13 +31,11 @@ def load_current_resource
   new_resource.disable new_resource.disable ? 1 : 0
 
   # handle name attribute
-  if !new_resource.description
-    new_resource.description new_resource.name
-  end
+  new_resource.description new_resource.name unless new_resource.description
 end
 
 action :create do
-  params = ""
+  params = ''
   params << %Q[ --ip="#{new_resource.ip}"]
   params << %Q[ --description="#{new_resource.description}"]
   params << %Q[ --template="#{new_resource.template}"]
@@ -56,13 +54,8 @@ action :create do
   params << %Q[ --authproto="#{new_resource.authproto}"]
   params << %Q[ --privpass="#{new_resource.privpass}"]
   params << %Q[ --privproto="#{new_resource.privproto}"]
-  params << %Q[ --context="#{new_resource.context}"] if !new_resource.context.empty?
+  params << %Q[ --context="#{new_resource.context}"] unless new_resource.context.empty?
   params << %Q[ --max_oids="#{new_resource.max_oids}"]
   r = add_device(params)
-  new_resource.updated_by_last_action true if r
-end
-
-action :delete do
-  raise "Not Implemented"
   new_resource.updated_by_last_action true if r
 end

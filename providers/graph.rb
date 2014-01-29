@@ -46,7 +46,7 @@ def load_current_resource
 end
 
 action :create do
-  params = ""
+  params = ''
   params << %Q[ --graph-template-id="#{new_resource.graph_template}"]
   params << %Q[ --host-id="#{new_resource.host}"]
   params << %Q[ --graph-type="#{new_resource.graph_type}"]
@@ -63,10 +63,5 @@ action :create do
 
   # TODO: rest of the params
   r = add_graphs(params)
-  new_resource.updated_by_last_action true if r
-end
-
-action :delete do
-  raise "Not Implemented"
   new_resource.updated_by_last_action true if r
 end
