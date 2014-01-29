@@ -1,15 +1,15 @@
 # Base hostname
 cookbook = 'cacti'
 
-Vagrant.configure("2") do |config|
+Vagrant.configure('2') do |config|
   config.berkshelf.enabled = true
   config.cache.auto_detect = true
   config.omnibus.chef_version = :latest
 
-  config.vm.define :centos5 do |centos6|
-    centos6.vm.box      = 'opscode-centos-5.10'
-    centos6.vm.box_url  = 'http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_centos-5.10_chef-provisionerless.box'
-    centos6.vm.hostname = "#{cookbook}-centos-5"
+  config.vm.define :centos5 do |centos5|
+    centos5.vm.box      = 'opscode-centos-5.10'
+    centos5.vm.box_url  = 'http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_centos-5.10_chef-provisionerless.box'
+    centos5.vm.hostname = "#{cookbook}-centos-5"
   end
 
   config.vm.define :centos6 do |centos6|
@@ -74,21 +74,21 @@ Vagrant.configure("2") do |config|
 
   config.vm.network :private_network, ip: '192.168.50.10'
 
-  config.vm.provider "virtualbox" do |v|
-    v.customize ["modifyvm", :id, "--memory", 1024]
+  config.vm.provider 'virtualbox' do |v|
+    v.customize ['modifyvm', :id, '--memory', 1024]
   end
 
   config.vm.provision :chef_solo do |chef|
     chef.log_level = :debug
     chef.json = {
-      "mysql" => {
-        "server_root_password" => "iloverandompasswordsbutthiswilldo",
-        "server_repl_password" => "iloverandompasswordsbutthiswilldo",
-        "server_debian_password" => "iloverandompasswordsbutthiswilldo"
-      }
+      'mysql' => {
+        'server_root_password' => 'iloverandompasswordsbutthiswilldo',
+        'server_repl_password' => 'iloverandompasswordsbutthiswilldo',
+        'server_debian_password' => 'iloverandompasswordsbutthiswilldo',
+      },
     }
     chef.run_list = [
-      "recipe[#{cookbook}]"
+      "recipe[#{cookbook}]",
     ]
   end
 end
