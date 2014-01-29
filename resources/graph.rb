@@ -41,4 +41,9 @@ attribute :force,           :kind_of => [TrueClass, FalseClass, Integer]
 attribute :input_fields,    :kind_of => [String, Hash], :default => {}
 
 #For ds graphs:
+attribute :snmp_query,      :kind_of => [ String, Integer ], :default => 0
+attribute :snmp_query_type, :kind_of => [ String, Integer ], :default => 0
+attribute :snmp_field,      :kind_of => String
+attribute :snmp_value,      :kind_of => String
+
 # TODO: finish this

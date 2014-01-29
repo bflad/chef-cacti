@@ -59,8 +59,29 @@ end
   end
 end
 
+# graph with input fields
 cacti_graph 'PHP-FPM Pool Status' do
   graph_type 'cg'
   host node['fqdn']
   input_fields :port=>1028, :script=>'/fpm-status', 'querystring'=>'', 'mode'=>'fcgi'
+end
+
+# collect unique mount points
+# as ohai collect info from various sources, there are duplicates
+# also skip fs_type=tmpfs
+fs = node['filesystem']
+  .map { |_, fs| fs['fs_type'] != 'tmpfs' ? fs['mount'] : nil }
+  .compact.uniq
+
+# monitor each partition
+fs.each do |mount|
+  cacti_graph "ucd 90 Filesystems #{mount}" do
+    graph_template 'ucd 90 Filesystems'
+    graph_type 'ds'
+    host node['fqdn']
+    snmp_query 'SNMP - Get Mounted Partitions'
+    snmp_query_type 'Available Disk Space'
+    snmp_field 'hrStorageDescr'
+    snmp_value mount
+  end
 end

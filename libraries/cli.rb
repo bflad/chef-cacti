@@ -56,6 +56,25 @@ module Cacti
       id
     end
 
+    # param: snmp_query_id or snmp_query_name
+    # TODO: be host specific to catch errors early
+    def get_snmp_query(param)
+      if param.kind_of?(Integer)
+        return param
+      end
+      command = "#{cli_path}/add_graphs.php --list-snmp-queries"
+      get_id_from_output(command, param)
+    end
+
+    # get snmp_query_type_id for query_id matching param
+    def get_snmp_query_type(query_id, param)
+      if param.kind_of?(Integer)
+        return param
+      end
+      command = "#{cli_path}/add_graphs.php --snmp-query-id=#{query_id} --list-query-types"
+      get_id_from_output(command, param)
+    end
+
     # flatten Hash of key=value pairs for --input-fields parameter
     # [--input-fields="[data-template-id:]field-name=value ..."]
     def flatten_fields(fields)
