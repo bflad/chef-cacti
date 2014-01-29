@@ -38,8 +38,7 @@ attribute :force,           :kind_of => [TrueClass, FalseClass, Integer]
 # Optional:
 # For cg graphs:
 #    [--input-fields="[data-template-id:]field-name=value ..."] [--force]
-# TODO: add array support (for readability)
-attribute :input_fields,    :kind_of => String
+attribute :input_fields,    :kind_of => [String, Hash], :default => {}
 
 #For ds graphs:
 # TODO: finish this

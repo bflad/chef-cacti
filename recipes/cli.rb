@@ -44,12 +44,8 @@ cacti_device node['fqdn'] do
   max_oids  32
 end
 
-cacti_graph 'TCP Connections' do
-  graph_type 'cg'
-  host  node['fqdn']
-end
-
 [
+  'TCP Connections',
   'ucd 00 CPU',
   'ucd 01 Load Average',
   'ucd 11 Swap',
@@ -61,4 +57,10 @@ end
     graph_type 'cg'
     host node['fqdn']
   end
+end
+
+cacti_graph 'PHP-FPM Pool Status' do
+  graph_type 'cg'
+  host node['fqdn']
+  input_fields :port=>1028, :script=>'/fpm-status', 'querystring'=>'', 'mode'=>'fcgi'
 end

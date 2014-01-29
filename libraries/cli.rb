@@ -56,6 +56,17 @@ module Cacti
       id
     end
 
+    # flatten Hash of key=value pairs for --input-fields parameter
+    # [--input-fields="[data-template-id:]field-name=value ..."]
+    def flatten_fields(fields)
+      res = ""
+      fields.each do |k,v|
+        res << %Q[#{k}="#{v}" ]
+      end
+
+      res.chop
+    end
+
     private
 
     # get match for id from typical --list-something

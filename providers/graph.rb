@@ -28,6 +28,10 @@ end
 def load_current_resource
   # resolve names to id's
   new_resource.host get_host_id(new_resource.host)
+
+  new_resource.input_fields flatten_fields(new_resource.input_fields)
+
+  # handle name attribute
   if new_resource.graph_template
     new_resource.graph_template get_graph_template_id(new_resource.name)
   else
@@ -40,6 +44,7 @@ action :create do
   params << %Q[ --graph-template-id="#{new_resource.graph_template}"]
   params << %Q[ --host-id="#{new_resource.host}"]
   params << %Q[ --graph-type="#{new_resource.graph_type}"]
+  params << %Q[ --input-fields="#{new_resource.input_fields}"]
   # TODO: rest of the params
   r = add_graphs(params)
   new_resource.updated_by_last_action true if r
