@@ -5,12 +5,18 @@ default['cacti']['db_file'] = value_for_platform(
   },
   %w{ ubuntu } => {
     'default' => '/etc/cacti/debian.php'
+  },
+  %w{ pld } => {
+    'default' => '/etc/webapps/cacti/cacti.php'
   }
 )
 default['cacti']['group'] = 'apache'
 default['cacti']['packages'] = value_for_platform(
   %w{ centos fedora redhat } => {
     'default' => %w{ cacti net-snmp net-snmp-utils perl-LDAP perl-Net-SNMP php-ldap php-mysql php-pecl-apc php-snmp }
+  },
+  %w{ pld } => {
+    'default' => %w{ cacti }
   },
   %w{ ubuntu } => {
     %w{ 12.04 12.10 13.04 } => %w{ cacti libsnmp-base libsnmp15 snmp snmpd libnet-ldap-perl libnet-snmp-perl php-net-ldap php5-mysql php-apc php5-snmp },
