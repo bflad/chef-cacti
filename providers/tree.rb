@@ -22,7 +22,7 @@
 include Cacti::Cli
 
 def whyrun_supported?
-  false
+  true
 end
 
 def load_current_resource
@@ -69,6 +69,8 @@ action :create do
     end
   end
 
-  r = add_tree(params)
-  new_resource.updated_by_last_action true if r
+  converge_by("create #{new_resource}") do
+    r = add_tree(params)
+    new_resource.updated_by_last_action true if r
+  end
 end

@@ -22,7 +22,7 @@
 include Cacti::Cli
 
 def whyrun_supported?
-  false
+  true
 end
 
 def load_current_resource
@@ -56,6 +56,9 @@ action :create do
   params << %Q[ --privproto="#{new_resource.privproto}"]
   params << %Q[ --context="#{new_resource.context}"] unless new_resource.context.empty?
   params << %Q[ --max_oids="#{new_resource.max_oids}"]
-  r = add_device(params)
-  new_resource.updated_by_last_action true if r
+
+  converge_by("create #{new_resource}") do
+    r = add_device(params)
+    new_resource.updated_by_last_action true if r
+  end
 end

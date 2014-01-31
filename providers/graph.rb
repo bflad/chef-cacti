@@ -22,7 +22,7 @@
 include Cacti::Cli
 
 def whyrun_supported?
-  false
+  true
 end
 
 def load_current_resource
@@ -60,8 +60,10 @@ action :create do
     params << %Q[ --snmp-field="#{new_resource.snmp_field}"]
     params << %Q[ --snmp-value="#{new_resource.snmp_value}"]
   end
-
   # TODO: rest of the params
-  r = add_graphs(params)
-  new_resource.updated_by_last_action true if r
+
+  converge_by("create #{new_resource}") do
+    r = add_graphs(params)
+    new_resource.updated_by_last_action true if r
+  end
 end
