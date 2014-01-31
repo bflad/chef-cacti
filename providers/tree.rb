@@ -44,7 +44,7 @@ def load_current_resource
   end
 end
 
-action :create do
+def params
   params = ''
   params << %Q[ --type="#{new_resource.type}"]
 
@@ -69,6 +69,10 @@ action :create do
     end
   end
 
+  params
+end
+
+action :create do
   converge_by("create #{new_resource}") do
     r = add_tree(params)
     new_resource.updated_by_last_action true if r

@@ -45,7 +45,7 @@ def load_current_resource
   end
 end
 
-action :create do
+def params
   params = ''
   params << %Q[ --graph-template-id="#{new_resource.graph_template}"]
   params << %Q[ --host-id="#{new_resource.host}"]
@@ -62,6 +62,10 @@ action :create do
   end
   # TODO: rest of the params
 
+  params
+end
+
+action :create do
   converge_by("create #{new_resource}") do
     r = add_graphs(params)
     new_resource.updated_by_last_action true if r

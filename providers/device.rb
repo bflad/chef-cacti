@@ -34,7 +34,7 @@ def load_current_resource
   new_resource.description new_resource.name unless new_resource.description
 end
 
-action :create do
+def params
   params = ''
   params << %Q[ --ip="#{new_resource.ip}"]
   params << %Q[ --description="#{new_resource.description}"]
@@ -57,6 +57,10 @@ action :create do
   params << %Q[ --context="#{new_resource.context}"] unless new_resource.context.empty?
   params << %Q[ --max_oids="#{new_resource.max_oids}"]
 
+  params
+end
+
+action :create do
   converge_by("create #{new_resource}") do
     r = add_device(params)
     new_resource.updated_by_last_action true if r
