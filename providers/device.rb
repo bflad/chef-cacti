@@ -26,10 +26,6 @@ def whyrun_supported?
 end
 
 def load_current_resource
-  # resolve names to id's
-  new_resource.template get_device_template_id(new_resource.template)
-  new_resource.disable new_resource.disable ? 1 : 0
-
   # handle name attribute
   new_resource.description new_resource.name unless new_resource.description
 end
@@ -38,9 +34,9 @@ def params
   params = ''
   params << %Q[ --ip="#{new_resource.ip}"]
   params << %Q[ --description="#{new_resource.description}"]
-  params << %Q[ --template="#{new_resource.template}"]
+  params << %Q[ --template="#{get_device_template_id(new_resource.template)}"]
   params << %Q[ --notes="#{new_resource.notes}"]
-  params << %Q[ --disable=#{new_resource.disable}]
+  params << %Q[ --disable=#{new_resource.disable new_resource.disable ? 1 : 0}]
   params << %Q[ --avail="#{new_resource.avail}"]
   params << %Q[ --ping_method="#{new_resource.ping_method}"]
   params << %Q[ --ping_port="#{new_resource.ping_port}"]

@@ -25,25 +25,6 @@ def whyrun_supported?
   true
 end
 
-def load_current_resource
-  case new_resource.type
-  when 'tree'
-  when 'node'
-    new_resource.tree_id get_tree_id(new_resource.tree_id)
-    new_resource.parent_node get_tree_node_id(new_resource.tree_id, new_resource.parent_node) if new_resource.parent_node
-
-    case new_resource.node_type
-    when 'header'
-    when 'host'
-      new_resource.host_id get_host_id(new_resource.host_id)
-    when 'graph'
-      new_resource.host_id get_host_id(new_resource.host_id)
-      new_resource.graph_id get_graph_id(new_resource.host_id, new_resource.graph_id)
-      new_resource.rra_id get_rra_id(new_resource.rra_id)
-    end
-  end
-end
-
 def params
   params = ''
   params << %Q[ --type="#{new_resource.type}"]
@@ -52,20 +33,29 @@ def params
   when 'tree'
     params << %Q[ --name="#{new_resource.name}"]
     params << %Q[ --sort-method="#{new_resource.sort_method}"] if new_resource.sort_method
+
   when 'node'
+    tree_id = get_tree_id(new_resource.tree_id)
     params << %Q[ --node-type="#{new_resource.node_type}"]
-    params << %Q[ --tree-id="#{new_resource.tree_id}"]
-    params << %Q[ --parent-node="#{new_resource.parent_node}"] if new_resource.parent_node
+    params << %Q[ --tree-id="#{tree_id}"]
+
+    if new_resource.parent_node
+      parent_node = get_tree_node_id(tree_id, new_resource.parent_node)
+      params << %Q[ --parent-node="#{parent_node}"]
+    end
 
     case new_resource.node_type
     when 'header'
       params << %Q[ --name="#{new_resource.name}"]
+
     when 'host'
-      params << %Q[ --host-id="#{new_resource.host_id}"]
+      params << %Q[ --host-id="#{get_host_id(new_resource.host_id)}"]
       params << %Q[ --host-group-style="#{new_resource.host_group_style}"] if new_resource.host_group_style
+
     when 'graph'
-      params << %Q[ --graph-id="#{new_resource.graph_id}"]
-      params << %Q[ --rra-id="#{new_resource.rra_id}"]
+      host_id = get_host_id(new_resource.host_id)
+      params << %Q[ --graph-id="#{get_graph_id(host_id, new_resource.graph_id)}"]
+      params << %Q[ --rra-id="#{get_rra_id(new_resource.rra_id)}"]
     end
   end
 

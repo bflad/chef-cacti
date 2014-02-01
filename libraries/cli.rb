@@ -109,7 +109,8 @@ module Cacti
 
     def graph_exists?(host, graph)
       begin
-        get_graph_id(host, graph, 2)
+        host_id = get_host_id(host)
+        get_graph_id(host_id, graph, 2)
         return true
       rescue => e
         return false
