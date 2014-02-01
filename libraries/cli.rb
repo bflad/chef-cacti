@@ -91,10 +91,33 @@ module Cacti
     end
 
     # get Graph id for host_id
-    def get_graph_id(host_id, graph_id)
+    def get_graph_id(host_id, graph_id, index = 1)
       return graph_id if graph_id.kind_of?(Integer)
       command = "#{cli_path}/add_tree.php --host-id=#{host_id} --list-graphs"
-      get_id_from_output(command, graph_id) or fail "Failed to get graph_id of '#{graph_id}' for host #{host_id}"
+      get_id_from_output(command, graph_id, index) or fail "Failed to get graph_id of '#{graph_id}' for host '#{host_id}'"
+    end
+
+    # return true if device named 'device' exists
+    def device_exists?(device)
+      begin
+        get_host_id(device)
+        return true
+      rescue
+        return false
+      end
+    end
+
+    def graph_exists?(host, graph)
+      begin
+        get_graph_id(host, graph, 2)
+        return true
+      rescue => e
+        return false
+      end
+    end
+
+    def tree_exists?(tree)
+      false
     end
 
     # flatten Hash of key=value pairs for --input-fields parameter

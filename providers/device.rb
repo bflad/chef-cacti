@@ -61,8 +61,12 @@ def params
 end
 
 action :create do
-  converge_by("create #{new_resource}") do
-    r = add_device(params)
-    new_resource.updated_by_last_action true if r
+  if device_exists?(new_resource.description)
+    Chef::Log.info "#{@new_resource} already exists - nothing to do."
+  else
+    converge_by("create #{new_resource}") do
+      r = add_device(params)
+      new_resource.updated_by_last_action true if r
+    end
   end
 end
