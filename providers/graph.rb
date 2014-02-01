@@ -32,6 +32,16 @@ def load_current_resource
   end
 end
 
+def graph_exists?
+  begin
+    host_id = get_host_id(new_resource.host)
+    get_graph_id(host_id, new_resource.graph_template, 2)
+    return true
+  rescue => e
+    return false
+  end
+end
+
 def params
   params = ''
   params << %Q[ --graph-template-id="#{get_graph_template_id(new_resource.graph_template)}"]
@@ -56,7 +66,7 @@ def params
 end
 
 action :create do
-  if graph_exists?(new_resource.host, new_resource.graph_template)
+  if graph_exists?
     Chef::Log.info "#{@new_resource} already exists - nothing to do."
   else
     converge_by("create #{new_resource}") do

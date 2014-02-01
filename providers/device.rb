@@ -30,6 +30,16 @@ def load_current_resource
   new_resource.description new_resource.name unless new_resource.description
 end
 
+# return true if device named 'device' exists
+def device_exists?
+  begin
+    get_host_id(new_resource.description)
+    true
+  rescue
+    false
+  end
+end
+
 def params
   params = ''
   params << %Q[ --ip="#{new_resource.ip}"]
@@ -57,7 +67,7 @@ def params
 end
 
 action :create do
-  if device_exists?(new_resource.description)
+  if device_exists?
     Chef::Log.info "#{@new_resource} already exists - nothing to do."
   else
     converge_by("create #{new_resource}") do

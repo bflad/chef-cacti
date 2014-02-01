@@ -97,26 +97,6 @@ module Cacti
       get_id_from_output(command, graph_id, index) or fail "Failed to get graph_id of '#{graph_id}' for host '#{host_id}'"
     end
 
-    # return true if device named 'device' exists
-    def device_exists?(device)
-      begin
-        get_host_id(device)
-        return true
-      rescue
-        return false
-      end
-    end
-
-    def graph_exists?(host, graph)
-      begin
-        host_id = get_host_id(host)
-        get_graph_id(host_id, graph, 2)
-        return true
-      rescue => e
-        return false
-      end
-    end
-
     def tree_exists?(tree)
       false
     end
