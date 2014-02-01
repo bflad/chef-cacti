@@ -80,7 +80,7 @@ module Cacti
     def get_tree_node_id(tree_id, node_id)
       return node_id if node_id.kind_of?(Integer)
       command = "#{cli_path}/add_tree.php --tree-id=#{tree_id} --list-nodes"
-      get_id_from_output(command, node_id, 3, 1) or fail "Failed to get tree node_id for #{node_id} in #{tree_id}"
+      get_id_from_output(command, node_id, 3, 1) or fail "Failed to get tree node_id for '#{node_id}' in '#{tree_id}'"
     end
 
     # get RRA id
@@ -95,10 +95,6 @@ module Cacti
       return graph_id if graph_id.kind_of?(Integer)
       command = "#{cli_path}/add_tree.php --host-id=#{host_id} --list-graphs"
       get_id_from_output(command, graph_id, index) or fail "Failed to get graph_id of '#{graph_id}' for host '#{host_id}'"
-    end
-
-    def tree_exists?(tree)
-      false
     end
 
     # flatten Hash of key=value pairs for --input-fields parameter

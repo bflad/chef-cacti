@@ -25,6 +25,36 @@ def whyrun_supported?
   true
 end
 
+def tree_exists?
+  begin
+    case new_resource.type
+    when 'tree'
+      get_tree_id(new_resource.name)
+      return true
+
+    when 'node'
+      case new_resource.node_type
+      when 'header'
+        tree_id = get_tree_id(new_resource.tree_id)
+        tree_node_id = get_tree_node_id(tree_id, new_resource.name)
+        return true
+
+      when 'host'
+        # FIXME: can't figure this out
+        false
+      when 'graph'
+        # FIXME: can't figure this out
+        false
+      end
+    end
+  rescue => e
+    p e
+    return false
+  end
+  false
+end
+
+
 def params
   params = ''
   params << %Q[ --type="#{new_resource.type}"]
@@ -63,7 +93,7 @@ def params
 end
 
 action :create do
-  if tree_exists?(new_resource.name)
+  if tree_exists?
     Chef::Log.info "#{@new_resource} already exists - nothing to do."
   else
     converge_by("create #{new_resource}") do
