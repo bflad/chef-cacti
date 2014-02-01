@@ -111,7 +111,7 @@ cacti_tree node['fqdn'] do
 end
 
 # Add CPU "Graph" under "Linux nodes"
-cacti_tree node['fqdn'] do
+cacti_tree "#{node['fqdn']}-CPU" do
   type 'node'
   node_type 'graph'
   tree_id 'All hosts'
