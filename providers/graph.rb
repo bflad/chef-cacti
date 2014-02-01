@@ -33,11 +33,16 @@ def load_current_resource
 end
 
 def graph_exists?
+  if new_resource.graph_type == 'ds'
+    # no way to figure out if graph exist
+    return false
+  end
+
   begin
     host_id = get_host_id(new_resource.host)
     get_graph_id(host_id, new_resource.graph_template, 2)
     return true
-  rescue => e
+  rescue
     return false
   end
 end
