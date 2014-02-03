@@ -59,8 +59,8 @@ def params
   when 'cg'
     params['input-fields'] = flatten_fields(@new_resource.input_fields)
   when 'ds'
-    snmp_query_id = get_snmp_query(@new_resource.snmp_query)
-    snmp_query_type_id = get_snmp_query_type(snmp_query_id, @new_resource.snmp_query_type)
+    snmp_query_id = get_snmp_query_id(@new_resource.snmp_query)
+    snmp_query_type_id = get_snmp_query_type_id(snmp_query_id, @new_resource.snmp_query_type)
     params['snmp-query-id'] = snmp_query_id
     params['snmp-query-type-id'] = snmp_query_type_id
     params['snmp-field'] = @new_resource.snmp_field

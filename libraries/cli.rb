@@ -56,14 +56,14 @@ module Cacti
 
     # param: snmp_query_id or snmp_query_name
     # TODO: be host specific to catch errors early
-    def get_snmp_query(snmp_query_id)
+    def get_snmp_query_id(snmp_query_id)
       return snmp_query_id if snmp_query_id.kind_of?(Integer)
       command = "#{cli_path}/add_graphs.php --list-snmp-queries"
       get_id_from_output(command, snmp_query_id) or fail "Failed to get snmp_query_id #{snmp_query_id}"
     end
 
     # get snmp_query_type_id for query_id matching param
-    def get_snmp_query_type(query_id, param)
+    def get_snmp_query_type_id(query_id, param)
       return param if param.kind_of?(Integer)
       command = "#{cli_path}/add_graphs.php --snmp-query-id=#{query_id} --list-query-types"
       get_id_from_output(command, param)
