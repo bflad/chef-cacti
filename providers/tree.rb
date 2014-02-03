@@ -37,7 +37,7 @@ def tree_exists?
       case @new_resource.node_type
       when 'header'
         tree_id = get_tree_id(@new_resource.tree_id)
-        tree_node_id = get_tree_node_id(tree_id, @new_resource.name)
+        get_tree_node_id(tree_id, @new_resource.name)
         return true
 
       when 'host'
@@ -48,13 +48,11 @@ def tree_exists?
         false
       end
     end
-  rescue => e
-    p e
+  rescue
     return false
   end
   false
 end
-
 
 def params
   params = {
@@ -63,7 +61,7 @@ def params
 
   case @new_resource.type
   when 'tree'
-    params['name'] = @new_resource.name,
+    params['name'] = @new_resource.name
     params['sort-method'] = @new_resource.sort_method if @new_resource.sort_method
 
   when 'node'

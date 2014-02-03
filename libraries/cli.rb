@@ -1,6 +1,8 @@
 require 'chef/mixin/shell_out'
 
+# Cacti module
 module Cacti
+  # Cacti::Cli module
   module Cli
     # wrapper to add_device.php
     # @returns true if device is added, false if device already exists, exception otherwise
