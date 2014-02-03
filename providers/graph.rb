@@ -20,6 +20,7 @@
 #
 
 include Cacti::Cli
+include Helpers::Cacti
 
 def whyrun_supported?
   true
@@ -48,26 +49,27 @@ def graph_exists?
 end
 
 def params
-  params = ''
-  params << %Q[ --graph-template-id="#{get_graph_template_id(@new_resource.graph_template)}"]
-  params << %Q[ --host-id="#{get_host_id(@new_resource.host)}"]
-  params << %Q[ --graph-type="#{@new_resource.graph_type}"]
+  params = {
+    'graph-template-id' => get_graph_template_id(@new_resource.graph_template),
+    'host-id' => get_host_id(@new_resource.host),
+    'graph-type' => @new_resource.graph_type,
+  }
 
   case @new_resource.graph_type
   when 'cg'
-    params << %Q[ --input-fields="#{flatten_fields(@new_resource.input_fields)}"]
+    params['input-fields'] = flatten_fields(@new_resource.input_fields)
   when 'ds'
     snmp_query_id = get_snmp_query(@new_resource.snmp_query)
     snmp_query_type_id = get_snmp_query_type(snmp_query_id, @new_resource.snmp_query_type)
-    params << %Q[ --snmp-query-id="#{snmp_query_id}"]
-    params << %Q[ --snmp-query-type-id="#{snmp_query_type_id}"]
-    params << %Q[ --snmp-field="#{@new_resource.snmp_field}"]
-    params << %Q[ --snmp-value="#{@new_resource.snmp_value}"]
+    params['snmp-query-id'] = snmp_query_id
+    params['snmp-query-type-id'] = snmp_query_type_id
+    params['snmp-field'] = @new_resource.snmp_field
+    params['snmp-value'] = @new_resource.snmp_value
 
   end
   # TODO: rest of the params
 
-  params
+  cli_args(params)
 end
 
 action :create do
