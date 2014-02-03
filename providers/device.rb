@@ -49,7 +49,7 @@ def params
   params << %Q[ --disable=#{@new_resource.disable @new_resource.disable ? 1 : 0}]
   params << %Q[ --avail="#{@new_resource.avail}"]
   params << %Q[ --ping_method="#{@new_resource.ping_method}"]
-  params << %Q[ --ping_port="#{@new_resource.ping_port}"]
+  params << %Q[ --ping_port="#{@new_resource.ping_port}"] unless @new_resource.ping_port.empty?
   params << %Q[ --ping_retries="#{@new_resource.ping_retries}"]
   params << %Q[ --version="#{@new_resource.version}"]
   params << %Q[ --community="#{@new_resource.community}"]
