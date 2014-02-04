@@ -33,12 +33,10 @@ end
 
 # return true if device named 'device' exists
 def device_exists?
-  begin
-    get_host_id(@new_resource.description)
-    true
-  rescue
-    false
-  end
+  get_host_id(@new_resource.description)
+  true
+rescue
+  false
 end
 
 def params
