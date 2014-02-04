@@ -119,6 +119,38 @@ version | Version of Spine to install | String | `node['cacti']['version']`
 * `recipe[cacti::package]` Installs Cacti via packages
 * `recipe[cacti::spine]` Install Spine for Cacti
 
+## LWRPs
+
+* cacti_device: Creating Devices
+* cacti_graph: Creating Draphs
+* cacti_tree: Adding entries to Tree
+* cacti_data_query: Adding data_queries to a Device
+
+Currently only Creating and Adding is supported.
+
+See full documentation for each LWRP and action below for more information.
+
+### cacti_device
+
+Only action supported is `:create`, which is the default.
+
+Attribute | Description | Type | Default
+----------|-------------|------|--------
+description | the name that will be displayed by Cacti in the graphs | String | nil
+ip | self explanatory (can also be a FQDN) | String | nil
+
+### cacti_graph
+
+Only action supported is `:create`, which is the default.
+
+### cacti_tree
+
+Only action supported is `:create`, which is the default.
+
+### cacti_data_query
+
+Only action supported is `:create`, which is the default.
+
 ## Usage
 
 ### Cacti Server Data Bag
