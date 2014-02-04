@@ -136,10 +136,10 @@ Only action supported is `:create`, which is the default.
 
 Attribute | Description | Type | Default
 ----------|-------------|------|--------
-description | the name that will be displayed by Cacti in the graphs | String | nil
-ip | self explanatory (can also be a FQDN) | String | nil
-template | Host Template | String | nil
-notes | General information about this host | String | nil
+description | The name that will be displayed by Cacti in the graphs | String | nil
+ip | Self explanatory (can also be a FQDN) | String | nil
+template | Specify Host Template: default Graph Templates and Data Queries will associated with the Host | String | nil
+notes | Optional general information about this host | String | nil
 disable | Add this host but to disable checks | Boolean | false
 avail | Method used by Cacti to determine if a host is available for polling (`none`, `ping`, `snmp`, `pingsnmp`) | String | 'ping'
 ping_method | Ping method if avail uses ping (`icmp`, `tcp`, `udp`) | String | tcp
