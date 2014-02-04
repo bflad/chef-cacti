@@ -39,6 +39,7 @@ These attributes are under the `node['cacti']` namespace.
 
 Attribute | Description | Type | Default
 ----------|-------------|------|--------
+cacti_dir | Directory for Cacti installation | String | /usr/share/cacti
 cron_minute | Schedule to pass to cron | String | */5
 db_file | Database configuration file for Cacti | String | auto-detected (see attributes/default.rb)
 group | Group to own Cacti files | String | apache2

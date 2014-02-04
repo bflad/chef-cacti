@@ -20,6 +20,7 @@
 #
 
 include Cacti::Cli
+include Helpers::Cacti
 
 def whyrun_supported?
   true
@@ -41,29 +42,31 @@ def device_exists?
 end
 
 def params
-  params = ''
-  params << %Q[ --ip="#{@new_resource.ip}"]
-  params << %Q[ --description="#{@new_resource.description}"]
-  params << %Q[ --template="#{get_device_template_id(@new_resource.template)}"]
-  params << %Q[ --notes="#{@new_resource.notes}"]
-  params << %Q[ --disable=#{@new_resource.disable @new_resource.disable ? 1 : 0}]
-  params << %Q[ --avail="#{@new_resource.avail}"]
-  params << %Q[ --ping_method="#{@new_resource.ping_method}"]
-  params << %Q[ --ping_port="#{@new_resource.ping_port}"]
-  params << %Q[ --ping_retries="#{@new_resource.ping_retries}"]
-  params << %Q[ --version="#{@new_resource.version}"]
-  params << %Q[ --community="#{@new_resource.community}"]
-  params << %Q[ --port="#{@new_resource.port}"]
-  params << %Q[ --timeout="#{@new_resource.timeout}"]
-  params << %Q[ --username="#{@new_resource.username}"]
-  params << %Q[ --password="#{@new_resource.password}"]
-  params << %Q[ --authproto="#{@new_resource.authproto}"]
-  params << %Q[ --privpass="#{@new_resource.privpass}"]
-  params << %Q[ --privproto="#{@new_resource.privproto}"]
-  params << %Q[ --context="#{@new_resource.context}"] unless @new_resource.context.empty?
-  params << %Q[ --max_oids="#{@new_resource.max_oids}"]
+  params = {
+    'ip' => @new_resource.ip,
+    'description' => @new_resource.description,
+    'template' => get_device_template_id(@new_resource.template),
+    'notes' => @new_resource.notes,
+    'disable' => @new_resource.disable,
+    'avail' => @new_resource.avail,
+    'ping_method' => @new_resource.ping_method,
+    'ping_retries' => @new_resource.ping_retries,
+    'version' => @new_resource.version,
+    'community' => @new_resource.community,
+    'port' => @new_resource.port,
+    'timeout' => @new_resource.timeout,
+    'username' => @new_resource.username,
+    'password' => @new_resource.password,
+    'authproto' => @new_resource.authproto,
+    'privpass' => @new_resource.privpass,
+    'privproto' => @new_resource.privproto,
+    'max_oids' => @new_resource.max_oids,
+  }
 
-  params
+  params['ping_port'] = @new_resource.ping_port unless @new_resource.ping_port.to_s.empty?
+  params['context'] = @new_resource.context unless @new_resource.context.empty?
+
+  cli_args(params)
 end
 
 action :create do
