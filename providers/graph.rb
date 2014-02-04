@@ -52,7 +52,7 @@ def params
   params = {
     'graph-template-id' => get_graph_template_id(@new_resource.graph_template),
     'host-id' => get_host_id(@new_resource.host),
-    'graph-type' => @new_resource.graph_type,
+    'graph-type' => @new_resource.graph_type
   }
 
   case @new_resource.graph_type

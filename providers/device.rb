@@ -58,7 +58,7 @@ def params
     'authproto' => @new_resource.authproto,
     'privpass' => @new_resource.privpass,
     'privproto' => @new_resource.privproto,
-    'max_oids' => @new_resource.max_oids,
+    'max_oids' => @new_resource.max_oids
   }
 
   params['ping_port'] = @new_resource.ping_port unless @new_resource.ping_port.to_s.empty?
