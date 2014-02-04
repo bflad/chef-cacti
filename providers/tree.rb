@@ -27,31 +27,61 @@ def whyrun_supported?
 end
 
 def tree_exists?
-  begin
-    case @new_resource.type
-    when 'tree'
-      get_tree_id(@new_resource.name)
-      return true
-
-    when 'node'
-      case @new_resource.node_type
-      when 'header'
-        tree_id = get_tree_id(@new_resource.tree_id)
-        get_tree_node_id(tree_id, @new_resource.name)
-        return true
-
-      when 'host'
-        # FIXME: can't figure this out
-        false
-      when 'graph'
-        # FIXME: can't figure this out
-        false
-      end
+  case @new_resource.type
+  when 'tree'
+    get_tree_id(@new_resource.name)
+  when 'node'
+    case @new_resource.node_type
+    when 'header'
+      tree_id = get_tree_id(@new_resource.tree_id)
+      get_tree_node_id(tree_id, @new_resource.name)
+    when 'host', 'graph'
+      # FIXME: can't figure this out
+      false
     end
-  rescue
-    return false
   end
+rescue
   false
+end
+
+# build cli params for --type=tree
+def tree_params
+  params = {
+    'name' => @new_resource.name
+  }
+  params['sort-method'] = @new_resource.sort_method if @new_resource.sort_method
+
+  params
+end
+
+# build cli params for --type=node
+def node_params
+  params = {
+    'node-type' => @new_resource.node_type
+  }
+
+  tree_id = get_tree_id(@new_resource.tree_id)
+  params['tree-id'] = tree_id
+
+  if @new_resource.parent_node
+    params['parent-node'] = get_tree_node_id(tree_id, @new_resource.parent_node)
+  end
+
+  case @new_resource.node_type
+  when 'header'
+    params['name'] = @new_resource.name
+
+  when 'host'
+    params['host-id'] = get_host_id(@new_resource.host_id)
+    params['host-group-style'] = @new_resource.host_group_style if @new_resource.host_group_style
+
+  when 'graph'
+    host_id = get_host_id(@new_resource.host_id)
+    params['graph-id'] = get_graph_id(host_id, @new_resource.graph_id)
+    params['rra-id'] = get_rra_id(@new_resource.rra_id)
+  end
+
+  params
 end
 
 def params
@@ -61,31 +91,9 @@ def params
 
   case @new_resource.type
   when 'tree'
-    params['name'] = @new_resource.name
-    params['sort-method'] = @new_resource.sort_method if @new_resource.sort_method
-
+    params.merge!(tree_params)
   when 'node'
-    tree_id = get_tree_id(@new_resource.tree_id)
-    params['node-type'] = @new_resource.node_type
-    params['tree-id'] = tree_id
-
-    if @new_resource.parent_node
-      params['parent-node'] = get_tree_node_id(tree_id, @new_resource.parent_node)
-    end
-
-    case @new_resource.node_type
-    when 'header'
-      params['name'] = @new_resource.name
-
-    when 'host'
-      params['host-id'] = get_host_id(@new_resource.host_id)
-      params['host-group-style'] = @new_resource.host_group_style if @new_resource.host_group_style
-
-    when 'graph'
-      host_id = get_host_id(@new_resource.host_id)
-      params['graph-id'] = get_graph_id(host_id, @new_resource.graph_id)
-      params['rra-id'] = get_rra_id(@new_resource.rra_id)
-    end
+    params.merge!(node_params)
   end
 
   cli_args(params)
