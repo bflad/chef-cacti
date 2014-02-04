@@ -7,7 +7,14 @@ if settings['database']['host'] == 'localhost'
   database_connection = {
     :host => settings['database']['host'],
     :port => settings['database']['port'],
-    :username => 'root',
+    :username => value_for_platform(
+      %w{ pld } => {
+        'default' => 'mysql'
+      },
+      %w{ centos fedora redhat ubuntu } => {
+        'default' => 'root'
+      }
+    ),
     :password => node['mysql']['server_root_password']
   }
 
@@ -17,15 +24,22 @@ if settings['database']['host'] == 'localhost'
     notifies :run, 'execute[setup_cacti_database]', :immediately
   end
 
-  if node['platform'] == 'ubuntu'
-    cacti_sql_dir = '/usr/share/doc/cacti'
-  else
-    cacti_sql_dir = "/usr/share/doc/cacti-#{node['cacti']['version']}"
-  end
+  cacti_sql_dir = value_for_platform(
+    %w{ ubuntu } => {
+      'default' => '/usr/share/doc/cacti'
+    },
+    %w{ pld } => {
+      'default' => '/usr/share/cacti/sql'
+    },
+    %w{ centos fedora redhat } => {
+      'default' => "/usr/share/doc/cacti-#{node['cacti']['version']}"
+    }
+  )
 
   execute 'setup_cacti_database' do
     cwd cacti_sql_dir
-    command "mysql -u root -p#{node['mysql']['server_root_password']} #{settings['database']['name']} < cacti.sql"
+    p ["DB:", database_connection]
+    command "mysql -u #{database_connection[:username]} -p#{database_connection[:password]} #{settings['database']['name']} < cacti.sql"
     action :nothing
   end
 
@@ -48,6 +62,16 @@ if settings['database']['host'] == 'localhost'
   mysql_database 'configure_cacti_database_settings' do
     connection database_connection
     database_name settings['database']['name']
+
+    cacti_log_path = value_for_platform(
+      %w{ pld } => {
+        'default' => '/var/log/cacti/cacti.log'
+      },
+      %w{ centos fedora redhat ubuntu } => {
+        'default' => '/usr/share/cacti/log/cacti.log'
+      }
+    )
+
     sql <<-SQL
       INSERT INTO `settings` (`name`,`value`) VALUES ("path_rrdtool","/usr/bin/rrdtool") ON DUPLICATE KEY UPDATE `value`="/usr/bin/rrdtool";
       INSERT INTO `settings` (`name`,`value`) VALUES ("path_php_binary","/usr/bin/php") ON DUPLICATE KEY UPDATE `value`="/usr/bin/php";
@@ -55,7 +79,7 @@ if settings['database']['host'] == 'localhost'
       INSERT INTO `settings` (`name`,`value`) VALUES ("path_snmpget","/usr/bin/snmpget") ON DUPLICATE KEY UPDATE `value`="/usr/bin/snmpget";
       INSERT INTO `settings` (`name`,`value`) VALUES ("path_snmpbulkwalk","/usr/bin/snmpbulkwalk") ON DUPLICATE KEY UPDATE `value`="/usr/bin/snmpbulkwalk";
       INSERT INTO `settings` (`name`,`value`) VALUES ("path_snmpgetnext","/usr/bin/snmpgetnext") ON DUPLICATE KEY UPDATE `value`="/usr/bin/snmpgetnext";
-      INSERT INTO `settings` (`name`,`value`) VALUES ("path_cactilog","/usr/share/cacti/log/cacti.log") ON DUPLICATE KEY UPDATE `value`="/usr/share/cacti/log/cacti.log";
+      INSERT INTO `settings` (`name`,`value`) VALUES ("path_cactilog","#{cacti_log_path}") ON DUPLICATE KEY UPDATE `value`="#{cacti_log_path}";
       INSERT INTO `settings` (`name`,`value`) VALUES ("snmp_version","net-snmp") ON DUPLICATE KEY UPDATE `value`="net-snmp";
       INSERT INTO `settings` (`name`,`value`) VALUES ("rrdtool_version","rrd-#{node['cacti']['rrdtool']['version']}.x") ON DUPLICATE KEY UPDATE `value`="rrd-#{node['cacti']['rrdtool']['version']}.x";
       INSERT INTO `settings` (`name`,`value`) VALUES ("path_webroot","/usr/share/cacti") ON DUPLICATE KEY UPDATE `value`="/usr/share/cacti";
