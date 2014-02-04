@@ -138,6 +138,23 @@ Attribute | Description | Type | Default
 ----------|-------------|------|--------
 description | the name that will be displayed by Cacti in the graphs | String | nil
 ip | self explanatory (can also be a FQDN) | String | nil
+template | Host Template | String | nil
+notes | General information about this host | String | nil
+disable | Add this host but to disable checks | Boolean | false
+avail | Method used by Cacti to determine if a host is available for polling (`none`, `ping`, `snmp`, `pingsnmp`) | String | 'ping'
+ping_method | Ping method if avail uses ping (`icmp`, `tcp`, `udp`) | String | tcp
+ping_port | Ping port (1-65534) | Integer | nil
+ping_retries | Number of times to attempt to communicate with a host | Integer | 2
+version | SNMP version when avail check uses SNMP (1, 2, 3) | Integer | 1
+port | SNMP port | Integer | 161
+timeout | SNMP timeout | Integer | 500
+username | SNMP username for SNMP v3 | String | nil
+password | SNMP password for SNMP v3 | String | nil
+authproto | SNMP authentication protocol for SNMP v3 | String | nil
+privpass | SNMP privacy passphrase for SNMP v3 | String | nil
+privproto | SNMP privacy protocol for SNMP v3 | String | nil
+context | SNMP context for SNMP v3 | String | nil
+max_oids | Number of OIDs that can be obtained in a single SNMP Get request (1-60) | String | 10
 
 ### cacti_graph
 
