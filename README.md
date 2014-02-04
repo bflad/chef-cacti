@@ -141,7 +141,7 @@ ip | Self explanatory (can also be a FQDN) | String | nil
 template | Specify Host Template: default Graph Templates and Data Queries will associated with the Host | String | nil
 notes | Optional general information about this host | String | nil
 disable | Add this host but to disable checks | Boolean | false
-avail | Method used by Cacti to determine if a host is available for polling (`none`, `ping`, `snmp`, `pingsnmp`) | String | 'ping'
+avail | Method used by Cacti to determine if a host is available for polling (`none`, `ping`, `snmp`, `pingsnmp`) | String | pingsnmp
 ping_method | Ping method if avail uses ping (`icmp`, `tcp`, `udp`). NOTE: ICMP on Linux/UNIX requires root privileges. | String | tcp
 ping_port | TCP or UDP port to attempt connection (1-65534) | Integer | nil
 ping_retries | After an initial failure, the number of ping retries Cacti will attempt before failing | Integer | 2
