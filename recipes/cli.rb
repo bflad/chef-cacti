@@ -66,6 +66,13 @@ cacti_graph 'PHP-FPM Pool Status' do
   input_fields :port => 1028, :script => '/fpm-status', 'querystring' => '', 'mode' => 'fcgi'
 end
 
+# Add Data Query to host
+cacti_data_query node['fqdn'] do
+  host_id node['fqdn']
+  data_query_id 'SNMP - Get Mounted Partitions'
+  reindex_method 'None'
+end
+
 # collect unique mount points
 # as ohai collect info from various sources, there are duplicates
 # also skip fs_type=tmpfs

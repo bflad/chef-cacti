@@ -34,6 +34,16 @@ module Cacti
       run_cmd_with_match(command, match)
     end
 
+    # wrapper to add_data_query.php
+    # @returns true if data query is added, false if data query already exists, exception otherwise
+    def add_data_query(params)
+      command = %Q[#{cli_path}/add_data_query.php]
+      command << params
+
+      match = /ERROR: Data Query is already associated for host: \(\d+: .*?\) data query \(\d+: .*?\) reindex method \(\d+: .*?\)/
+      run_cmd_with_match(command, match)
+    end
+
     # resolve template id from template name
     def get_device_template_id(template)
       return template if template.kind_of?(Integer)
@@ -132,6 +142,17 @@ module Cacti
       id
     end
 
+    # Get host data query
+    def get_data_query_id(host_id, data_query_id)
+      return data_query_id if data_query_id.kind_of?(Integer)
+
+      command = "#{cli_path}/add_data_query.php --host-id=#{host_id} --list-data-queries"
+
+      id = get_id_from_output(command, data_query_id)
+      fail "Failed to get data_query_id of '#{data_query_id}' for host '#{host_id}'" unless id
+      id
+    end
+
     # flatten Hash of key=value pairs for --input-fields parameter
     # [--input-fields="[data-template-id:]field-name=value ..."]
     def flatten_fields(fields)
@@ -160,6 +181,7 @@ module Cacti
     # return true if exit 0, return false if exit 1 and has a match, throw otherwise
     def run_cmd_with_match(command, match)
       cmd = shell_out(command)
+      p cmd
       if cmd.exitstatus == 0
         return true
       elsif cmd.exitstatus == 1
