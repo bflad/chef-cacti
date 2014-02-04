@@ -51,7 +51,7 @@ end
   'ucd 11 Swap',
   'ucd 12 Detailled Memory',
   'ucd 20 Processes',
-  'ucd 30 Users',
+  'ucd 30 Users'
 ].each do |graph|
   cacti_graph graph do
     graph_type 'cg'
