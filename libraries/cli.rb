@@ -37,66 +37,99 @@ module Cacti
     # resolve template id from template name
     def get_device_template_id(template)
       return template if template.kind_of?(Integer)
+
       command = "#{cli_path}/add_device.php --list-host-templates"
-      get_id_from_output(command, template) or fail "Failed to Find template_id for #{template}"
+      id = get_id_from_output(command, template)
+      fail "Failed to Find template_id for #{template}" unless id
+      id
     end
 
     # resolve host id from host name
     def get_host_id(host)
       return host if host.kind_of?(Integer)
+
       command = "#{cli_path}/add_graphs.php --list-hosts"
-      get_id_from_output(command, host, 3) or fail "Failed to Find host_id for #{host}"
+
+      id = get_id_from_output(command, host, 3)
+      fail "Failed to Find host_id for #{host}" unless id
+      id
     end
 
     # resolve graph template_id from template name
     # TODO: host specific list support
     def get_graph_template_id(template)
       return template if template.kind_of?(Integer)
+
       command = "#{cli_path}/add_graphs.php --list-graph-templates"
-      get_id_from_output(command, template) or fail "Failed to Find template_id for #{template}"
+
+      id = get_id_from_output(command, template)
+      fail "Failed to Find template_id for #{template}" unless id
+      id
     end
 
     # param: snmp_query_id or snmp_query_name
     # TODO: be host specific to catch errors early
     def get_snmp_query_id(snmp_query_id)
       return snmp_query_id if snmp_query_id.kind_of?(Integer)
+
       command = "#{cli_path}/add_graphs.php --list-snmp-queries"
-      get_id_from_output(command, snmp_query_id) or fail "Failed to get snmp_query_id #{snmp_query_id}"
+
+      id = get_id_from_output(command, snmp_query_id)
+      fail "Failed to get snmp_query_id #{snmp_query_id}" unless id
+      id
     end
 
-    # get snmp_query_type_id for query_id matching param
-    def get_snmp_query_type_id(query_id, param)
-      return param if param.kind_of?(Integer)
+    # get snmp_query_type_id for query_id matching query_type
+    def get_snmp_query_type_id(query_id, query_type)
+      return query_type if query_type.kind_of?(Integer)
+
       command = "#{cli_path}/add_graphs.php --snmp-query-id=#{query_id} --list-query-types"
-      get_id_from_output(command, param)
+      id = get_id_from_output(command, query_type)
+      fail "Failed to get snmp_query_type_id for '#{query_type}'" unless id
+      id
     end
 
     # get tree id
     def get_tree_id(tree_id)
       return tree_id if tree_id.kind_of?(Integer)
+
       command = "#{cli_path}/add_tree.php --list-trees"
-      get_id_from_output(command, tree_id, 2)
+      id = get_id_from_output(command, tree_id, 2)
+      fail "Failed to get tree_id for '#{tree_id}'" unless id
+      id
     end
 
     # get node id in a tree
     def get_tree_node_id(tree_id, node_id)
       return node_id if node_id.kind_of?(Integer)
+
       command = "#{cli_path}/add_tree.php --tree-id=#{tree_id} --list-nodes"
-      get_id_from_output(command, node_id, 3, 1) or fail "Failed to get tree node_id for '#{node_id}' in '#{tree_id}'"
+
+      id = get_id_from_output(command, node_id, 3, 1)
+      fail "Failed to get tree node_id for '#{node_id}' in '#{tree_id}'" unless id
+      id
     end
 
     # get RRA id
     def get_rra_id(rra_id)
       return rra_id if rra_id.kind_of?(Integer)
+
       command = "#{cli_path}/add_tree.php --list-rras"
-      get_id_from_output(command, rra_id, 5) or fail "Failed to get rra_id for '#{rra_id}'"
+
+      id = get_id_from_output(command, rra_id, 5)
+      fail "Failed to get rra_id for '#{rra_id}'" unless id
+      id
     end
 
     # get Graph id for host_id
     def get_graph_id(host_id, graph_id, index = 1)
       return graph_id if graph_id.kind_of?(Integer)
+
       command = "#{cli_path}/add_tree.php --host-id=#{host_id} --list-graphs"
-      get_id_from_output(command, graph_id, index) or fail "Failed to get graph_id of '#{graph_id}' for host '#{host_id}'"
+
+      id = get_id_from_output(command, graph_id, index)
+      fail "Failed to get graph_id of '#{graph_id}' for host '#{host_id}'" unless id
+      id
     end
 
     # flatten Hash of key=value pairs for --input-fields parameter
