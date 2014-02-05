@@ -38,7 +38,6 @@ if settings['database']['host'] == 'localhost'
 
   execute 'setup_cacti_database' do
     cwd cacti_sql_dir
-    p ["DB:", database_connection]
     command "mysql -u #{database_connection[:username]} -p#{database_connection[:password]} #{settings['database']['name']} < cacti.sql"
     action :nothing
   end
