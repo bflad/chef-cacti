@@ -36,13 +36,16 @@ default['cacti']['poller_file'] = value_for_platform(
   %w{ centos fedora redhat } => {
     'default' => '/usr/share/cacti/poller.php'
   },
+  %w{ pld } => {
+    'default' => '/usr/sbin/cacti-poller',
+  },
   %w{ ubuntu } => {
     'default' => '/usr/share/cacti/site/poller.php'
   }
 )
 default['cacti']['poller_cmd'] = value_for_platform(
   %w{ pld } => {
-    'default' => 'umask 022; exec /usr/sbin/cacti-poller >> /var/log/cacti/poller.log 2>&1'
+    'default' => "umask 022; exec #{node['cacti']['poller_file']} >> /var/log/cacti/poller.log 2>&1"
   },
   %w{ centos fedora redhat ubuntu } => {
     'default' => "/usr/bin/php #{node['cacti']['poller_file']} > /dev/null 2>&1"
