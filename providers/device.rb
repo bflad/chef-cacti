@@ -41,7 +41,7 @@ def params
   }
 
   params['ping_port'] = @new_resource.ping_port unless @new_resource.ping_port.to_s.empty?
-  params['context'] = @new_resource.context unless @new_resource.context.empty?
+  params['context'] = @new_resource.context unless @new_resource.context
 
   cli_args(params)
 end
