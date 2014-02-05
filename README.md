@@ -39,6 +39,7 @@ These attributes are under the `node['cacti']` namespace.
 
 Attribute | Description | Type | Default
 ----------|-------------|------|--------
+cacti_dir | Directory for Cacti installation | String | /usr/share/cacti
 cron_minute | Schedule to pass to cron | String | */5
 db_file | Database configuration file for Cacti | String | auto-detected (see attributes/default.rb)
 group | Group to own Cacti files | String | apache2
@@ -118,6 +119,56 @@ version | Version of Spine to install | String | `node['cacti']['version']`
 * `recipe[cacti::package]` Installs Cacti via packages
 * `recipe[cacti::spine]` Install Spine for Cacti
 
+## LWRPs
+
+* cacti_device: Creating Devices
+* cacti_graph: Creating Draphs
+* cacti_tree: Adding entries to Tree
+* cacti_data_query: Adding data_queries to a Device
+
+Currently only Creating and Adding is supported.
+
+See full documentation for each LWRP and action below for more information.
+
+### cacti_device
+
+Only action supported is `:create`, which is the default.
+
+Attribute | Description | Type | Default
+----------|-------------|------|--------
+description | The name that will be displayed by Cacti in the graphs | String | nil
+ip | Self explanatory (can also be a FQDN) | String | nil
+template | Specify Host Template: default Graph Templates and Data Queries will associated with the Host | String | nil
+notes | Optional general information about this host | String | nil
+disable | Add this host but to disable checks | Boolean | false
+avail | Method used by Cacti to determine if a host is available for polling (`none`, `ping`, `snmp`, `pingsnmp`) | String | pingsnmp
+ping_method | Ping method if avail uses ping (`icmp`, `tcp`, `udp`). NOTE: ICMP on Linux/UNIX requires root privileges. | String | tcp
+ping_port | TCP or UDP port to attempt connection (1-65534) | Integer | nil
+ping_retries | After an initial failure, the number of ping retries Cacti will attempt before failing | Integer | 2
+community | SNMP community string for SNMP v1 and SNMP v2 | String | nil
+version | SNMP version when avail check uses SNMP (1, 2, 3) | Integer | 1
+port | UDP port number to use for SNMP | Integer | 161
+timeout | The maximum number of milliseconds Cacti will wait for an SNMP response | Integer | 500
+max_oids | Number of OIDs that can be obtained in a single SNMP Get request (1-60) | String | 10
+username | SNMP username for SNMP v3 | String | nil
+password | SNMP password for SNMP v3 | String | nil
+authproto | SNMP authentication protocol for SNMP v3 | String | nil
+privpass | SNMP privacy passphrase for SNMP v3 | String | nil
+privproto | SNMP privacy protocol for SNMP v3 | String | nil
+context | SNMP context for SNMP v3 | String | nil
+
+### cacti_graph
+
+Only action supported is `:create`, which is the default.
+
+### cacti_tree
+
+Only action supported is `:create`, which is the default.
+
+### cacti_data_query
+
+Only action supported is `:create`, which is the default.
+
 ## Usage
 
 ### Cacti Server Data Bag
@@ -187,4 +238,8 @@ Please use standard Github issues/pull requests.
 ## Contributors
 
 * Brian Flad (<bflad417@gmail.com>)
-* Morgan Blackthorne (@stormerider)
+* Morgan Blackthorne ([@stormerider][])
+* Elan Ruusamäe ([@glensc][])
+
+[@glensc]: https://github.com/glensc
+[@stormerider]: https://github.com/stormerider
