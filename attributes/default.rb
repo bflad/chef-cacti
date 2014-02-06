@@ -37,7 +37,7 @@ default['cacti']['poller_file'] = value_for_platform(
     'default' => '/usr/share/cacti/poller.php'
   },
   %w{ pld } => {
-    'default' => '/usr/sbin/cacti-poller',
+    'default' => '/usr/sbin/cacti-poller'
   },
   %w{ ubuntu } => {
     'default' => '/usr/share/cacti/site/poller.php'
