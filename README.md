@@ -14,9 +14,9 @@ Install/configures Cacti and optionally Spine.
 
 * CentOS 6
 * Fedora 19, 20
+* PLD Linux Th (Experimental)
 * Red Hat Enterprise Linux 6
 * Ubuntu 12.04, 12.10, 13.04, 13.10
-* PLD Linux Th
 
 ### Databases
 
@@ -44,8 +44,8 @@ cron_minute | Schedule to pass to cron | String | */5
 db_file | Database configuration file for Cacti | String | auto-detected (see attributes/default.rb)
 group | Group to own Cacti files | String | apache2
 packages | Packages for Cacti installation | Array | auto-detected (see attributes/default.rb)
-poller_file | Poller file for Cacti | String | auto-detected (see attributes/default.rb)
 poller_cmd | Poller command to run | String | auto-detected (see attributes/default.rb)
+poller_file | Poller file for Cacti | String | auto-detected (see attributes/default.rb)
 user | Username to own Cacti files | String | cacti
 version | Version of Cacti to install or installed | String | auto-detected (see attributes/default.rb)
 
