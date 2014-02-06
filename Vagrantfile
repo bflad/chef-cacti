@@ -48,6 +48,14 @@ Vagrant.configure('2') do |config|
     freebsd9.vm.hostname = "#{cookbook}-freebsd-9"
   end
 
+  config.vm.define :pld64 do |pld64|
+    pld64.cache.auto_detect = false
+    pld64.omnibus.chef_version = nil
+    pld64.vm.box      = 'pld64'
+    pld64.vm.box_url  = 'ftp://ftp.pld-linux.org/people/glen/vm/pld64.box'
+    pld64.vm.hostname = "#{cookbook}-pld64"
+  end
+
   config.vm.define :ubuntu1204 do |ubuntu1204|
     ubuntu1204.vm.box      = 'opscode-ubuntu-12.04'
     ubuntu1204.vm.box_url  = 'http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_ubuntu-12.04_chef-provisionerless.box'
@@ -77,6 +85,9 @@ Vagrant.configure('2') do |config|
   config.vm.provider 'virtualbox' do |v|
     v.customize ['modifyvm', :id, '--memory', 1024]
   end
+
+  # Manually bootstrap Chef on platforms not supported by Omnibus, such as pld
+  config.vm.provision 'shell', path: 'chef-manual-bootstrap.sh'
 
   config.vm.provision :chef_solo do |chef|
     chef.log_level = :debug
