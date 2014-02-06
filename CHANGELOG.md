@@ -1,6 +1,6 @@
 ## 0.4.0
 
-* Enhancement: Experimental PLD Linux Th support
+* Enhancement: [GH-8]: Experimental PLD Linux Th support
 
 ## 0.3.0
 
