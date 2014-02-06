@@ -1,3 +1,7 @@
+## 0.4.0
+
+* Enhancement: Experimental PLD Linux Th support
+
 ## 0.3.0
 
 * DEPRECATED: server recipe; use default recipe or individual recipes as needed
