@@ -12,10 +12,17 @@ end
 
 # return true if data_query
 def data_query_exists?
-  # FIXME: not implemented
-  # however, add_data_query.php says: "If the data query was already associated, it will be reindexed"
-  # we may need to figure it out somehow to avoid reindexes
-  false
+  # TODO: add_data_query.php says: "If the data query was already associated, it will be reindexed"
+  # we may need to figure it out somehow to avoid reindexes.
+  #
+  # use --check patch: returns true if data query does not exist, returns false if data query exists
+  # will raise exception, when option not supported
+  begin
+    r = add_data_query(params + ' --check')
+    !r
+  rescue
+    false
+  end
 end
 
 def params
