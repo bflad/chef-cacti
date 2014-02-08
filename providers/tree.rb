@@ -33,6 +33,17 @@ def tree_params
   params
 end
 
+def get_host_group_style(host_group_style)
+  case host_group_style
+  when 1, 'Graph Template'
+    1
+  when 2, 'Data Query Index'
+    2
+  else
+    raise "Unknown host group style: #{host_group_style}"
+  end
+end
+
 # build cli params for --type=node
 def node_params
   params = {
@@ -52,7 +63,7 @@ def node_params
 
   when 'host'
     params['host-id'] = get_host_id(@new_resource.host_id)
-    params['host-group-style'] = @new_resource.host_group_style if @new_resource.host_group_style
+    params['host-group-style'] = get_host_group_style(@new_resource.host_group_style) if @new_resource.host_group_style
 
   when 'graph'
     host_id = get_host_id(@new_resource.host_id)

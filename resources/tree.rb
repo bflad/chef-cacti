@@ -9,7 +9,6 @@ attribute :node_type,   :kind_of => String,   :equal_to => %w[header host graph]
 attribute :tree_id,     :kind_of => [String, Integer]
 attribute :parent_node, :kind_of => [String, Integer]
 attribute :host_id,     :kind_of => [String, Integer]
-# TODO: add String support
-attribute :host_group_style,     :kind_of => Integer,   :equal_to => %w[1 2]
+attribute :host_group_style,     :kind_of => [String, Integer],   :equal_to => ['Graph Template', 'Data Query Index']
 attribute :graph_id,    :kind_of => [String, Integer]
 attribute :rra_id,      :kind_of => [String, Integer]

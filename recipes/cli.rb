@@ -113,6 +113,7 @@ cacti_tree node['fqdn'] do
   node_type 'host'
   tree_id 'All hosts'
   parent_node 'Linux nodes'
+  host_group_style 'Graph Template'
 
   host_id node['fqdn']
 end
