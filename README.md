@@ -180,6 +180,16 @@ Only action supported is `:create`, which is the default.
 
 Attribute | Description | Type | Default
 ----------|-------------|------|--------
+name | A useful name for the graph tree. | String | nil
+type | Type: One of `tree` or `node` | String | nil
+sort_method | Tree sort order (manual alpha natural numeric) | String | nil
+node_type | Node type (header host graph) | String | nil
+tree_id | Node option | String | nil
+parent_node | Choose the parent for the header/graph. | String | nil
+host_id | Host node: Choose a host to add it to the tree | String | nil
+host_group_style | Host node: How graphs are grouped when drawn for this particular host on the tree (1 = Graph Template, 2 = Data Query Index) | String | nil
+graph_id | Graph node: Choose a graph to add it to the tree | String | nil
+rra_id | Graph node: Choose a round robin archive to control how Graph Thumbnails are displayed when using Tree Export | String | nil
 
 ### cacti_data_query
 
