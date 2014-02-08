@@ -50,7 +50,7 @@ module Cacti
 
       command = "#{cli_path}/add_device.php --list-host-templates"
       id = get_id_from_output(command, template)
-      fail "Failed to Find template_id for #{template}" unless id
+      fail "Failed to Find Host template_id for #{template}" unless id
       id
     end
 
@@ -73,7 +73,7 @@ module Cacti
       command = "#{cli_path}/add_graphs.php --list-graph-templates"
 
       id = get_id_from_output(command, template)
-      fail "Failed to Find template_id for #{template}" unless id
+      fail "Failed to Find Graph template_id for #{template}" unless id
       id
     end
 
@@ -181,7 +181,6 @@ module Cacti
     # return true if exit 0, return false if exit 1 and has a match, throw otherwise
     def run_cmd_with_match(command, match)
       cmd = shell_out(command)
-      p cmd
       if cmd.exitstatus == 0
         return true
       elsif cmd.exitstatus == 1
