@@ -40,7 +40,7 @@ def get_host_group_style(host_group_style)
   when 2, 'Data Query Index'
     2
   else
-    raise "Unknown host group style: #{host_group_style}"
+    fail "Unknown host group style: #{host_group_style}"
   end
 end
 
