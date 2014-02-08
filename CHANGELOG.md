@@ -1,6 +1,6 @@
 ## Future
 
-* Add `cacti_device`, `cacti_graph`, `cacti_tree` LRWPs by Elan Ruusamäe ([@glensc][])
+* Add `cacti_device`, `cacti_graph`, `cacti_tree`, `cacti_data_query` LRWPs by Elan Ruusamäe ([@glensc][]) ([#5][])
 
 ## 0.3.0
 
@@ -33,5 +33,6 @@
 
 * Initial release.
 
+[#5]: https://github.com/bflad/chef-cacti/pull/5
 [@glensc]: https://github.com/glensc
 [@stormerider]: https://github.com/stormerider

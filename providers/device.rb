@@ -1,24 +1,3 @@
-#
-# Cookbook Name:: cacti
-# Provider:: device
-#
-# Author:: Elan Ruusamäe <glen@delfi.ee>
-#
-# Copyright 2014, Elan Ruusamäe
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-#
-
 include Cacti::Cli
 include Helpers::Cacti
 
@@ -33,12 +12,10 @@ end
 
 # return true if device named 'device' exists
 def device_exists?
-  begin
-    get_host_id(@new_resource.description)
-    true
-  rescue
-    false
-  end
+  get_host_id(@new_resource.description)
+  true
+rescue
+  false
 end
 
 def params
@@ -60,11 +37,11 @@ def params
     'authproto' => @new_resource.authproto,
     'privpass' => @new_resource.privpass,
     'privproto' => @new_resource.privproto,
-    'max_oids' => @new_resource.max_oids,
+    'max_oids' => @new_resource.max_oids
   }
 
   params['ping_port'] = @new_resource.ping_port unless @new_resource.ping_port.to_s.empty?
-  params['context'] = @new_resource.context unless @new_resource.context.empty?
+  params['context'] = @new_resource.context unless @new_resource.context
 
   cli_args(params)
 end
