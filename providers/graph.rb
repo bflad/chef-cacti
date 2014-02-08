@@ -36,7 +36,7 @@ def params
 
   case @new_resource.graph_type
   when 'cg'
-    params['input-fields'] = flatten_fields(@new_resource.input_fields)
+    params['input-fields'] = flatten_fields(@new_resource.input_fields) if @new_resource.input_fields
   when 'ds'
     snmp_query_id = get_snmp_query_id(@new_resource.snmp_query_id)
     snmp_query_type_id = get_snmp_query_type_id(snmp_query_id, @new_resource.snmp_query_type_id)
