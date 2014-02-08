@@ -55,14 +55,14 @@ end
 ].each do |graph|
   cacti_graph graph do
     graph_type 'cg'
-    host node['fqdn']
+    host_id node['fqdn']
   end
 end
 
 # graph with input fields
 cacti_graph 'PHP-FPM Pool Status' do
   graph_type 'cg'
-  host node['fqdn']
+  host_id node['fqdn']
   input_fields :port => 1028, :script => '/fpm-status', 'querystring' => '', 'mode' => 'fcgi'
 end
 
@@ -83,11 +83,11 @@ filesystems = node['filesystem']
 # monitor each partition
 filesystems.each do |mount|
   cacti_graph "ucd 90 Filesystems #{mount}" do
-    graph_template 'ucd 90 Filesystems'
+    graph_template_id 'ucd 90 Filesystems'
     graph_type 'ds'
-    host node['fqdn']
-    snmp_query 'SNMP - Get Mounted Partitions'
-    snmp_query_type 'Available Disk Space'
+    host_id node['fqdn']
+    snmp_query_id 'SNMP - Get Mounted Partitions'
+    snmp_query_type_id 'Available Disk Space'
     snmp_field 'hrStorageDescr'
     snmp_value mount
   end
