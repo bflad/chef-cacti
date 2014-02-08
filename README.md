@@ -168,10 +168,10 @@ host_id | The Host that this graph belongs to | String | nil
 graph_type | `cg` graphs are for things like CPU temp/fan speed, while `ds` graphs are for data-source based graphs (interface stats etc.) | String | cg
 graph_title | Graph Title. If unspecified, defaults to what ever is in the graph template/data-source template | String | nil
 input_fields | Input Fields for `cg` type graphs | Hash | nil
-snmp_query_id | `ds` graph: | String | nil
-snmp_query_type_id | `ds` graph: | String | nil
-snmp_field | `ds` graph: | String | nil
-snmp_value |`ds` graph: | String | nil
+snmp_query_id | `ds` graph: name of data query | String | nil
+snmp_query_type_id | `ds` graph: SNMP Query Type ID | String | nil
+snmp_field | `ds` graph: SNMP Field | String | nil
+snmp_value |`ds` graph: SNMP Value | String | nil
 reindex_method | `ds` graph: The reindex method to be used for that data query. None = no reindexing, Uptime = Uptime goes Backwards, Index  = Index Count Changed, Fields = Verify all Fields | String | None
 
 ### cacti_tree
