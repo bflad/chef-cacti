@@ -47,7 +47,6 @@ def params
     params['reindex-method'] = @new_resource.reindex_method
 
   end
-  # TODO: rest of the params
 
   cli_args(params)
 end
