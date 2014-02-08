@@ -1,3 +1,4 @@
+default['cacti']['cacti_dir'] = '/usr/share/cacti'
 default['cacti']['cron_minute'] = '*/5'
 default['cacti']['db_file'] = value_for_platform(
   %w{ centos fedora redhat } => {
