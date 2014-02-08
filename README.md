@@ -172,7 +172,7 @@ snmp_query_id | `ds` graph: name of data query | String | nil
 snmp_query_type_id | `ds` graph: SNMP Query Type ID | String | nil
 snmp_field | `ds` graph: SNMP Field | String | nil
 snmp_value |`ds` graph: SNMP Value | String | nil
-reindex_method | `ds` graph: The reindex method to be used for that data query. None = no reindexing, Uptime = Uptime goes Backwards, Index  = Index Count Changed, Fields = Verify all Fields | String | None
+reindex_method | `ds` graph: The reindex method to be used for that data query. `None` = no reindexing, `Uptime` = Uptime goes Backwards, `Index`  = Index Count Changed, `Fields` = Verify all Fields | String | None
 
 ### cacti_tree
 
@@ -197,6 +197,9 @@ Only action supported is `:create`, which is the default.
 
 Attribute | Description | Type | Default
 ----------|-------------|------|--------
+host_id | The Host to what to add Data Query | String | nil
+data\_query\_id | Data Query to be added | String | nil
+reindex_method | The reindex method to be used for that data query. `None` = no reindexing, `Uptime` = Uptime goes Backwards, `Index`  = Index Count Changed, `Fields` = Verify all Fields | String | None
 
 ## Usage
 
