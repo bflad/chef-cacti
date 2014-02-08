@@ -146,7 +146,7 @@ ping_method | Ping method if avail uses ping (`icmp`, `tcp`, `udp`). NOTE: ICMP 
 ping_port | TCP or UDP port to attempt connection (1-65534) | Integer | nil
 ping_retries | After an initial failure, the number of ping retries Cacti will attempt before failing | Integer | 2
 community | SNMP community string for SNMP v1 and SNMP v2 | String | nil
-version | SNMP version when avail check uses SNMP (1, 2, 3) | Integer | 1
+version | SNMP version when avail check uses SNMP (`1`, `2`, `3`) | Integer | 1
 port | UDP port number to use for SNMP | Integer | 161
 timeout | The maximum number of milliseconds Cacti will wait for an SNMP response | Integer | 500
 max_oids | Number of OIDs that can be obtained in a single SNMP Get request (1-60) | String | 10
@@ -182,12 +182,12 @@ Attribute | Description | Type | Default
 ----------|-------------|------|--------
 name | A useful name for the graph tree. | String | nil
 type | Type: One of `tree` or `node` | String | nil
-sort_method | Tree sort order (manual alpha natural numeric) | String | nil
-node_type | Node type (header host graph) | String | nil
+sort_method | Tree sort order (`manual`, `alpha`, `natural`, `numeric`) | String | nil
+node_type | Node type (`header`, `host`, `graph`) | String | nil
 tree_id | Node option | String | nil
 parent_node | Choose the parent for the header/graph. | String | nil
 host_id | Host node: Choose a host to add it to the tree | String | nil
-host_group_style | Host node: How graphs are grouped when drawn for this particular host on the tree (Graph Template, Data Query Index) | String | nil
+host_group_style | Host node: How graphs are grouped when drawn for this particular host on the tree (`Graph Template`, `Data Query Index`) | String | nil
 graph_id | Graph node: Choose a graph to add it to the tree | String | nil
 rra_id | Graph node: Choose a round robin archive to control how Graph Thumbnails are displayed when using Tree Export | String | nil
 
