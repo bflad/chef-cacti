@@ -50,7 +50,7 @@ module Cacti
 
       command = "#{cli_path}/add_device.php --list-host-templates"
       id = get_id_from_output(command, template)
-      fail "Failed to Find Host template_id for #{template}" unless id
+      fail "Failed to Find Host template_id for #{template}, use #{command} to find a match" unless id
       id
     end
 
@@ -61,7 +61,7 @@ module Cacti
       command = "#{cli_path}/add_graphs.php --list-hosts"
 
       id = get_id_from_output(command, host, 3)
-      fail "Failed to Find host_id for #{host}" unless id
+      fail "Failed to Find host_id for #{host}, use #{command} to find a match" unless id
       id
     end
 
@@ -73,7 +73,7 @@ module Cacti
       command = "#{cli_path}/add_graphs.php --list-graph-templates"
 
       id = get_id_from_output(command, template)
-      fail "Failed to Find Graph template_id for #{template}" unless id
+      fail "Failed to Find Graph template_id for #{template}, use #{command} to find a match" unless id
       id
     end
 
@@ -85,7 +85,7 @@ module Cacti
       command = "#{cli_path}/add_graphs.php --list-snmp-queries"
 
       id = get_id_from_output(command, snmp_query_id)
-      fail "Failed to get snmp_query_id #{snmp_query_id}" unless id
+      fail "Failed to get snmp_query_id #{snmp_query_id}, use #{command} to find a match" unless id
       id
     end
 
@@ -95,7 +95,7 @@ module Cacti
 
       command = "#{cli_path}/add_graphs.php --snmp-query-id=#{query_id} --list-query-types"
       id = get_id_from_output(command, query_type)
-      fail "Failed to get snmp_query_type_id for '#{query_type}'" unless id
+      fail "Failed to get snmp_query_type_id for '#{query_type}', use #{command} to find a match" unless id
       id
     end
 
@@ -105,7 +105,7 @@ module Cacti
 
       command = "#{cli_path}/add_tree.php --list-trees"
       id = get_id_from_output(command, tree_id, 2)
-      fail "Failed to get tree_id for '#{tree_id}'" unless id
+      fail "Failed to get tree_id for '#{tree_id}', use #{command} to find a match" unless id
       id
     end
 
@@ -116,7 +116,7 @@ module Cacti
       command = "#{cli_path}/add_tree.php --tree-id=#{tree_id} --list-nodes"
 
       id = get_id_from_output(command, node_id, 3, 1)
-      fail "Failed to get tree node_id for '#{node_id}' in '#{tree_id}'" unless id
+      fail "Failed to get tree node_id for '#{node_id}' in '#{tree_id}', use #{command} to find a match" unless id
       id
     end
 
@@ -127,7 +127,7 @@ module Cacti
       command = "#{cli_path}/add_tree.php --list-rras"
 
       id = get_id_from_output(command, rra_id, 5)
-      fail "Failed to get rra_id for '#{rra_id}'" unless id
+      fail "Failed to get rra_id for '#{rra_id}', use #{command} to find a match" unless id
       id
     end
 
@@ -138,7 +138,7 @@ module Cacti
       command = "#{cli_path}/add_tree.php --host-id=#{host_id} --list-graphs"
 
       id = get_id_from_output(command, graph_id, index)
-      fail "Failed to get graph_id of '#{graph_id}' for host '#{host_id}'" unless id
+      fail "Failed to get graph_id of '#{graph_id}' for host '#{host_id}', use #{command} to find a match" unless id
       id
     end
 
@@ -149,7 +149,7 @@ module Cacti
       command = "#{cli_path}/add_data_query.php --host-id=#{host_id} --list-data-queries"
 
       id = get_id_from_output(command, data_query_id)
-      fail "Failed to get data_query_id of '#{data_query_id}' for host '#{host_id}'" unless id
+      fail "Failed to get data_query_id of '#{data_query_id}' for host '#{host_id}', use #{command} to find a match" unless id
       id
     end
 
