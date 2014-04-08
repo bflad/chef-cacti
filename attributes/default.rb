@@ -1,70 +1,70 @@
 default['cacti']['cacti_dir'] = '/usr/share/cacti'
 default['cacti']['cron_minute'] = '*/5'
 default['cacti']['db_file'] = value_for_platform(
-  %w{ centos fedora redhat } => {
+  %w(centos fedora redhat) => {
     'default' => '/etc/cacti/db.php'
   },
-  %w{ pld } => {
+  %w(pld) => {
     'default' => '/etc/webapps/cacti/config.php'
   },
-  %w{ ubuntu } => {
+  %w(ubuntu) => {
     'default' => '/etc/cacti/debian.php'
   }
 )
 default['cacti']['group'] = value_for_platform(
-  %w{ pld } => {
+  %w(pld) => {
     'default' => 'http'
   },
-  %w{ centos fedora redhat ubuntu } => {
+  %w(centos fedora redhat ubuntu) => {
     'default' => 'apache'
   }
 )
 
 default['cacti']['packages'] = value_for_platform(
-  %w{ centos fedora redhat } => {
-    'default' => %w{ cacti net-snmp net-snmp-utils perl-LDAP perl-Net-SNMP php-ldap php-mysql php-pecl-apc php-snmp }
+  %w(centos fedora redhat) => {
+    'default' => %w(cacti net-snmp net-snmp-utils perl-LDAP perl-Net-SNMP php-ldap php-mysql php-pecl-apc php-snmp)
   },
-  %w{ pld } => {
-    'default' => %w{ cacti cacti-setup }
+  %w(pld) => {
+    'default' => %w(cacti cacti-setup)
   },
-  %w{ ubuntu } => {
-    %w{ 12.04 12.10 13.04 } => %w{ cacti libsnmp-base libsnmp15 snmp snmpd libnet-ldap-perl libnet-snmp-perl php-net-ldap php5-mysql php-apc php5-snmp },
-    '13.10' => %w{ cacti libsnmp-base libsnmp30 snmp snmpd libnet-ldap-perl libnet-snmp-perl php-net-ldap php5-mysql php-apc php5-snmp },
-    'default' => %w{ cacti libsnmp-base libsnmp15 snmp snmpd libnet-ldap-perl libnet-snmp-perl php-net-ldap php5-mysql php-apc php5-snmp }
+  %w(ubuntu) => {
+    %w(12.04 12.10 13.04) => %w(cacti libsnmp-base libsnmp15 snmp snmpd libnet-ldap-perl libnet-snmp-perl php-net-ldap php5-mysql php-apc php5-snmp),
+    '13.10' => %w(cacti libsnmp-base libsnmp30 snmp snmpd libnet-ldap-perl libnet-snmp-perl php-net-ldap php5-mysql php-apc php5-snmp),
+    'default' => %w(cacti libsnmp-base libsnmp15 snmp snmpd libnet-ldap-perl libnet-snmp-perl php-net-ldap php5-mysql php-apc php5-snmp)
   }
 )
 default['cacti']['poller_cmd'] = value_for_platform(
-  %w{ pld } => {
+  %w(pld) => {
     'default' => "umask 022; exec #{node['cacti']['poller_file']} >> /var/log/cacti/poller.log 2>&1"
   },
-  %w{ centos fedora redhat ubuntu } => {
+  %w(centos fedora redhat ubuntu) => {
     'default' => "/usr/bin/php #{node['cacti']['poller_file']} > /dev/null 2>&1"
   }
 )
 default['cacti']['poller_file'] = value_for_platform(
-  %w{ centos fedora redhat } => {
+  %w(centos fedora redhat) => {
     'default' => '/usr/share/cacti/poller.php'
   },
-  %w{ pld } => {
+  %w(pld) => {
     'default' => '/usr/sbin/cacti-poller'
   },
-  %w{ ubuntu } => {
+  %w(ubuntu) => {
     'default' => '/usr/share/cacti/site/poller.php'
   }
 )
 
 default['cacti']['user'] = 'cacti'
 default['cacti']['version'] = value_for_platform(
-  %w{ centos fedora redhat } => {
+  %w(centos fedora redhat) => {
     'default' => '0.8.8b'
   },
-  %w{ pld } => {
+  %w(pld) => {
     '2.0' => '0.8.7i',
     'default' => '0.8.8b'
   },
-  %w{ ubuntu } => {
+  %w(ubuntu) => {
     '12.04' => '0.8.7i',
-    %w{ 12.10 13.04 } => '0.8.8a',
+    %w(12.10 13.04) => '0.8.8a',
     '13.10' => '0.8.8b',
     'default' => '0.8.8a'
   }
@@ -82,10 +82,10 @@ default['cacti']['apache2']['server_aliases'] = [node['hostname']]
 default['cacti']['apache2']['server_name'] = node['fqdn']
 
 default['cacti']['apache2']['ssl']['certificate_file'] = value_for_platform(
-  %w{ pld } => {
+  %w(pld) => {
     'default' => '/etc/httpd/ssl/server.crt'
   },
-  %w{ centos fedora redhat ubuntu } => {
+  %w(centos fedora redhat ubuntu) => {
     'default' => '/etc/pki/tls/certs/localhost.crt'
   }
 )
@@ -94,10 +94,10 @@ default['cacti']['apache2']['ssl']['chain_file'] = ''
 default['cacti']['apache2']['ssl']['enabled'] = true
 default['cacti']['apache2']['ssl']['force'] = false
 default['cacti']['apache2']['ssl']['key_file'] = value_for_platform(
-  %w{ pld } => {
+  %w(pld) => {
     'default' => '/etc/httpd/ssl/server.key'
   },
-  %w{ centos fedora redhat ubuntu } => {
+  %w(centos fedora redhat ubuntu) => {
     'default' => '/etc/pki/tls/private/localhost.key'
   }
 )
@@ -114,17 +114,17 @@ default['cacti']['database']['user'] = 'cacti'
 # rrdtool attributes
 
 default['cacti']['rrdtool']['version'] = value_for_platform(
-  %w{ centos redhat } => {
+  %w(centos redhat) => {
     'default' => '1.3'
   },
-  %w{ fedora } => {
+  %w(fedora) => {
     'default' => '1.4'
   },
-  %w{ pld } => {
+  %w(pld) => {
     '2.0' => '1.2',
     'default' => '1.4'
   },
-  %w{ ubuntu } => {
+  %w(ubuntu) => {
     'default' => '1.4'
   }
 )
@@ -134,14 +134,14 @@ default['cacti']['rrdtool']['version'] = value_for_platform(
 default['cacti']['spine']['version'] = node['cacti']['version']
 default['cacti']['spine']['checksum'] = '2226070cd386a4955063a87e99df2fa861988a604a95f39bb8db2a301774b3ee'
 default['cacti']['spine']['packages'] = value_for_platform(
-  %w{ centos fedora redhat } => {
-    'default' => %w{ net-snmp-devel openssl-devel }
+  %w(centos fedora redhat) => {
+    'default' => %w(net-snmp-devel openssl-devel)
   },
-  %w{ pld } => {
-    'default' => %w{ net-snmp-devel openssl-devel }
+  %w(pld) => {
+    'default' => %w(net-snmp-devel openssl-devel)
   },
-  %w{ ubuntu } => {
-    'default' => %w{ libsnmp-dev libssl-dev }
+  %w(ubuntu) => {
+    'default' => %w(libsnmp-dev libssl-dev)
   }
 )
 default['cacti']['spine']['url'] = "http://www.cacti.net/downloads/spine/cacti-spine-#{node['cacti']['spine']['version']}.tar.gz"

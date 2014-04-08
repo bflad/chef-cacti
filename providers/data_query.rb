@@ -17,12 +17,10 @@ def data_query_exists?
   #
   # use --check patch: returns true if data query does not exist, returns false if data query exists
   # will raise exception, when option not supported
-  begin
-    r = add_data_query(params + ' --check')
-    !r
-  rescue
-    false
-  end
+  r = add_data_query(params + ' --check')
+  !r
+rescue
+  false
 end
 
 def params

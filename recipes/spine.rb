@@ -9,10 +9,10 @@ node['cacti']['spine']['packages'].each do |p|
 end
 
 remote_file "#{Chef::Config[:file_cache_path]}/cacti-spine-#{node['cacti']['spine']['version']}.tar.gz" do
-  source    node['cacti']['spine']['url']
-  checksum  node['cacti']['spine']['checksum']
-  mode      '0644'
-  action    :create_if_missing
+  source node['cacti']['spine']['url']
+  checksum node['cacti']['spine']['checksum']
+  mode '0644'
+  action :create_if_missing
 end
 
 execute "install_cacti_spine_#{node['cacti']['spine']['version']}" do

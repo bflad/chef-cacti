@@ -7,7 +7,12 @@ module Cacti
     # wrapper to add_device.php
     # @returns true if device is added, false if device already exists, exception otherwise
     def add_device(params)
-      command = %Q[#{cli_path}/add_device.php]
+      command = %Q(#{cli_path}/add_device.php)
+
+      file command do
+        mode '0755'
+      end
+
       command << params
 
       match = /This host already exists in the database \(.*?\) device-id: \(.*\)/
@@ -17,7 +22,12 @@ module Cacti
     # wrapper to add_graphs.php
     # @returns true if graph is added, false if graph already exists, exception otherwise
     def add_graphs(params)
-      command = %Q[#{cli_path}/add_graphs.php]
+      command = %Q(#{cli_path}/add_graphs.php)
+
+      file command do
+        mode '0755'
+      end
+
       command << params
 
       match = /NOTE: Not Adding Graph - this graph already exists - graph-id: \(.*?\) - data-source-id: \(.*?\)/
@@ -27,7 +37,12 @@ module Cacti
     # wrapper to add_tree.php
     # @returns true if tree is added, false if tree already exists, exception otherwise
     def add_tree(params)
-      command = %Q[#{cli_path}/add_tree.php]
+      command = %Q(#{cli_path}/add_tree.php)
+
+      file command do
+        mode '0755'
+      end
+
       command << params
 
       match = /ERROR: Not adding tree - it already exists - tree-id: \(.*?\)/
@@ -37,7 +52,12 @@ module Cacti
     # wrapper to add_data_query.php
     # @returns true if data query is added, false if data query already exists, exception otherwise
     def add_data_query(params)
-      command = %Q[#{cli_path}/add_data_query.php]
+      command = %Q(#{cli_path}/add_data_query.php)
+
+      file command do
+        mode '0755'
+      end
+
       command << params
 
       match = /ERROR: Data Query is already associated for host: \(\d+: .*?\) data query \(\d+: .*?\) reindex method \(\d+: .*?\)/
@@ -158,7 +178,7 @@ module Cacti
     def flatten_fields(fields)
       res = ''
       fields.each do |k, v|
-        res << %Q[#{k}="#{v}" ]
+        res << %Q(#{k}="#{v}" )
       end
 
       res.chop

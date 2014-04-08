@@ -8,10 +8,10 @@ if settings['database']['host'] == 'localhost'
     :host => settings['database']['host'],
     :port => settings['database']['port'],
     :username => value_for_platform(
-      %w{ pld } => {
+      %w(pld) => {
         'default' => 'mysql'
       },
-      %w{ centos fedora redhat ubuntu } => {
+      %w(centos fedora redhat ubuntu) => {
         'default' => 'root'
       }
     ),
@@ -25,13 +25,13 @@ if settings['database']['host'] == 'localhost'
   end
 
   cacti_sql_dir = value_for_platform(
-    %w{ ubuntu } => {
+    %w(ubuntu) => {
       'default' => '/usr/share/doc/cacti'
     },
-    %w{ pld } => {
+    %w(pld) => {
       'default' => '/usr/share/cacti/sql'
     },
-    %w{ centos fedora redhat } => {
+    %w(centos fedora redhat) => {
       'default' => "/usr/share/doc/cacti-#{node['cacti']['version']}"
     }
   )
@@ -63,10 +63,10 @@ if settings['database']['host'] == 'localhost'
     database_name settings['database']['name']
 
     cacti_log_path = value_for_platform(
-      %w{ pld } => {
+      %w(pld) => {
         'default' => '/var/log/cacti/cacti.log'
       },
-      %w{ centos fedora redhat ubuntu } => {
+      %w(centos fedora redhat ubuntu) => {
         'default' => '/usr/share/cacti/log/cacti.log'
       }
     )
