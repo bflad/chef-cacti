@@ -1,3 +1,7 @@
+## 0.5.1
+
+* Fix ordering of poller_file and poller_cmd
+
 ## 0.5.0
 
 * Add `cacti_device`, `cacti_graph`, `cacti_tree`, `cacti_data_query` LRWPs by Elan Ruusamäe ([@glensc][]) ([#5][])
