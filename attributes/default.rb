@@ -15,8 +15,11 @@ default['cacti']['group'] = value_for_platform(
   %w(pld) => {
     'default' => 'http'
   },
-  %w(centos fedora redhat ubuntu) => {
+  %w(centos fedora redhat) => {
     'default' => 'apache'
+  },
+  %w(ubuntu) => {
+    'default' => 'www-data'
   }
 )
 
