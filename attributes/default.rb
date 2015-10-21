@@ -84,12 +84,12 @@ default['cacti']['admin']['password'] = 'changeit'
 # Apache2 attributes
 
 default['cacti']['apache2']['conf_dir'] = value_for_platform(
-    %w(pld centos fedora redhat ubuntu) => {
-        default => '/etc/httpd/conf.d'
-    },
-    %w(debian) => {
-        default => '/etc/apache2/conf-available'
-    }
+  %w(pld centos fedora redhat ubuntu) => {
+    default => '/etc/httpd/conf.d'
+  },
+  %w(debian) => {
+    default => '/etc/apache2/conf-available'
+  }
 )
 default['cacti']['apache2']['doc_root'] = '/var/www/html'
 default['cacti']['apache2']['server_aliases'] = [node['hostname']]
@@ -104,7 +104,7 @@ default['cacti']['apache2']['ssl']['certificate_file'] = value_for_platform(
   },
   %w(debian) => {
     'default' => '/etc/ssl/certs/ssl-cert-snakeoil.pem'
-}
+  }
 )
 
 default['cacti']['apache2']['ssl']['chain_file'] = ''

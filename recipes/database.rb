@@ -70,20 +70,19 @@ if settings['database']['host'] == 'localhost'
 
   # Configure base Cacti settings in database
   cacti_log_path = value_for_platform(
-      %w(pld) => {
-          'default' => '/var/log/cacti/cacti.log'
-      },
-      %w(centos fedora redhat ubuntu debian) => {
-          'default' => '/usr/share/cacti/log/cacti.log'
-      }
+    %w(pld) => {
+      'default' => '/var/log/cacti/cacti.log'
+    },
+    %w(centos fedora redhat ubuntu debian) => {
+      'default' => '/usr/share/cacti/log/cacti.log'
+    }
   )
 
   template '/tmp/config.sql' do
     source 'config.sql.erb'
-    variables ({ :cacti_log_path => cacti_log_path,
-                 :settings => settings
-              })
-    notifies :run, "bash[import-cacti-settings-into-db]", :immediately
+    variables :cacti_log_path => cacti_log_path,
+              :settings => settings
+    notifies :run, 'bash[import-cacti-settings-into-db]', :immediately
   end
 
   bash 'import-cacti-settings-into-db' do
