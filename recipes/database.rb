@@ -1,8 +1,13 @@
 settings = Cacti.settings(node)
 
 if settings['database']['host'] == 'localhost'
-  include_recipe 'mysql::server'
-  include_recipe 'database::mysql'
+  include_recipe "#{node['cacti']['mysql_provider']}::server"
+
+  # Required by database cookbook
+  mysql2_chef_gem 'default' do
+    provider Chef::Provider::Mysql2ChefGem::Percona
+    action :install
+  end
 
   database_connection = {
     :host => settings['database']['host'],
@@ -11,7 +16,7 @@ if settings['database']['host'] == 'localhost'
       %w(pld) => {
         'default' => 'mysql'
       },
-      %w(centos fedora redhat ubuntu) => {
+      %w(centos fedora redhat ubuntu debian) => {
         'default' => 'root'
       }
     ),
@@ -51,6 +56,12 @@ if settings['database']['host'] == 'localhost'
 
   mysql_database_user settings['database']['user'] do
     connection database_connection
+    host 'localhost'
+    action :drop
+  end
+
+  mysql_database_user settings['database']['user'] do
+    connection database_connection
     host '%'
     password settings['database']['password']
     database_name settings['database']['name']
@@ -58,33 +69,30 @@ if settings['database']['host'] == 'localhost'
   end
 
   # Configure base Cacti settings in database
-  mysql_database 'configure_cacti_database_settings' do
-    connection database_connection
-    database_name settings['database']['name']
-
-    cacti_log_path = value_for_platform(
+  cacti_log_path = value_for_platform(
       %w(pld) => {
-        'default' => '/var/log/cacti/cacti.log'
+          'default' => '/var/log/cacti/cacti.log'
       },
-      %w(centos fedora redhat ubuntu) => {
-        'default' => '/usr/share/cacti/log/cacti.log'
+      %w(centos fedora redhat ubuntu debian) => {
+          'default' => '/usr/share/cacti/log/cacti.log'
       }
-    )
+  )
 
-    sql <<-SQL
-      INSERT INTO `settings` (`name`,`value`) VALUES ("path_rrdtool","/usr/bin/rrdtool") ON DUPLICATE KEY UPDATE `value`="/usr/bin/rrdtool";
-      INSERT INTO `settings` (`name`,`value`) VALUES ("path_php_binary","/usr/bin/php") ON DUPLICATE KEY UPDATE `value`="/usr/bin/php";
-      INSERT INTO `settings` (`name`,`value`) VALUES ("path_snmpwalk","/usr/bin/snmpwalk") ON DUPLICATE KEY UPDATE `value`="/usr/bin/snmpwalk";
-      INSERT INTO `settings` (`name`,`value`) VALUES ("path_snmpget","/usr/bin/snmpget") ON DUPLICATE KEY UPDATE `value`="/usr/bin/snmpget";
-      INSERT INTO `settings` (`name`,`value`) VALUES ("path_snmpbulkwalk","/usr/bin/snmpbulkwalk") ON DUPLICATE KEY UPDATE `value`="/usr/bin/snmpbulkwalk";
-      INSERT INTO `settings` (`name`,`value`) VALUES ("path_snmpgetnext","/usr/bin/snmpgetnext") ON DUPLICATE KEY UPDATE `value`="/usr/bin/snmpgetnext";
-      INSERT INTO `settings` (`name`,`value`) VALUES ("path_cactilog","#{cacti_log_path}") ON DUPLICATE KEY UPDATE `value`="#{cacti_log_path}";
-      INSERT INTO `settings` (`name`,`value`) VALUES ("snmp_version","net-snmp") ON DUPLICATE KEY UPDATE `value`="net-snmp";
-      INSERT INTO `settings` (`name`,`value`) VALUES ("rrdtool_version","rrd-#{node['cacti']['rrdtool']['version']}.x") ON DUPLICATE KEY UPDATE `value`="rrd-#{node['cacti']['rrdtool']['version']}.x";
-      INSERT INTO `settings` (`name`,`value`) VALUES ("path_webroot","/usr/share/cacti") ON DUPLICATE KEY UPDATE `value`="/usr/share/cacti";
-      UPDATE `user_auth` SET `password`=md5('#{settings['admin']['password']}'), `must_change_password`="" WHERE `username`='admin';
-      UPDATE `version` SET `cacti`="#{node['cacti']['version']}";
-    SQL
-    action :query
+  template '/tmp/config.sql' do
+    source 'config.sql.erb'
+    variables ({ :cacti_log_path => cacti_log_path,
+                 :settings => settings
+              })
+    notifies :run, "bash[import-cacti-settings-into-db]", :immediately
+  end
+
+  bash 'import-cacti-settings-into-db' do
+    user 'root'
+    code "mysql #{settings['database']['name']} < /tmp/config.sql"
+    action :nothing
+  end
+
+  file '/tmp/config.sql' do
+    action :delete
   end
 end
