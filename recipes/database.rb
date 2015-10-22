@@ -30,7 +30,7 @@ if settings['database']['host'] == 'localhost'
   end
 
   cacti_sql_dir = value_for_platform(
-    %w(ubuntu) => {
+    %w(ubuntu debian) => {
       'default' => '/usr/share/doc/cacti'
     },
     %w(pld) => {
