@@ -6,6 +6,8 @@
   ServerName <%= @params[:server_name] %>
   ServerAlias <% @params[:server_aliases].each do |a| %><%= a %> <% end %>
   DocumentRoot <%= @params[:doc_root] %>
+
+  Alias /javascript /usr/share/javascript
   
   CustomLog <%= node['apache']['log_dir'] %>/<%= @params[:name] %>-access.log combined
   ErrorLog <%= node['apache']['log_dir'] %>/<%= @params[:name] %>-error.log
@@ -24,6 +26,8 @@
   ServerName <%= @params[:server_name] %>
   ServerAlias <% @params[:server_aliases].each do |a| %><%= a %> <% end %>
   DocumentRoot <%= @params[:doc_root] %>
+
+  Alias /javascript /usr/share/javascript
 
   CustomLog <%= node['apache']['log_dir'] %>/<%= @params[:name] %>-ssl-access.log combined
   ErrorLog <%= node['apache']['log_dir'] %>/<%= @params[:name] %>-ssl-error.log
