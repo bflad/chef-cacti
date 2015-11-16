@@ -2,7 +2,7 @@ settings = Cacti.settings(node)
 
 # Install Spine dependencies
 include_recipe 'build-essential'
-include_recipe 'mysql::client'
+include_recipe 'mysql'
 
 node['cacti']['spine']['packages'].each do |p|
   package p

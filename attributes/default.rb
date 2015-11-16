@@ -28,9 +28,9 @@ default['cacti']['packages'] = value_for_platform(
     'default' => %w(cacti cacti-setup)
   },
   %w(ubuntu) => {
-    %w(12.04 12.10 13.04) => %w(cacti libsnmp-base libsnmp15 snmp snmpd libnet-ldap-perl libnet-snmp-perl php-net-ldap php5-mysql php-apc php5-snmp),
+    %w(12.04 12.10 13.04) => %w(cacti libsnmp-base snmp snmpd libnet-ldap-perl libnet-snmp-perl php-net-ldap php5-mysql php-apc php5-snmp),
     '13.10' => %w(cacti libsnmp-base libsnmp30 snmp snmpd libnet-ldap-perl libnet-snmp-perl php-net-ldap php5-mysql php-apc php5-snmp),
-    'default' => %w(cacti libsnmp-base libsnmp15 snmp snmpd libnet-ldap-perl libnet-snmp-perl php-net-ldap php5-mysql php-apc php5-snmp)
+    'default' => %w(cacti libsnmp-base snmp snmpd libnet-ldap-perl libnet-snmp-perl php-net-ldap php5-mysql php-apc php5-snmp)
   }
 )
 default['cacti']['poller_file'] = value_for_platform(
