@@ -15,8 +15,11 @@ default['cacti']['group'] = value_for_platform(
   %w(pld) => {
     'default' => 'http'
   },
-  %w(centos fedora redhat ubuntu) => {
+  %w(centos fedora redhat) => {
     'default' => 'apache'
+  },
+  %w(ubuntu debian) => {
+    'default' => 'www-data'
   }
 )
 
@@ -76,17 +79,33 @@ default['cacti']['admin']['password'] = 'changeit'
 
 # Apache2 attributes
 
-default['cacti']['apache2']['conf_dir'] = '/etc/httpd/conf.d'
+default['cacti']['apache2']['conf_dir'] = value_for_platform(
+  %w(centos fedora redhat) => {
+    'default' => '/etc/httpd/conf.d'
+    },
+  %w('ubuntu debian') => {
+    'default' => '/etc/apache2/conf.d'
+  }
+)
 default['cacti']['apache2']['doc_root'] = '/var/www/html'
 default['cacti']['apache2']['server_aliases'] = [node['hostname']]
 default['cacti']['apache2']['server_name'] = node['fqdn']
 
-default['cacti']['apache2']['ssl']['certificate_file'] = value_for_platform(
+default['cacti']['apache2']['ssl']['certificate_directory'] = value_for_platform(
   %w(pld) => {
-    'default' => '/etc/httpd/ssl/server.crt'
+    'default' => '/etc/httpd/ssl/'
   },
   %w(centos fedora redhat ubuntu) => {
-    'default' => '/etc/pki/tls/certs/localhost.crt'
+    'default' => '/etc/pki/tls/certs/'
+  }
+)
+
+default['cacti']['apache2']['ssl']['certificate_file'] = value_for_platform(
+  %w(pld) => {
+    'default' => default['cacti']['apache2']['ssl']['certificate_directory'] + 'server.crt'
+  },
+  %w(centos fedora redhat ubuntu) => {
+    'default' => default['cacti']['apache2']['ssl']['certificate_directory'] + 'localhost.crt'
   }
 )
 
@@ -95,16 +114,16 @@ default['cacti']['apache2']['ssl']['enabled'] = true
 default['cacti']['apache2']['ssl']['force'] = false
 default['cacti']['apache2']['ssl']['key_file'] = value_for_platform(
   %w(pld) => {
-    'default' => '/etc/httpd/ssl/server.key'
+    'default' => default['cacti']['apache2']['ssl']['certificate_directory'] + 'server.key'
   },
   %w(centos fedora redhat ubuntu) => {
-    'default' => '/etc/pki/tls/private/localhost.key'
+    'default' => default['cacti']['apache2']['ssl']['certificate_directory'] + 'localhost.key'
   }
 )
 
 # database attributes (override via cacti/server data bag)
 
-default['cacti']['database']['host'] = 'localhost'
+default['cacti']['database']['host'] = '127.0.0.1'
 default['cacti']['database']['name'] = 'cacti'
 default['cacti']['database']['password'] = 'changeit'
 default['cacti']['database']['port'] = 3306

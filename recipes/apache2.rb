@@ -1,7 +1,7 @@
 include_recipe 'apache2'
+include_recipe 'apache2::mpm_prefork'
 include_recipe 'apache2::mod_php5'
 include_recipe 'apache2::mod_rewrite'
-include_recipe 'apache2::mod_ssl'
 
 template "#{node['cacti']['apache2']['conf_dir']}/cacti.conf" do
   source 'cacti.conf.erb'
