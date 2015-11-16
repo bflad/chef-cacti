@@ -17,6 +17,6 @@ template node['cacti']['db_file'] do
   group node['cacti']['group']
   mode 00640
   variables(
-    :database => settings['database']
+    :database => node['cacti']['database']
   )
 end

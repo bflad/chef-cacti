@@ -4,6 +4,10 @@ mysql2_chef_gem 'default' do
   action :install
 end
 
+mysql_client 'default' do   
+  action :create   
+end
+
 if settings['database']['host'] == 'localhost' || settings['database']['host'] == '127.0.0.1'
 
   mysql_service 'cacti' do
@@ -47,17 +51,11 @@ if settings['database']['host'] == 'localhost' || settings['database']['host'] =
 
   execute 'setup_cacti_database' do
     cwd cacti_sql_dir
-    command "mysql -u #{database_connection[:username]} -p#{database_connection[:password]} #{settings['database']['name']} < cacti.sql"
+    command "mysql -h #{database_connection[:host]} -u #{database_connection[:username]} -p#{database_connection[:password]} #{settings['database']['name']} < cacti.sql"
     action :nothing
   end
 
-  # See this MySQL bug: http://bugs.mysql.com/bug.php?id=31061
-  mysql_database_user '' do
-    connection database_connection
-    host 'localhost'
-    action :drop
-  end
-
+  log "Creating database user"
   mysql_database_user settings['database']['user'] do
     connection database_connection
     host '%'
@@ -81,18 +79,7 @@ if settings['database']['host'] == 'localhost' || settings['database']['host'] =
     )
 
     sql <<-SQL
-      INSERT INTO `settings` (`name`,`value`) VALUES ("path_rrdtool","/usr/bin/rrdtool") ON DUPLICATE KEY UPDATE `value`="/usr/bin/rrdtool";
-      INSERT INTO `settings` (`name`,`value`) VALUES ("path_php_binary","/usr/bin/php") ON DUPLICATE KEY UPDATE `value`="/usr/bin/php";
-      INSERT INTO `settings` (`name`,`value`) VALUES ("path_snmpwalk","/usr/bin/snmpwalk") ON DUPLICATE KEY UPDATE `value`="/usr/bin/snmpwalk";
-      INSERT INTO `settings` (`name`,`value`) VALUES ("path_snmpget","/usr/bin/snmpget") ON DUPLICATE KEY UPDATE `value`="/usr/bin/snmpget";
-      INSERT INTO `settings` (`name`,`value`) VALUES ("path_snmpbulkwalk","/usr/bin/snmpbulkwalk") ON DUPLICATE KEY UPDATE `value`="/usr/bin/snmpbulkwalk";
-      INSERT INTO `settings` (`name`,`value`) VALUES ("path_snmpgetnext","/usr/bin/snmpgetnext") ON DUPLICATE KEY UPDATE `value`="/usr/bin/snmpgetnext";
-      INSERT INTO `settings` (`name`,`value`) VALUES ("path_cactilog","#{cacti_log_path}") ON DUPLICATE KEY UPDATE `value`="#{cacti_log_path}";
-      INSERT INTO `settings` (`name`,`value`) VALUES ("snmp_version","net-snmp") ON DUPLICATE KEY UPDATE `value`="net-snmp";
-      INSERT INTO `settings` (`name`,`value`) VALUES ("rrdtool_version","rrd-#{node['cacti']['rrdtool']['version']}.x") ON DUPLICATE KEY UPDATE `value`="rrd-#{node['cacti']['rrdtool']['version']}.x";
-      INSERT INTO `settings` (`name`,`value`) VALUES ("path_webroot","/usr/share/cacti") ON DUPLICATE KEY UPDATE `value`="/usr/share/cacti";
-      UPDATE `user_auth` SET `password`=md5('#{settings['admin']['password']}'), `must_change_password`="" WHERE `username`='admin';
-      UPDATE `version` SET `cacti`="#{node['cacti']['version']}";
+      UPDATE `user_auth` SET `password`=md5('#{settings['admin']['password']}'), `must_change_password`='' WHERE `username`='admin';
     SQL
     action :query
   end
