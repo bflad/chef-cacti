@@ -271,6 +271,7 @@ Please use standard Github issues/pull requests.
 
 ## Contributors
 
+* Kristen Arnold ([@karnold][])
 * Brian Flad (<bflad417@gmail.com>)
 * Morgan Blackthorne ([@stormerider][])
 * Elan Ruusamäe ([@glensc][])
