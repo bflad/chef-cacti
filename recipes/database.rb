@@ -1,8 +1,14 @@
 settings = Cacti.settings(node)
 
+mysql_client 'default' do
+  action :create
+end
+
+mysql2_chef_gem 'default' do
+  action :install
+end
+
 if settings['database']['host'] == 'localhost'
-  include_recipe 'mysql::server'
-  include_recipe 'database::mysql'
 
   database_connection = {
     :host => settings['database']['host'],
@@ -22,6 +28,13 @@ if settings['database']['host'] == 'localhost'
     connection database_connection
     action :create
     notifies :run, 'execute[setup_cacti_database]', :immediately
+  end
+
+  mysql_service 'cacti' do
+    port '3306'
+    version '5.5'
+    initial_root_password node['mysql']['server_root_password']
+    action [:create, :start]
   end
 
   cacti_sql_dir = value_for_platform(

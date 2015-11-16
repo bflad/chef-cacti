@@ -12,7 +12,7 @@ recipe 'cacti::database', 'Installs/configures Cacti MySQL server'
 recipe 'cacti::package', 'Installs Cacti via packages'
 recipe 'cacti::spine', 'Installs Spine for Cacti server'
 
-%w(apache2 apt build-essential cron database mysql yum-epel).each do |d|
+%w(apache2 apt build-essential cron database mysql yum-epel mysql2_chef_gem).each do |d|
   depends d
 end
 
