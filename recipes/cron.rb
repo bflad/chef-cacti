@@ -1,4 +1,4 @@
-cron_d 'cacti' do
+cron 'cacti' do
   minute node['cacti']['cron_minute']
   command node['cacti']['poller_cmd']
   user node['cacti']['user']
