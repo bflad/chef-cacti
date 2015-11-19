@@ -2,13 +2,13 @@ settings = Cacti.settings(node)
 
 group "cacti" do
 	action :create
-	gid 9999
+	gid 6666
 end
 
 user "cacti" do
 	action :create
-	uid 9999
-	gid 9999
+	uid 6666
+	gid 6666
 end
 
 template node['cacti']['db_file'] do
