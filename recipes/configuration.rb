@@ -11,6 +11,10 @@ user "cacti" do
 	gid 6666
 end
 
+execute "set cacti permissions" do
+  command "chown -R cacti:cacti /var/lib/cacti"
+end
+
 template node['cacti']['db_file'] do
   source 'db.php.erb'
   owner node['cacti']['user']
