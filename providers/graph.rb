@@ -31,7 +31,8 @@ def params
   params = {
     'graph-template-id' => get_graph_template_id(@new_resource.graph_template_id),
     'host-id' => get_host_id(@new_resource.host_id),
-    'graph-type' => @new_resource.graph_type
+    'graph-type' => @new_resource.graph_type,
+    'graph-title' => @new_resource.graph_title
   }
 
   case @new_resource.graph_type
