@@ -1,18 +1,21 @@
 settings = Cacti.settings(node)
 
-group "cacti" do
-	action :create
-	gid 6666
-end
-
 user "cacti" do
 	action :create
 	uid 6666
 	gid 6666
 end
 
-execute "set cacti permissions" do
-  command "chown -R cacti:cacti /var/lib/cacti"
+group "cacti" do
+  action :create
+  gid 6666
+  members ["cacti", "www-data"]
+end
+
+directory "/var/lib/cacti/rra" do
+  mode 00775
+  owner node['cacti']['user']
+  group node['cacti']['group']
 end
 
 template node['cacti']['db_file'] do
