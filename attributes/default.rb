@@ -92,18 +92,6 @@ default['cacti']['poller_cmd'] = value_for_platform(
   }
 )
 
-default['cacti']['sql_dir'] = value_for_platform(
-  %w(debian ubuntu) => {
-    'default' => '/usr/share/doc/cacti'
-  },
-  %w(pld) => {
-    'default' => '/usr/share/cacti/sql'
-  },
-  %w(centos fedora redhat) => {
-    'default' => "/usr/share/doc/cacti-#{node['cacti']['version']}"
-  }
-)
-
 default['cacti']['uid'] = nil
 default['cacti']['user'] = 'cacti'
 default['cacti']['version'] = value_for_platform(
@@ -122,6 +110,19 @@ default['cacti']['version'] = value_for_platform(
   },
   %w(debian) => {
     'default' => '0.8.8a'
+  }
+)
+
+# depends on version attribute
+default['cacti']['sql_dir'] = value_for_platform(
+  %w(debian ubuntu) => {
+    'default' => '/usr/share/doc/cacti'
+  },
+  %w(pld) => {
+    'default' => '/usr/share/cacti/sql'
+  },
+  %w(centos fedora redhat) => {
+    'default' => "/usr/share/doc/cacti-#{node['cacti']['version']}"
   }
 )
 

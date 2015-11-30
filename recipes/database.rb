@@ -1,7 +1,18 @@
 settings = Cacti.settings(node)
 
 if settings['database']['host'] == 'localhost' || settings['database']['host'] == '127.0.0.1'
-  include_recipe 'cacti::database_client'
+  mysql2_chef_gem 'default' do
+    provider Chef::Provider::Mysql2ChefGem::Percona if node['cacti']['mysql_provider'] == 'percona'
+    action :install
+  end
+
+  if node['cacti']['mysql_provider'] == 'percona'
+    include 'percona::client'
+  else
+    mysql_client 'default' do   
+      action :create   
+    end
+  end
 
   if node['cacti']['mysql_provider'] == 'percona'
     include_recipe 'percona::server'

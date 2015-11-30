@@ -122,7 +122,6 @@ url | URL for Spine installation | String | `http://www.cacti.net/downloads/spin
 * `recipe[cacti::configuration]` Configures Cacti configuration files
 * `recipe[cacti::cron]` Installs Cacti polling cron entry
 * `recipe[cacti::database]` Installs/configures Cacti MySQL server
-* `recipe[cacti::database_client]` Installs/configures Cacti database client
 * `recipe[cacti::package]` Installs Cacti via packages
 * `recipe[cacti::spine]` Install Spine for Cacti
 
