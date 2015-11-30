@@ -42,13 +42,15 @@ Attribute | Description | Type | Default
 cacti_dir | Directory for Cacti installation | String | /usr/share/cacti
 cron_minute | Schedule to pass to cron | String | */5
 db_file | Database configuration file for Cacti | String | auto-detected (see attributes/default.rb)
-gid | Group ID for Cacti group | String | nil
+gid | Group ID for Cacti group | Fixnum | nil
 group | Group to own Cacti files | String | apache2
+log_file | Log file for Cacti | String | auto-detected (see attributes/default.rb)
 packages | Packages for Cacti installation | Array | auto-detected (see attributes/default.rb)
 mysql_provider | MySQL Provider to be used (mysql/percona) | String | mysql
 poller_cmd | Poller command to run | String | auto-detected (see attributes/default.rb)
 poller_file | Poller file for Cacti | String | auto-detected (see attributes/default.rb)
-uid | Username ID for Cacti user | String | nil
+sql_dir | SQL directory for Cacti | String | auto-detected (see attributes/default.rb)
+uid | Username ID for Cacti user | Fixnum | nil
 user | Username to own Cacti files | String | cacti
 version | Version of Cacti to install or installed | String | auto-detected (see attributes/default.rb)
 
@@ -107,10 +109,10 @@ These attributes are under the `node['cacti']['spine']` namespace.
 
 Attribute | Description | Type | Default
 ----------|-------------|------|--------
-checksum | Checksum for Spine | String | auto-detected (see attributes/default.rb)
+checksum | Checksum for Spine | String | auto-detected (see libraries/cacti.rb)
+enabled | Install and configure database for Spine | FalseClass, TrueClass | false
 packages | Packages for Spine installation | Array | auto-detected (see attributes/default.rb)
-url | URL for Spine installation | String | `http://www.cacti.net/downloads/spine/cacti-spine-#{node['cacti']['spine']['version']}.tar.gz`
-version | Version of Spine to install | String | `node['cacti']['version']`
+url | URL for Spine installation | String | `http://www.cacti.net/downloads/spine/cacti-spine-#{node['cacti']['version']}.tar.gz`
 
 ## Recipes
 

@@ -27,6 +27,24 @@ class Chef
         settings
       end
 
+      def self.spine_checksum(node)
+        return node['cacti']['spine']['checksum'] if node['cacti']['spine']['checksum']
+        case node['cacti']['version']
+        when '0.8.7i'; '94596d8f083666e5c9be12cc364418e31654b8ff29b6837b305009adcad91c6b'
+        when '0.8.8a'; '2226070cd386a4955063a87e99df2fa861988a604a95f39bb8db2a301774b3ee'
+        when '0.8.8b'; 'fc5d512c1de46db2b48422856e8c6a5816d110083d0bbbf7f9d660f0829912a6'
+        else
+          Chef::Log.warn("No checksum found for spine version: #{node['cacti']['version']}")
+          Chef::Log.warn('Please add to Cacti cookbook or set node["cacti"]["spine"]["checksum"] attribute.')
+          nil
+        end
+      end
+
+      def self.spine_url(node)
+        return node['cacti']['spine']['url'] if node['cacti']['spine']['url']
+        "http://www.cacti.net/downloads/spine/cacti-spine-#{node['cacti']['version']}.tar.gz"
+      end
+
       def default_database_port(type)
         case type
         when 'mysql'

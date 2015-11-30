@@ -1,6 +1,6 @@
 settings = Cacti.settings(node)
 
-user node['cacti']['user']
+user node['cacti']['user'] do
 	gid node['cacti']['gid'] if node['cacti']['gid']
 	uid node['cacti']['uid'] if node['cacti']['uid']
 end

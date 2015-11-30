@@ -48,6 +48,15 @@ default['cacti']['group'] = value_for_platform(
   }
 )
 
+default['cacti']['log_file'] = value_for_platform(
+  %w(pld) => {
+    'default' => '/var/log/cacti/cacti.log'
+  },
+  %w(centos debian fedora redhat ubuntu) => {
+    'default' => '/usr/share/cacti/log/cacti.log'
+  }
+)
+
 default['cacti']['mysql_provider'] = 'mysql'
 
 default['cacti']['packages'] = value_for_platform(
@@ -80,6 +89,18 @@ default['cacti']['poller_cmd'] = value_for_platform(
   },
   %w(centos debian fedora redhat ubuntu) => {
     'default' => "/usr/bin/php #{node['cacti']['poller_file']} > /dev/null 2>&1"
+  }
+)
+
+default['cacti']['sql_dir'] = value_for_platform(
+  %w(debian ubuntu) => {
+    'default' => '/usr/share/doc/cacti'
+  },
+  %w(pld) => {
+    'default' => '/usr/share/cacti/sql'
+  },
+  %w(centos fedora redhat) => {
+    'default' => "/usr/share/doc/cacti-#{node['cacti']['version']}"
   }
 )
 
@@ -171,8 +192,8 @@ default['cacti']['rrdtool']['version'] = value_for_platform(
 
 # Spine attributes
 
-default['cacti']['spine']['version'] = node['cacti']['version']
-default['cacti']['spine']['checksum'] = '2226070cd386a4955063a87e99df2fa861988a604a95f39bb8db2a301774b3ee'
+default['cacti']['spine']['checksum'] = nil
+default['cacti']['spine']['enabled'] = false
 default['cacti']['spine']['packages'] = value_for_platform(
   %w(centos fedora redhat) => {
     'default' => %w(net-snmp-devel openssl-devel)
@@ -184,4 +205,4 @@ default['cacti']['spine']['packages'] = value_for_platform(
     'default' => %w(libsnmp-dev libssl-dev)
   }
 )
-default['cacti']['spine']['url'] = "http://www.cacti.net/downloads/spine/cacti-spine-#{node['cacti']['spine']['version']}.tar.gz"
+default['cacti']['spine']['url'] = nil
