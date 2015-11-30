@@ -1,3 +1,14 @@
+## 0.6.0
+
+* Pin older cookbook dependency versions preparing for 1.0.0 upgrade (your environment may not want/need this intermediate release for this change)
+  * apache2 ~> 1.0
+  * database 2.3.1
+  * mysql ~> 5.0
+* Add cli_executable recipe to ensure scripts are executable beforehand (fixes file resource call in cli library)
+* Use apache_conf resource
+* Fix cacti_test::graph_lwrp for all platforms
+* Switch to bento boxes in Atlas for Test Kitchen and Vagrant
+
 ## 0.5.1
 
 * Fix ordering of poller_file and poller_cmd
