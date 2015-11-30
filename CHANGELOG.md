@@ -1,3 +1,24 @@
+## 1.0.0
+
+### BREAKING CHANGES
+* Cookbook dependencies major upgrades
+  * apache >= 2.0
+  * database >= 3.0
+  * mysql >= 6.0 (please look at https://github.com/chef-cookbooks/mysql README for this upgrade)
+* `node['cacti']['database']['host']` defaults to 127.0.0.1 instead of localhost
+* `node['cacti']['spine']['enabled']` required for spine automatic database config now or including in default recipe
+
+* [#16][]: (thanks @ajardan!)
+  * Initial support for Debian
+  * Support configurable MySQL cookbook (e.g. percona)
+* [#17][]: (thanks @karnold!)
+  * Support database 3.0+ and mysql 6.0+ dependencies
+  * Support graph-title parameter for graph provider
+* Add support for Ubuntu 15.04
+* Add gid/uid attributes for fine grained user/group management
+* Add spine enabled attribute for easier usage
+* Better spine checksum/url auto-detection
+
 ## 0.6.0
 
 * Pin older cookbook dependency versions preparing for 1.0.0 upgrade (your environment may not want/need this intermediate release for this change)
@@ -53,5 +74,7 @@
 * Initial release.
 
 [#5]: https://github.com/bflad/chef-cacti/pull/5
+[#16]: https://github.com/bflad/chef-cacti/pull/16
+[#17]: https://github.com/bflad/chef-cacti/pull/17
 [@glensc]: https://github.com/glensc
 [@stormerider]: https://github.com/stormerider

@@ -12,10 +12,12 @@ Install/configures Cacti and optionally Spine.
 
 ### Platforms
 
-* CentOS 6
+* CentOS 6, 7
+* Debian 7, 8
 * Fedora 19, 20
 * PLD Linux Th (Experimental)
-* Red Hat Enterprise Linux 6
+* Red Hat Enterprise Linux 6, 7
+* Ubuntu 14.04, 15.04
 
 ### Databases
 
@@ -40,10 +42,15 @@ Attribute | Description | Type | Default
 cacti_dir | Directory for Cacti installation | String | /usr/share/cacti
 cron_minute | Schedule to pass to cron | String | */5
 db_file | Database configuration file for Cacti | String | auto-detected (see attributes/default.rb)
+gid | Group ID for Cacti group | Fixnum | nil
 group | Group to own Cacti files | String | apache2
+log_file | Log file for Cacti | String | auto-detected (see attributes/default.rb)
 packages | Packages for Cacti installation | Array | auto-detected (see attributes/default.rb)
+mysql_provider | MySQL Provider to be used (mysql/percona) | String | mysql
 poller_cmd | Poller command to run | String | auto-detected (see attributes/default.rb)
 poller_file | Poller file for Cacti | String | auto-detected (see attributes/default.rb)
+sql_dir | SQL directory for Cacti | String | auto-detected (see libraries/cli.rb)
+uid | Username ID for Cacti user | Fixnum | nil
 user | Username to own Cacti files | String | cacti
 version | Version of Cacti to install or installed | String | auto-detected (see attributes/default.rb)
 
@@ -81,7 +88,7 @@ All of these `node['cacti']['database']` attributes are overridden by `cacti/ser
 
 Attribute | Description | Type | Default
 ----------|-------------|------|--------
-host | FQDN or "localhost" (localhost automatically installs `['database']['type']` server) | String | localhost
+host | FQDN/IP (localhost/127.0.0.1 automatically installs `['database']['type']` server) | String | 127.0.0.1
 name | Cacti database name | String | cacti
 password | Cacti database user password | String | changeit
 port | Cacti database port | Fixnum | 3306
@@ -102,15 +109,16 @@ These attributes are under the `node['cacti']['spine']` namespace.
 
 Attribute | Description | Type | Default
 ----------|-------------|------|--------
-checksum | Checksum for Spine | String | auto-detected (see attributes/default.rb)
+checksum | Checksum for Spine | String | auto-detected (see libraries/cacti.rb)
+enabled | Install and configure database for Spine | FalseClass, TrueClass | false
 packages | Packages for Spine installation | Array | auto-detected (see attributes/default.rb)
-url | URL for Spine installation | String | `http://www.cacti.net/downloads/spine/cacti-spine-#{node['cacti']['spine']['version']}.tar.gz`
-version | Version of Spine to install | String | `node['cacti']['version']`
+url | URL for Spine installation | String | `http://www.cacti.net/downloads/spine/cacti-spine-#{node['cacti']['version']}.tar.gz`
 
 ## Recipes
 
 * `recipe[cacti]` Installs/configures Cacti
 * `recipe[cacti::apache2]` Installs/configures Apache 2 and PHP for Cacti
+* `recipe[cacti::cli_executable]` Ensures Cacti CLI scripts are executable
 * `recipe[cacti::configuration]` Configures Cacti configuration files
 * `recipe[cacti::cron]` Installs Cacti polling cron entry
 * `recipe[cacti::database]` Installs/configures Cacti MySQL server
@@ -267,6 +275,7 @@ Please use standard Github issues/pull requests.
 
 ## Contributors
 
+* Kristen Arnold ([@karnold][])
 * Brian Flad (<bflad417@gmail.com>)
 * Morgan Blackthorne ([@stormerider][])
 * Elan Ruusamäe ([@glensc][])

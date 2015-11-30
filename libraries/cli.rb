@@ -7,7 +7,7 @@ module Cacti
     # wrapper to add_device.php
     # @returns true if device is added, false if device already exists, exception otherwise
     def add_device(params)
-      command = %Q(#{cli_path}/add_device.php)
+      command = %(#{cli_path}/add_device.php)
       command << params
 
       match = /This host already exists in the database \(.*?\) device-id: \(.*\)/
@@ -17,7 +17,7 @@ module Cacti
     # wrapper to add_graphs.php
     # @returns true if graph is added, false if graph already exists, exception otherwise
     def add_graphs(params)
-      command = %Q(#{cli_path}/add_graphs.php)
+      command = %(#{cli_path}/add_graphs.php)
       command << params
 
       match = /NOTE: Not Adding Graph - this graph already exists - graph-id: \(.*?\) - data-source-id: \(.*?\)/
@@ -27,7 +27,7 @@ module Cacti
     # wrapper to add_tree.php
     # @returns true if tree is added, false if tree already exists, exception otherwise
     def add_tree(params)
-      command = %Q(#{cli_path}/add_tree.php)
+      command = %(#{cli_path}/add_tree.php)
       command << params
 
       match = /ERROR: Not adding tree - it already exists - tree-id: \(.*?\)/
@@ -37,7 +37,7 @@ module Cacti
     # wrapper to add_data_query.php
     # @returns true if data query is added, false if data query already exists, exception otherwise
     def add_data_query(params)
-      command = %Q(#{cli_path}/add_data_query.php)
+      command = %(#{cli_path}/add_data_query.php)
       command << params
 
       match = /ERROR: Data Query is already associated for host: \(\d+: .*?\) data query \(\d+: .*?\) reindex method \(\d+: .*?\)/
@@ -46,7 +46,7 @@ module Cacti
 
     # resolve template id from template name
     def get_device_template_id(template)
-      return template if template.kind_of?(Integer)
+      return template if template.is_a?(Integer)
 
       command = "#{cli_path}/add_device.php --list-host-templates"
       id = get_id_from_output(command, template)
@@ -56,7 +56,7 @@ module Cacti
 
     # resolve host id from host name
     def get_host_id(host)
-      return host if host.kind_of?(Integer)
+      return host if host.is_a?(Integer)
 
       command = "#{cli_path}/add_graphs.php --list-hosts"
 
@@ -68,7 +68,7 @@ module Cacti
     # resolve graph template_id from template name
     # TODO: host specific list support
     def get_graph_template_id(template)
-      return template if template.kind_of?(Integer)
+      return template if template.is_a?(Integer)
 
       command = "#{cli_path}/add_graphs.php --list-graph-templates"
 
@@ -80,7 +80,7 @@ module Cacti
     # param: snmp_query_id or snmp_query_name
     # TODO: be host specific to catch errors early
     def get_snmp_query_id(snmp_query_id)
-      return snmp_query_id if snmp_query_id.kind_of?(Integer)
+      return snmp_query_id if snmp_query_id.is_a?(Integer)
 
       command = "#{cli_path}/add_graphs.php --list-snmp-queries"
 
@@ -91,7 +91,7 @@ module Cacti
 
     # get snmp_query_type_id for query_id matching query_type
     def get_snmp_query_type_id(query_id, query_type)
-      return query_type if query_type.kind_of?(Integer)
+      return query_type if query_type.is_a?(Integer)
 
       command = "#{cli_path}/add_graphs.php --snmp-query-id=#{query_id} --list-query-types"
       id = get_id_from_output(command, query_type)
@@ -101,7 +101,7 @@ module Cacti
 
     # get tree id
     def get_tree_id(tree_id)
-      return tree_id if tree_id.kind_of?(Integer)
+      return tree_id if tree_id.is_a?(Integer)
 
       command = "#{cli_path}/add_tree.php --list-trees"
       id = get_id_from_output(command, tree_id, 2)
@@ -111,7 +111,7 @@ module Cacti
 
     # get node id in a tree
     def get_tree_node_id(tree_id, node_id)
-      return node_id if node_id.kind_of?(Integer)
+      return node_id if node_id.is_a?(Integer)
 
       command = "#{cli_path}/add_tree.php --tree-id=#{tree_id} --list-nodes"
 
@@ -122,7 +122,7 @@ module Cacti
 
     # get RRA id
     def get_rra_id(rra_id)
-      return rra_id if rra_id.kind_of?(Integer)
+      return rra_id if rra_id.is_a?(Integer)
 
       command = "#{cli_path}/add_tree.php --list-rras"
 
@@ -133,7 +133,7 @@ module Cacti
 
     # get Graph id for host_id
     def get_graph_id(host_id, graph_id, index = 1)
-      return graph_id if graph_id.kind_of?(Integer)
+      return graph_id if graph_id.is_a?(Integer)
 
       command = "#{cli_path}/add_tree.php --host-id=#{host_id} --list-graphs"
 
@@ -144,7 +144,7 @@ module Cacti
 
     # Get host data query
     def get_data_query_id(host_id, data_query_id)
-      return data_query_id if data_query_id.kind_of?(Integer)
+      return data_query_id if data_query_id.is_a?(Integer)
 
       command = "#{cli_path}/add_data_query.php --host-id=#{host_id} --list-data-queries"
 
@@ -158,7 +158,7 @@ module Cacti
     def flatten_fields(fields)
       res = ''
       fields.each do |k, v|
-        res << %Q(#{k}="#{v}" )
+        res << %(#{k}="#{v}" )
       end
 
       res.chop
