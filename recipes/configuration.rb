@@ -1,5 +1,7 @@
 settings = Cacti.settings(node)
 
+user node['cacti']['user']
+
 template node['cacti']['db_file'] do
   source 'db.php.erb'
   owner node['cacti']['user']
