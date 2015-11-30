@@ -1,12 +1,17 @@
 settings = Cacti.settings(node)
 
-if settings['database']['host'] == 'localhost'
-  include_recipe "#{node['cacti']['mysql_provider']}::server"
+if settings['database']['host'] == 'localhost' || settings['database']['host'] == '127.0.0.1'
+  include 'cacti::database_client'
 
-  # Required by database cookbook
-  mysql2_chef_gem 'default' do
-    provider Chef::Provider::Mysql2ChefGem::Percona if node.cacti.mysql_provider == 'percona'
-    action :install
+  if node['cacti']['mysql_provider'] == 'percona'
+    include_recipe 'percona::server'
+  else
+    mysql_service 'cacti' do
+      port settings['database']['port']
+      version '5.5'
+      initial_root_password node['mysql']['server_root_password']
+      action [:create, :start]
+    end
   end
 
   database_connection = {
@@ -43,7 +48,7 @@ if settings['database']['host'] == 'localhost'
 
   execute 'setup_cacti_database' do
     cwd cacti_sql_dir
-    command "mysql -u #{database_connection[:username]} -p#{database_connection[:password]} #{settings['database']['name']} < cacti.sql"
+    command "mysql -h #{database_connection[:host]} -u #{database_connection[:username]} -p#{database_connection[:password]} #{settings['database']['name']} < cacti.sql"
     action :nothing
   end
 
@@ -54,6 +59,7 @@ if settings['database']['host'] == 'localhost'
     action :drop
   end
 
+  log "Creating database user"
   mysql_database_user settings['database']['user'] do
     connection database_connection
     host '%'

@@ -32,6 +32,7 @@ def params
     'host-id' => get_host_id(@new_resource.host_id),
     'graph-type' => @new_resource.graph_type
   }
+  params['graph-title'] = @new_resource.graph_title if @new_resource.graph_title
 
   case @new_resource.graph_type
   when 'cg'

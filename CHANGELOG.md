@@ -5,10 +5,15 @@
   * apache >= 2.0
   * database >= 3.0
   * mysql >= 6.0 (please look at https://github.com/chef-cookbooks/mysql README for this upgrade)
+* `node['cacti']['database']['host']` defaults to 127.0.0.1 instead of localhost
 
 * [#16][]: (thanks @ajardan!)
   * Support Debian and Ubuntu 14.04
   * Support configurable MySQL cookbook (e.g. percona)
+* [#17][]: (thanks @karnold!)
+  * Support database 3.0+ and mysql 6.0+ dependencies
+  * Support graph-title parameter for graph provider
+* Add gid/uid attributes for fine grained user/group management
 
 ## 0.6.0
 
@@ -66,5 +71,6 @@
 
 [#5]: https://github.com/bflad/chef-cacti/pull/5
 [#16]: https://github.com/bflad/chef-cacti/pull/16
+[#17]: https://github.com/bflad/chef-cacti/pull/17
 [@glensc]: https://github.com/glensc
 [@stormerider]: https://github.com/stormerider
