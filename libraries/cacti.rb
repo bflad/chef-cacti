@@ -33,6 +33,7 @@ class Chef
         when '0.8.7i'; '94596d8f083666e5c9be12cc364418e31654b8ff29b6837b305009adcad91c6b'
         when '0.8.8a'; '2226070cd386a4955063a87e99df2fa861988a604a95f39bb8db2a301774b3ee'
         when '0.8.8b'; 'fc5d512c1de46db2b48422856e8c6a5816d110083d0bbbf7f9d660f0829912a6'
+        when '0.8.8f'; 'd0599239187f2f5a29f82b809e6941447f18bb7b170cd42e67455633b195e3c7'
         else
           Chef::Log.warn("No checksum found for spine version: #{node['cacti']['version']}")
           Chef::Log.warn('Please add to Cacti cookbook or set node["cacti"]["spine"]["checksum"] attribute.')
