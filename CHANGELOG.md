@@ -1,3 +1,15 @@
+## 1.0.0
+
+### BREAKING CHANGES
+* Cookbook dependencies major upgrades
+  * apache >= 2.0
+  * database >= 3.0
+  * mysql >= 6.0 (please look at https://github.com/chef-cookbooks/mysql README for this upgrade)
+
+* [#16][]: (thanks @ajardan!)
+  * Support Debian and Ubuntu 14.04
+  * Support configurable MySQL cookbook (e.g. percona)
+
 ## 0.6.0
 
 * Pin older cookbook dependency versions preparing for 1.0.0 upgrade (your environment may not want/need this intermediate release for this change)
@@ -53,5 +65,6 @@
 * Initial release.
 
 [#5]: https://github.com/bflad/chef-cacti/pull/5
+[#16]: https://github.com/bflad/chef-cacti/pull/16
 [@glensc]: https://github.com/glensc
 [@stormerider]: https://github.com/stormerider

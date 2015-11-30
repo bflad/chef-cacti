@@ -12,19 +12,36 @@
 # On httpd 2.4, change "Require host localhost" to "Require all granted".
 # On httpd 2.2, change "Allow from localhost" to "Allow from all".
 
-Alias /cacti    /usr/share/cacti
+Alias /cacti    /usr/share/cacti<%= %w(debian ubuntu).include?(node['platform']) ? "/site" : '' %>
 
-<Directory /usr/share/cacti/>
+<Directory /usr/share/cacti/<%= %w(debian ubuntu).include?(node['platform']) ? "site" : '' %>>
   <IfModule mod_authz_core.c>
     # httpd 2.4
     Require host localhost
   </IfModule>
   <IfModule !mod_authz_core.c>
     # httpd 2.2
+    AllowOverride None
     Order deny,allow
     #Deny from all
     Allow from all
   </IfModule>
+  <% if %w(debian ubuntu).include?(node['platform']) -%>
+  <IfModule mod_php5.c>
+    php_flag magic_quotes_gpc Off
+    php_flag short_open_tag On
+    php_flag register_globals Off
+    php_flag register_argc_argv On
+    php_flag track_vars On
+    # this setting is necessary for some locales
+    php_value mbstring.func_overload 0
+    php_value include_path .
+  </IfModule>
+
+  AddType application/x-httpd-php .php
+  Options +FollowSymLinks
+  DirectoryIndex index.php
+  <% end -%>
 </Directory>
 
 <Directory /usr/share/cacti/install>

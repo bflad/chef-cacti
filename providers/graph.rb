@@ -7,9 +7,8 @@ end
 
 def load_current_resource
   # handle name attribute
-  unless @new_resource.graph_template_id
-    @new_resource.graph_template_id @new_resource.name
-  end
+  return unless @new_resource.graph_template_id
+  @new_resource.graph_template_id @new_resource.name
 end
 
 def graph_exists?

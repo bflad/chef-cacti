@@ -1,8 +1,13 @@
 settings = Cacti.settings(node)
 
 if settings['database']['host'] == 'localhost'
-  include_recipe 'mysql::server'
-  include_recipe 'database::mysql'
+  include_recipe "#{node['cacti']['mysql_provider']}::server"
+
+  # Required by database cookbook
+  mysql2_chef_gem 'default' do
+    provider Chef::Provider::Mysql2ChefGem::Percona if node.cacti.mysql_provider == 'percona'
+    action :install
+  end
 
   database_connection = {
     :host => settings['database']['host'],
@@ -11,7 +16,7 @@ if settings['database']['host'] == 'localhost'
       %w(pld) => {
         'default' => 'mysql'
       },
-      %w(centos fedora redhat ubuntu) => {
+      %w(centos debian fedora redhat ubuntu) => {
         'default' => 'root'
       }
     ),
@@ -25,7 +30,7 @@ if settings['database']['host'] == 'localhost'
   end
 
   cacti_sql_dir = value_for_platform(
-    %w(ubuntu) => {
+    %w(debian ubuntu) => {
       'default' => '/usr/share/doc/cacti'
     },
     %w(pld) => {
@@ -66,7 +71,7 @@ if settings['database']['host'] == 'localhost'
       %w(pld) => {
         'default' => '/var/log/cacti/cacti.log'
       },
-      %w(centos fedora redhat ubuntu) => {
+      %w(centos debian fedora redhat ubuntu) => {
         'default' => '/usr/share/cacti/log/cacti.log'
       }
     )
