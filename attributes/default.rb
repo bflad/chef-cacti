@@ -64,7 +64,7 @@ default['cacti']['packages'] = value_for_platform(
     'default' => %w(cacti net-snmp net-snmp-utils perl-LDAP perl-Net-SNMP php-ldap php-mysql php-pecl-apc php-snmp)
   },
   %w(debian) => {
-    '7' => %w(cacti libsnmp-base libsnmp15 snmp snmpd libnet-ldap-perl libnet-snmp-perl php-net-ldap php5-mysql php-apc php5-snmp),
+    '~> 7.0' => %w(cacti libsnmp-base libsnmp15 snmp snmpd libnet-ldap-perl libnet-snmp-perl php-net-ldap php5-mysql php-apc php5-snmp),
     'default' => %w(cacti libsnmp-base libsnmp30 snmp snmpd libnet-ldap-perl libnet-snmp-perl php-net-ldap php5-mysql php-apc php5-snmp)
   },
   %w(pld) => {
@@ -113,8 +113,8 @@ default['cacti']['version'] = value_for_platform(
     'default' => '0.8.8f'
   },
   %w(debian) => {
-    '7' => '0.8.8a',
-    '8' => '0.8.8b',
+    '~> 7.0' => '0.8.8a',
+    '~> 8.0' => '0.8.8b',
     'default' => '0.8.8f'
   }
 )
