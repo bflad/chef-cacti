@@ -45,6 +45,21 @@ class Chef
         "http://www.cacti.net/downloads/spine/cacti-spine-#{node['cacti']['version']}.tar.gz"
       end
 
+      def self.sql_dir(node)
+        return node['cacti']['sql_dir'] if node['cacti']['sql_dir']
+        node.value_for_platform(
+          %w(debian ubuntu) => {
+            'default' => '/usr/share/doc/cacti'
+          },
+          %w(pld) => {
+            'default' => '/usr/share/cacti/sql'
+          },
+          %w(centos fedora redhat) => {
+            'default' => "/usr/share/doc/cacti-#{node['cacti']['version']}"
+          }
+        )
+      end
+
       def default_database_port(type)
         case type
         when 'mysql'

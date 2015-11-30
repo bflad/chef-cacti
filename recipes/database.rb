@@ -7,16 +7,13 @@ if settings['database']['host'] == 'localhost' || settings['database']['host'] =
   end
 
   if node['cacti']['mysql_provider'] == 'percona'
-    include 'percona::client'
+    include_recipe 'percona::client'
+    include_recipe 'percona::server'
   else
     mysql_client 'default' do   
       action :create   
     end
-  end
 
-  if node['cacti']['mysql_provider'] == 'percona'
-    include_recipe 'percona::server'
-  else
     mysql_service 'cacti' do
       port settings['database']['port']
       version '5.5'
@@ -47,7 +44,7 @@ if settings['database']['host'] == 'localhost' || settings['database']['host'] =
   end
 
   execute 'setup_cacti_database' do
-    cwd node['cacti']['sql_dir']
+    cwd Cacti.sql_dir(node)
     command "#{mysql_cli_opts} < cacti.sql"
     action :nothing
   end
@@ -68,7 +65,7 @@ if settings['database']['host'] == 'localhost' || settings['database']['host'] =
     action [:create, :grant]
   end
 
-  template "#{node['cacti']['sql_dir']}/db-settings.sql" do
+  template "#{Cacti.sql_dir(node)}/db-settings.sql" do
     source 'db-settings.sql.erb'
     owner node['cacti']['user']
     group node['cacti']['group']
@@ -80,7 +77,7 @@ if settings['database']['host'] == 'localhost' || settings['database']['host'] =
   end
 
   execute 'setup_cacti_settings' do
-    cwd node['cacti']['sql_dir']
+    cwd Cacti.sql_dir(node)
     command "#{mysql_cli_opts} < db-settings.sql"
     action :nothing
   end

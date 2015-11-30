@@ -49,7 +49,7 @@ packages | Packages for Cacti installation | Array | auto-detected (see attribut
 mysql_provider | MySQL Provider to be used (mysql/percona) | String | mysql
 poller_cmd | Poller command to run | String | auto-detected (see attributes/default.rb)
 poller_file | Poller file for Cacti | String | auto-detected (see attributes/default.rb)
-sql_dir | SQL directory for Cacti | String | auto-detected (see attributes/default.rb)
+sql_dir | SQL directory for Cacti | String | auto-detected (see libraries/cli.rb)
 uid | Username ID for Cacti user | Fixnum | nil
 user | Username to own Cacti files | String | cacti
 version | Version of Cacti to install or installed | String | auto-detected (see attributes/default.rb)
