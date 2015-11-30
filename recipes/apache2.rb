@@ -3,12 +3,8 @@ include_recipe 'apache2::mod_php5'
 include_recipe 'apache2::mod_rewrite'
 include_recipe 'apache2::mod_ssl'
 
-template "#{node['cacti']['apache2']['conf_dir']}/cacti.conf" do
-  source 'cacti.conf.erb'
-  owner 'root'
-  group 'root'
-  mode 00644
-  notifies :reload, 'service[apache2]', :delayed
+apache_conf 'cacti' do
+  action :enable
 end
 
 web_app 'cacti' do

@@ -16,7 +16,6 @@ Install/configures Cacti and optionally Spine.
 * Fedora 19, 20
 * PLD Linux Th (Experimental)
 * Red Hat Enterprise Linux 6
-* Ubuntu 12.04, 12.10, 13.04, 13.10
 
 ### Databases
 
@@ -24,15 +23,13 @@ Install/configures Cacti and optionally Spine.
 
 ### Cookbooks
 
-[Opscode Cookbooks](https://github.com/opscode-cookbooks/)
-
-* [apache2](https://github.com/opscode-cookbooks/apache2/)
-* [apt](https://github.com/opscode-cookbooks/apt/)
-* [build-essentials](https://github.com/opscode-cookbooks/build-essentials/)
-* [cron](https://github.com/opscode-cookbooks/cron/)
-* [database](https://github.com/opscode-cookbooks/database/)
-* [mysql](https://github.com/opscode-cookbooks/mysql/)
-* [yum-epel](https://github.com/opscode-cookbooks/yum-epel/)
+* apache2
+* apt
+* build-essentials
+* cron
+* database
+* mysql
+* yum-epel
 
 ## Attributes
 
@@ -64,7 +61,6 @@ These attributes are under the `node['cacti']['apache2']` namespace.
 
 Attribute | Description | Type | Default
 ----------|-------------|------|--------
-conf_dir | Apache configuration dir | String | /etc/httpd/conf.d
 doc_root | VirtualHost DocumentRoot | String | /var/www/html
 server_aliases | VirtualHost ServerAliases | Array of Strings | `[ node['hostname'] ]`
 server_name | VirtualHost ServerName | String | `node['fqdn']`

@@ -1,4 +1,28 @@
 default['cacti']['cacti_dir'] = '/usr/share/cacti'
+default['cacti']['cli_scripts'] = %w(
+  add_data_query.php
+  add_device.php
+  add_graphs.php
+  add_graph_template.php
+  add_perms.php
+  add_tree.php
+  analyze_database.php
+  convert_innodb.php
+  copy_user.php
+  data_template_associate_rra.php
+  host_update_template.php
+  import_template.php
+  poller_data_sources_reapply_names.php
+  poller_graphs_reapply_names.php
+  poller_output_empty.php
+  poller_reindex_hosts.php
+  rebuild_poller_cache.php
+  reorder_data_query.php
+  repair_database.php
+  repair_templates.php
+  structure_rra_paths.php
+  upgrade_database.php
+  )
 default['cacti']['cron_minute'] = '*/5'
 default['cacti']['db_file'] = value_for_platform(
   %w(centos fedora redhat) => {
@@ -30,7 +54,7 @@ default['cacti']['packages'] = value_for_platform(
   %w(ubuntu) => {
     %w(12.04 12.10 13.04) => %w(cacti libsnmp-base libsnmp15 snmp snmpd libnet-ldap-perl libnet-snmp-perl php-net-ldap php5-mysql php-apc php5-snmp),
     '13.10' => %w(cacti libsnmp-base libsnmp30 snmp snmpd libnet-ldap-perl libnet-snmp-perl php-net-ldap php5-mysql php-apc php5-snmp),
-    'default' => %w(cacti libsnmp-base libsnmp15 snmp snmpd libnet-ldap-perl libnet-snmp-perl php-net-ldap php5-mysql php-apc php5-snmp)
+    'default' => %w(cacti libsnmp-base libsnmp30 snmp snmpd libnet-ldap-perl libnet-snmp-perl php-net-ldap php5-mysql php-apc php5-snmp)
   }
 )
 default['cacti']['poller_file'] = value_for_platform(
@@ -76,7 +100,6 @@ default['cacti']['admin']['password'] = 'changeit'
 
 # Apache2 attributes
 
-default['cacti']['apache2']['conf_dir'] = '/etc/httpd/conf.d'
 default['cacti']['apache2']['doc_root'] = '/var/www/html'
 default['cacti']['apache2']['server_aliases'] = [node['hostname']]
 default['cacti']['apache2']['server_name'] = node['fqdn']
