@@ -12,12 +12,12 @@ Install/configures Cacti and optionally Spine.
 
 ### Platforms
 
-* CentOS 6
-* Debian 7
+* CentOS 6, 7
+* Debian 7, 8
 * Fedora 19, 20
 * PLD Linux Th (Experimental)
-* Red Hat Enterprise Linux 6
-* Ubuntu 14.04
+* Red Hat Enterprise Linux 6, 7
+* Ubuntu 14.04, 15.04
 
 ### Databases
 

@@ -49,12 +49,10 @@ default['cacti']['group'] = value_for_platform(
 )
 
 default['cacti']['log_file'] = value_for_platform(
-  %w(pld) => {
-    'default' => '/var/log/cacti/cacti.log'
-  },
-  %w(centos debian fedora redhat ubuntu) => {
+  %w(centos fedora redhat) => {
     'default' => '/usr/share/cacti/log/cacti.log'
-  }
+  },
+  'default' => '/var/log/cacti/cacti.log'
 )
 
 default['cacti']['mysql_provider'] = 'mysql'
