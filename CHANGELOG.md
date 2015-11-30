@@ -6,14 +6,15 @@
   * database >= 3.0
   * mysql >= 6.0 (please look at https://github.com/chef-cookbooks/mysql README for this upgrade)
 * `node['cacti']['database']['host']` defaults to 127.0.0.1 instead of localhost
-* `node['cacti']['spine']['enabled']` required for spine database config now
+* `node['cacti']['spine']['enabled']` required for spine automatic database config now or including in default recipe
 
 * [#16][]: (thanks @ajardan!)
-  * Support Debian and Ubuntu 14.04
+  * Initial support for Debian
   * Support configurable MySQL cookbook (e.g. percona)
 * [#17][]: (thanks @karnold!)
   * Support database 3.0+ and mysql 6.0+ dependencies
   * Support graph-title parameter for graph provider
+* Add support for Ubuntu 15.04
 * Add gid/uid attributes for fine grained user/group management
 * Add spine enabled attribute for easier usage
 * Better spine checksum/url auto-detection

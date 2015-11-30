@@ -16,7 +16,13 @@ if settings['database']['host'] == 'localhost' || settings['database']['host'] =
 
     mysql_service 'cacti' do
       port settings['database']['port']
-      version '5.5'
+      version value_for_platform(
+        'ubuntu' => {
+          %w(12.04 12.10 13.04 13.10) => '5.5',
+          'default' => '5.6'
+        },
+        'default' => '5.5'
+      )
       initial_root_password node['mysql']['server_root_password']
       action [:create, :start]
     end
