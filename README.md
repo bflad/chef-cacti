@@ -42,11 +42,13 @@ Attribute | Description | Type | Default
 cacti_dir | Directory for Cacti installation | String | /usr/share/cacti
 cron_minute | Schedule to pass to cron | String | */5
 db_file | Database configuration file for Cacti | String | auto-detected (see attributes/default.rb)
+gid | Group ID for Cacti group | String | nil
 group | Group to own Cacti files | String | apache2
 packages | Packages for Cacti installation | Array | auto-detected (see attributes/default.rb)
 mysql_provider | MySQL Provider to be used (mysql/percona) | String | mysql
 poller_cmd | Poller command to run | String | auto-detected (see attributes/default.rb)
 poller_file | Poller file for Cacti | String | auto-detected (see attributes/default.rb)
+uid | Username ID for Cacti user | String | nil
 user | Username to own Cacti files | String | cacti
 version | Version of Cacti to install or installed | String | auto-detected (see attributes/default.rb)
 
@@ -84,7 +86,7 @@ All of these `node['cacti']['database']` attributes are overridden by `cacti/ser
 
 Attribute | Description | Type | Default
 ----------|-------------|------|--------
-host | FQDN or "localhost" (localhost automatically installs `['database']['type']` server) | String | localhost
+host | FQDN/IP (localhost/127.0.0.1 automatically installs `['database']['type']` server) | String | 127.0.0.1
 name | Cacti database name | String | cacti
 password | Cacti database user password | String | changeit
 port | Cacti database port | Fixnum | 3306
@@ -114,9 +116,11 @@ version | Version of Spine to install | String | `node['cacti']['version']`
 
 * `recipe[cacti]` Installs/configures Cacti
 * `recipe[cacti::apache2]` Installs/configures Apache 2 and PHP for Cacti
+* `recipe[cacti::cli_executable]` Ensures Cacti CLI scripts are executable
 * `recipe[cacti::configuration]` Configures Cacti configuration files
 * `recipe[cacti::cron]` Installs Cacti polling cron entry
 * `recipe[cacti::database]` Installs/configures Cacti MySQL server
+* `recipe[cacti::database_client]` Installs/configures Cacti database client
 * `recipe[cacti::package]` Installs Cacti via packages
 * `recipe[cacti::spine]` Install Spine for Cacti
 
@@ -270,6 +274,7 @@ Please use standard Github issues/pull requests.
 
 ## Contributors
 
+* Kristen Arnold ([@karnold][])
 * Brian Flad (<bflad417@gmail.com>)
 * Morgan Blackthorne ([@stormerider][])
 * Elan Ruusamäe ([@glensc][])

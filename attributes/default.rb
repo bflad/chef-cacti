@@ -35,6 +35,7 @@ default['cacti']['db_file'] = value_for_platform(
     'default' => '/etc/cacti/debian.php'
   }
 )
+default['cacti']['gid'] = nil
 default['cacti']['group'] = value_for_platform(
   %w(pld) => {
     'default' => 'http'
@@ -82,6 +83,7 @@ default['cacti']['poller_cmd'] = value_for_platform(
   }
 )
 
+default['cacti']['uid'] = nil
 default['cacti']['user'] = 'cacti'
 default['cacti']['version'] = value_for_platform(
   %w(centos fedora redhat) => {
@@ -127,6 +129,7 @@ default['cacti']['apache2']['ssl']['certificate_file'] = value_for_platform(
 default['cacti']['apache2']['ssl']['chain_file'] = ''
 default['cacti']['apache2']['ssl']['enabled'] = true
 default['cacti']['apache2']['ssl']['force'] = false
+
 default['cacti']['apache2']['ssl']['key_file'] = value_for_platform(
   %w(pld) => {
     'default' => '/etc/httpd/ssl/server.key'
@@ -141,7 +144,7 @@ default['cacti']['apache2']['ssl']['key_file'] = value_for_platform(
 
 # database attributes (override via cacti/server data bag)
 
-default['cacti']['database']['host'] = 'localhost'
+default['cacti']['database']['host'] = '127.0.0.1'
 default['cacti']['database']['name'] = 'cacti'
 default['cacti']['database']['password'] = 'changeit'
 default['cacti']['database']['port'] = 3306

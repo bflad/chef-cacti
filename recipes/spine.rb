@@ -2,7 +2,6 @@ settings = Cacti.settings(node)
 
 # Install Spine dependencies
 include_recipe 'build-essential'
-include_recipe 'mysql::client'
 
 node['cacti']['spine']['packages'].each do |p|
   package p
@@ -41,7 +40,7 @@ template '/etc/spine.conf' do
 end
 
 if settings['database']['host'] == 'localhost'
-  include_recipe 'database::mysql'
+  include 'cacti::database_client'
 
   database_connection = {
     :host => settings['database']['host'],

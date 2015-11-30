@@ -10,6 +10,7 @@ recipe 'cacti::cli_executable', 'Ensures Cacti CLI scripts are executable'
 recipe 'cacti::configuration', 'Configures Cacti configuration files'
 recipe 'cacti::cron', 'Installs Cacti polling cron entry'
 recipe 'cacti::database', 'Installs/configures Cacti MySQL server'
+recipe 'cacti::database_client', 'Installs/configures Database client'
 recipe 'cacti::package', 'Installs Cacti via packages'
 recipe 'cacti::spine', 'Installs Spine for Cacti server'
 
