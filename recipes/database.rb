@@ -57,7 +57,7 @@ if settings['database']['host'] == 'localhost' || settings['database']['host'] =
     action [:create, :grant]
   end
 
-  template node['cacti']['db_settings_file'] do
+  template "#{node['cacti']['sql_dir']}/db-settings.sql" do
     source 'db-settings.sql.erb'
     owner node['cacti']['user']
     group node['cacti']['group']
