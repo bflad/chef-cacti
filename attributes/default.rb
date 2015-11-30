@@ -170,7 +170,8 @@ default['cacti']['database']['user'] = 'cacti'
 
 default['cacti']['rrdtool']['version'] = value_for_platform(
   %w(centos redhat) => {
-    'default' => '1.3'
+    '~> 6.0' => '1.3',
+    'default' => '1.4'
   },
   %w(fedora) => {
     'default' => '1.4'
